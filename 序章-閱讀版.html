@@ -367,7 +367,7 @@ animation:drift 90s ease-in-out infinite alternate;will-change:transform}
 </style>
 <nav class="chapnav">
  <a class="next" href="第一章-閱讀版.html"><span class="lbl">接　著　讀</span><span class="ttl">第一章　一萬字的火球</span></a>
- <a class="toc" href="index.html">回　目　錄</a>
+ <a class="toc" href="home.html">回　目　錄</a>
 </nav>
 <style>
 .site-foot{max-width:32em;margin:0 auto;padding:1vh 1.5rem 9vh;text-align:center;position:relative;z-index:5}
@@ -1226,6 +1226,15 @@ tick();
 <button id="snd">♪　開啟聲音</button>
 <audio id="bgmA" src="序章-素材/ambient.mp3" preload="auto"></audio>
 <audio id="bgmB" src="序章-素材/ambient.mp3" preload="auto"></audio>
+<script>
+/* 嵌在閱讀器殼(iframe)裡：本頁不放自己的音樂與開關，音樂由父層持續播放。 */
+(function(){ if(window.top===window.self) return;
+  var b=document.getElementById('snd'); if(b) b.style.display='none';
+  var e=document.getElementById('eq'); if(e) e.style.display='none';
+  ['bgmA','bgmB'].forEach(function(id){ var a=document.getElementById(id);
+    if(a){ a.muted=true; try{a.play=function(){return Promise.resolve();};}catch(_){} } });
+})();
+</script>
 <script>
 /* 背景音：leberch - soft soft music（CC 授權）。
    無縫循環用雙 audio 交叉淡接：兩個同一首歌輪流播，

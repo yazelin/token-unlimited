@@ -351,7 +351,7 @@ body.ash-on #ashfall{opacity:1}
 </style>
 <nav class="chapnav">
  <span class="soon"><span class="lbl">下　一　章</span><span class="ttl">第二章　公會與貴族的餐桌　·　連載中</span></span>
- <a class="toc" href="index.html">回　目　錄</a>
+ <a class="toc" href="home.html">回　目　錄</a>
 </nav>
 <style>
 .site-foot{max-width:32em;margin:0 auto;padding:1vh 1.5rem 9vh;text-align:center;position:relative;z-index:5}
@@ -441,12 +441,16 @@ body.ash-on #ashfall{opacity:1}
   window.MFXSound=(function(){
     var on=true; try{ on=localStorage.getItem('fx-bgm')!=='0'; }catch(e){}
     var subs=[];
+    try{ addEventListener('storage',function(e){ if(e.key==='fx-bgm'){ on=e.newValue!=='0'; subs.forEach(function(f){f(on);}); } }); }catch(e){}
     return { isOn:function(){return on;},
       toggle:function(){ on=!on; try{localStorage.setItem('fx-bgm',on?'1':'0');}catch(e){} subs.forEach(function(f){f(on);}); return on; },
       onChange:function(f){ subs.push(f); } };
   })();
   function setBtn(){ if(btn) btn.textContent = window.MFXSound.isOn() ? '♪　聲音開啟中' : '♪　開啟聲音'; }
   setBtn();
+
+  // 嵌在閱讀器殼(iframe)裡時：音樂由父層持續播放，這裡不自己放、藏掉自己的開關；只保留 MFXSound 給火聲與跨層同步。
+  if(window.top!==window.self){ if(btn) btn.style.display='none'; return; }
 
   var A=document.getElementById('bgmA'), B=document.getElementById('bgmB');
   var cur=A, nxt=B, on=false, env=0, envTarget=0, fading=false, fadeT0=0, started=false;
