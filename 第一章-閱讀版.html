@@ -1,0 +1,554 @@
+<!doctype html><html lang="zh-Hant-TW"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第一章：一萬字的火球（初稿）</title><style>
+:root{--ink:#20262b;--dim:#6b7580}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);background:linear-gradient(180deg,#eef3f7 0%,#f5f7f4 40%,#f7f6f2 100%);
+font-family:"Noto Serif TC","Songti TC",Georgia,serif;line-height:2.2;font-size:19px;letter-spacing:.02em}
+main{max-width:32em;margin:0 auto;padding:8vh 1.5rem 20vh}
+.meta{color:var(--dim);font-size:.78rem;letter-spacing:.1em;margin-bottom:1.5rem}
+h1{font-size:1.55rem;line-height:1.6;letter-spacing:.08em;margin:0 0 3vh;font-weight:600}
+h2{font-size:1.05rem;letter-spacing:.12em;color:#3a4650;font-weight:600;margin:9vh 0 3vh;
+padding-bottom:.6rem;border-bottom:1px solid rgba(0,0,0,.08)}
+h2:first-of-type{margin-top:2vh}
+p{margin:0 0 1.8em;text-align:justify}
+.brk{text-align:center;color:var(--dim);letter-spacing:.5em;margin:3.2em 0;font-size:.8rem}
+.end{color:var(--dim);font-size:.78rem;letter-spacing:.2em;text-align:center;
+padding:12vh 0 0;border-top:1px solid rgba(0,0,0,.1);margin-top:8vh}
+
+/* 場景交叉換場：兩層固定滿版背景，隨捲動淡入淡出。 */
+html,body{background:transparent}
+#skybase{position:fixed;inset:0;z-index:-3;background:linear-gradient(180deg,#eef3f7 0%,#f2f5f3 55%,#f4f4f0 100%)}
+#backdrop{position:fixed;inset:0;z-index:-2;pointer-events:none}
+#backdrop .layer{position:absolute;inset:0;background-size:cover;background-position:center bottom;
+ opacity:0;transition:opacity 1.3s ease;will-change:opacity}
+#backdrop .layer.on{opacity:1}
+main{position:relative;z-index:1}
+/* 讀字柔光帶：文字欄始終浮在背景之上，任何場景都讀得到 */
+main::before{content:'';position:fixed;z-index:-1;top:0;bottom:0;left:50%;transform:translateX(-50%);
+ width:min(44em,100vw);pointer-events:none;
+ background:linear-gradient(90deg,transparent 0%,rgba(249,251,252,.74) 14%,rgba(249,251,252,.78) 50%,rgba(249,251,252,.74) 86%,transparent 100%)}
+section{display:block}
+@media(prefers-reduced-motion:reduce){#backdrop .layer{transition:none}}
+
+/* 克制的抖動：只給那句驚慌的喊叫，像發抖的聲音。reduced-motion 自動關。 */
+.tremble{display:inline-block;will-change:transform}
+.tremble.shake{animation:mfx-tremble .26s steps(1,end) 19}
+.tremble.brief.shake{animation:mfx-tremble .26s steps(1,end) 3}
+@keyframes mfx-tremble{
+ 0%{transform:translate(0,0) rotate(0deg)}
+ 15%{transform:translate(.6px,-.4px) rotate(-.4deg)}
+ 30%{transform:translate(-.5px,.5px) rotate(.3deg)}
+ 45%{transform:translate(.4px,.4px) rotate(.4deg)}
+ 60%{transform:translate(-.6px,-.3px) rotate(-.3deg)}
+ 75%{transform:translate(.3px,-.5px) rotate(.2deg)}
+ 90%{transform:translate(-.3px,.3px) rotate(-.2deg)}
+ 100%{transform:translate(0,0) rotate(0deg)}}
+@media(prefers-reduced-motion:reduce){.tremble.shake{animation:none}}
+
+/* 時停：整個畫面短暫凍住——褪色、壓一層淡幕、動畫暫停。 */
+#freezeveil{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0;
+  background:rgba(232,238,244,.28);transition:opacity .55s ease}
+html.mfx-frozen #freezeveil{opacity:1;transition:none;
+  -webkit-backdrop-filter:saturate(.5) brightness(1.02);backdrop-filter:saturate(.5) brightness(1.02)}
+html.mfx-frozen #backdrop .layer,html.mfx-frozen #shade::before{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){#freezeveil{display:none}}
+
+/* 聲音開關（同序章）：右上角，前 10 秒清楚、之後低調。 */
+#snd{position:fixed;top:1.1rem;right:1.1rem;z-index:50;border:0;background:rgba(255,255,255,.82);
+ color:#4a565e;font:inherit;font-size:.76rem;letter-spacing:.18em;padding:.55rem 1.15rem;border-radius:2rem;
+ cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+ box-shadow:0 2px 12px rgba(60,80,70,.14);opacity:1;transition:opacity .8s ease,background .3s}
+#snd.rest{opacity:.34}
+#snd:hover{opacity:1}
+@media(max-width:700px){#snd{top:.7rem;right:.7rem;font-size:.72rem;padding:.5rem 1rem}}
+
+/* 側邊記憶 mem（同序章）：桌機餘光、手機捲動湧現。 */
+#margin{position:fixed;right:max(2vw,calc(50vw - 30em));top:0;bottom:0;width:13rem;
+z-index:4;pointer-events:none;display:flex;align-items:center}
+.mem{position:absolute;left:0;right:0;opacity:0;transform:translateY(8px);
+transition:opacity .7s ease,transform .7s ease;font-size:.74rem;line-height:1.85;
+color:#4a565e;letter-spacing:.04em;border-left:2px solid rgba(93,106,114,.35);
+padding:.7rem .8rem .7rem .9rem;border-radius:0 6px 6px 0;
+background:rgba(250,252,253,.72);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+box-shadow:0 1px 8px rgba(60,80,70,.10)}
+.mem.on{opacity:.85;transform:translateY(0)}
+.mem.empty{min-height:5.5rem;border-left-color:rgba(93,106,114,.18)}
+@media(max-width:1180px){#margin{display:none}}
+.mem.inline{position:static;display:block;margin:0 0 0 1.6em;max-width:19em;padding:0;
+ font-size:.93rem;line-height:2.35;letter-spacing:.08em;color:#7c868d;
+ background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;
+ max-height:0;overflow:hidden;opacity:0;transform:translateY(12px);
+ transition:max-height 1.4s ease,margin 1.4s ease,opacity 1.2s ease .25s,transform 1.2s ease .25s}
+.mem.inline.seen{max-height:16em;margin:2.6em 0 2.6em 1.6em;opacity:1;transform:none}
+.mem.inline.empty{min-height:0}
+
+/* 餘燼與懸空的葉：只在最後「燒掉的林子」場景浮現。
+   餘燼緩緩上升；幾片燒焦的葉子懸在半空、幾乎不動——時停沒完全釋放的伏筆（呼應正文最後一句「到現在都還掛在那裡，沒有落下來」）。 */
+#ashfall{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 2.4s ease}
+body.ash-on #ashfall{opacity:1}
+#ashfall span{position:absolute;display:block}
+#ashfall .ember{width:3px;height:3px;border-radius:50%;background:#ffb46a;
+ box-shadow:0 0 6px 1px rgba(255,150,60,.55);animation:ash-rise linear infinite}
+@keyframes ash-rise{
+ 0%{transform:translateY(0) translateX(0);opacity:0}
+ 14%{opacity:.7}
+ 82%{opacity:.45}
+ 100%{transform:translateY(-44vh) translateX(7px);opacity:0}}
+#ashfall .leafhang{width:8px;height:5px;border-radius:62% 38% 55% 45%;
+ background:rgba(38,42,46,.6);animation:ash-hangsway 7.5s ease-in-out infinite alternate}
+@keyframes ash-hangsway{from{transform:translate(0,0) rotate(13deg)}to{transform:translate(3px,-2px) rotate(19deg)}}
+@media(prefers-reduced-motion:reduce){
+ #ashfall .ember{display:none}
+ #ashfall .leafhang{animation:none;transform:rotate(16deg)}}
+</style></head><body>
+<button id="snd">♪　開啟聲音</button>
+<audio id="bgmA" src="序章-素材/ambient.mp3" preload="auto"></audio>
+<audio id="bgmB" src="序章-素材/ambient.mp3" preload="auto"></audio>
+<div id="margin"><div class="mem" data-i="0">覺醒？<br>系統？<br>金手指？</div><div class="mem empty" data-i="1"></div><div class="mem" data-i="2">「已上線」<br>沒人記得是誰<br>「就這樣。」</div></div>
+<div id="skybase"></div><div id="backdrop"><div class="layer a"></div><div class="layer b"></div></div>
+<div id="ashfall">
+ <span class="ember" style="left:18%;top:84vh;animation-duration:8s;animation-delay:0s"></span>
+ <span class="ember" style="left:29%;top:91vh;animation-duration:9.5s;animation-delay:1.6s"></span>
+ <span class="ember" style="left:41%;top:78vh;animation-duration:7.5s;animation-delay:3.1s"></span>
+ <span class="ember" style="left:53%;top:94vh;animation-duration:10s;animation-delay:.8s"></span>
+ <span class="ember" style="left:63%;top:83vh;animation-duration:8.5s;animation-delay:2.3s"></span>
+ <span class="ember" style="left:73%;top:88vh;animation-duration:9s;animation-delay:4.2s"></span>
+ <span class="ember" style="left:84%;top:80vh;animation-duration:11s;animation-delay:1.2s"></span>
+ <span class="ember" style="left:47%;top:72vh;animation-duration:8s;animation-delay:5.4s"></span>
+ <span class="leafhang" style="left:31%;top:36vh;animation-delay:0s"></span>
+ <span class="leafhang" style="left:45%;top:44vh;animation-delay:1.3s"></span>
+ <span class="leafhang" style="left:59%;top:31vh;animation-delay:2.6s"></span>
+ <span class="leafhang" style="left:68%;top:47vh;animation-delay:.7s"></span>
+ <span class="leafhang" style="left:52%;top:53vh;animation-delay:3.4s"></span>
+</div>
+<main>
+<div class="meta">《轉生異世界的我 token 無限》・第一卷・初稿（約 5800 字）</div>
+<h1>第一章：一萬字的火球</h1>
+<section data-fx-bg="第一章-素材/1-森林.webp"><h2>一之一：第一次喊出聲</h2>
+<p>森林比他想的深。</p>
+<p>他挑了太陽的方向走，走了大概兩個小時，周圍一直是同一片林子，看不出有要結束的意思。他開始懷疑這個方向是不是選錯了，可是又沒有別的依據可以換一個，只好繼續走。</p>
+<p>肚子餓了。這是他到這裡以後第一個明確的、屬於身體的需求。前面那些——躺著、坐起來、發現自己換了一副身體——都還帶著一層不真實。餓不一樣。餓是真的。</p>
+<p>他一邊走一邊在心裡清點自己知道的事，一件一件數過去。</p>
+<p>我還是我嗎？</p>
+<p>我叫陸修，這個我確定。</p>
+<p>可是我算是「轉生」，還是「穿越」？</p>
+<p>這兩個他分得出來。穿越是整個人被原封不動丟過來，轉生是換一副身體重新開始。而證據偏向後者：身體變了，聲音變了，衣服也變了——粗布的，接縫咬手，連口袋都沒有。手機也不見了。</p>
+<p>換了身體，那就是轉生吧。</p>
+<p>他不知道這裡是哪裡，不知道現在幾點，不知道那顆太陽會不會東升西落，也不知道這裡的一天是不是二十四小時。</p>
+<p>他甚至不知道這個世界有沒有人。</p>
+<p>這個念頭讓他停了一下。從他睜開眼睛到現在，他沒有看過任何一個活物——沒有人，沒有鳥，連蟲子都沒有。安靜到他一度以為自己耳朵出了問題。</p>
+<p>然後，就像是專門要來反駁他，牠來了。</p>
+<div class="brk">§</div>
+<p>他先聽到的是聲音。</p>
+<p>不是腳步，是呼吸。很重、很近的呼吸，從他左後方傳過來，中間夾著一種從喉嚨深處壓出來的低吼。</p>
+<p>他前世沒有養過狗，可是他知道這個聲音代表什麼。任何一種生物發出這個聲音的時候，意思都一樣：你最好不要動。</p>
+<p>他動了。回頭。</p>
+<p>那是一頭野獸，他認不出是什麼。比他這輩子看過最大的狗還要大——四條腿站著，背脊差不多到他腰的高度。牠低著頭，肩上那塊肌肉繃得很緊，繃到毛都立起來了。牠的眼睛盯著他，那種盯法不帶任何情緒，只是在確認一件事——這個獵物，跑得掉，還是跑不掉。</p>
+<p>而他知道答案。他跑不掉。這副身體他才用了半天，連走路都還在適應，更別說用跑的。</p>
+<p>牠往前踏了一步。</p>
+<p>陸修往後退了一步。他背後是一棵樹。粗糙的樹皮隔著衣服頂著他的背。</p>
+<p>他腦子裡冒出來的第一個念頭，荒謬到他自己都愣了一下——</p>
+<span class="memcue" data-i="0"></span><p>他想的是：這種時候，主角不是都會突然覺醒什麼力量嗎。</p>
+<p>他等了半秒。</p>
+<span class="memcue" data-i="1"></span><p>沒有。沒有力量覺醒，沒有系統提示，沒有一行字浮在那頭野獸的頭上告訴他牠的弱點。就跟早上一樣，什麼都沒有。這個世界對他求救的反應，跟現實一模一樣：不回應。</p>
+<p>牠的後腿沉了下去。</p>
+<p>他認得那個姿勢。牠就要撲上來了。</p>
+<p>於是陸修做了一件他事後想起來會覺得很丟臉、但當下完全沒辦法控制的事。</p>
+<p>他喊了。</p>
+<div class="brk">§</div>
+<p>那不是咒語。他沒有唸咒語，他根本不知道這個世界有沒有咒語這種東西。那只是一個以為自己要死了的人，扯開喉嚨吼出來的一聲。</p>
+<p>真要說他喊了什麼，那更難堪。</p>
+<p>他喊的是「<span class="tremble">你不要過來啊</span>」。喊完發現沒用，牠還在往前，他就繼續喊，喊的是自己都不知道從哪裡冒出來的一長串——不要過來不要不要走開不我沒有惹你啊我什麼都沒有做啊我連飯都還沒吃我今天早上才醒來就我連這裡是哪裡都不知道你不是你憑什麼——</p>
+<p>他一路喊下去。他也不知道自己為什麼要把這些講完，大概是因為恐懼需要一個出口，而他這輩子唯一學會的處理恐懼的方法，就是把它講成一長串抱怨。他加班的時候這樣，開會被電的時候這樣，現在快要被一頭野獸咬死了，他還是這樣。</p>
+<p>他一邊喊，一邊在心裡想的是完全不相干的事。他想的是：這聲音真的不是我的。我從來不知道自己可以喊這麼久。</p>
+<p>然後——</p>
+<p>空氣變了。</p>
+<p>他形容不出來那是什麼感覺。最接近的講法是，他喊出去的那些字，好像沒有像平常的聲音那樣散掉。它們在他面前排成一條線，愈積愈多，像有人在把它們一個一個接起來，接到某個他看不見的長度。</p>
+<p>牠撲了上來。</p>
+<p>就在牠離開地面的同一瞬間，他喊出的最後一個字落下去，那條看不見的線繃到底。</p>
+<p>然後前面那一整塊空間亮了。</p>
+<div class="brk">§</div>
+<p>不是火。他後來想了很久要怎麼形容，最後只能說：不是火，可是很有火的感覺。</p>
+<p>有個發光的東西從地上冒出來，就橫在他跟那頭野獸中間，不高，可是很密，密到牠整個撞了上去。牠在半空中被那道光擋了下來，發出一聲又尖又長的哀嚎，像狗被狠狠踹了一腳，然後翻著滾到旁邊去了。</p>
+<p>那道光只維持了很短的時間，短到他懷疑自己有沒有真的看到。等他眨完那一下眼，前面又只剩下一頭正在爬起來、一邊爬一邊往後退的野獸。</p>
+<p>那頭野獸站穩了。牠看著他。</p>
+<p>牠的眼神變了。早上——不對，是剛才——牠看他的時候，是在算他跑不跑得掉。現在牠看他的眼神不一樣了。那個不帶情緒的確認不見了，換成一種他很熟悉的東西。</p>
+<p>害怕。</p>
+<p>那頭野獸怕他。</p>
+<p>牠往後退，退到一個牠覺得安全的距離，然後轉身，很快地消失在樹之間。快到陸修連反應都來不及。</p>
+<p>森林又安靜下來。</p>
+<p>他還維持著喊叫的姿勢——嘴巴半開，一隻手不知道什麼時候舉了起來擋在身前，整個人靠著樹幹。他就那樣僵在原地，過了很久才想起來要把手放下。</p>
+<p>他放下手。他閉上嘴。</p>
+<p>他的喉嚨有點痛。是那種用力過頭、喊「破喉嚨」的痛，火辣辣的，每吞一口口水都在提醒他剛剛發生了什麼。</p>
+<p>但問題是，他不知道剛剛發生了什麼。</p>
+<div class="brk">§</div>
+<p>陸修在樹底下站了很久。</p>
+<p>他做的第一件事不是高興，也不是害怕。他做的第一件事，是回想。</p>
+<p>他是工程師。工程師遇到一件不該成功卻成功了的事，反應不是慶祝，是不安。因為你不知道它為什麼成功，就代表下一次它可能不會，而你不會知道是為什麼。能重現的才叫成功，不能重現的只是運氣，而運氣是他這輩子最不想依賴的東西。</p>
+<p>所以他站在那裡，逼自己一個字一個字地想：我剛剛，到底，講了什麼。</p>
+<p>他記不清楚。恐懼中講出來的東西本來就留不住，像夢一樣，醒過來就漏掉大半。他只記得開頭是「<span class="tremble">你不要過來啊</span>」，記得中間罵了很長一段，記得自己講到「你憑什麼」的時候，那道光就瞬間冒了出來。</p>
+<p>他記得的不是內容。</p>
+<p>他記得的是長度。</p>
+<p>那一串話很長。長到不正常。長到如果現在有人叫他把剛剛講的重講一遍，他一口氣絕對講不完，中間一定要換氣。</p>
+<p>而那道光是在他講完的那一刻出現的。不是中間，不是開頭，是最後那個字落地的瞬間。</p>
+<p>他呆站在那裡，喉嚨還在痛，肚子還在餓，地上的落葉被撥亂了，那是野獸剛剛落地、翻滾的地方。</p>
+<p>他心裡浮出了一個念頭，大概是屬於工程師的直覺。</p>
+<p>他想：會不會，不是我講了什麼。</p>
+<p>是我講了多長。</p>
+</section><section data-fx-bg="第一章-素材/2-空地.webp"><h2>一之二：越長越強</h2>
+<p>一般人被野獸攻擊、活下來、還意外發現自己會魔法，接下來大概會做兩件事的其中一件：要嘛嚇得繼續跑，要嘛高興得跳起來。</p>
+<p>陸修兩件都沒做。</p>
+<p>他找了塊石頭，一屁股坐下來，開始做一件他前世每天都在做、做到快要吐的事。</p>
+<p>他開始測試。</p>
+<div class="brk">§</div>
+<p>他先立了一個假設。</p>
+<p>假設：剛才那道光，跟他講的內容沒有關係，只跟他講了多長有關係。</p>
+<p>這個假設聽起來很荒謬。魔法怎麼可能只看長度不看內容。可是他前世學到的第一件事就是，你覺得荒謬的假設，跟這個假設是不是對的，是兩回事。荒謬只是你的感覺，感覺不能拿來當證據。要知道是不是真的，就得動手試。</p>
+<p>而且這個假設有一個很大的好處：它好驗。</p>
+<p>如果魔法看的是內容，那他得先搞懂這裡的咒語系統、單字、文法，可能還有發音，那是幾個月的功夫。可是如果魔法看的只是長度，那他今天下午就能驗完。</p>
+<p>他選了一個最省事的驗法。</p>
+<p>他決定講廢話。</p>
+<div class="brk">§</div>
+<p>他對著前面，開口。</p>
+<p>他講的是他前世公司的報帳流程。</p>
+<p>他選這個是有道理的。第一，它夠長；第二，它夠廢，廢到不可能有任何「魔法」意義——如果講報帳流程都能放出魔法，那就徹底證明魔法不看內容。第三，這是他這輩子背得最熟的一段廢話，熟到他閉著眼睛都能一路講到底，中間不會卡。</p>
+<p>他講：「差旅費請先填單，單子要主管簽，主管簽完送會計，會計那邊每個月十號截止，過了十號的算下個月，下個月又要重新跑一次流程，如果金額超過三千要附估價單，估價單要三家比價，比價單再簽一次——」</p>
+<p>他一路講下去。</p>
+<p>講到「三家比價」的時候，他前面的空氣，<span class="tremble brief">抖了一下</span>。</p>
+<p>講到第二次「簽」的時候，一小簇跟早上那道光同一種質地的東西，從地上冒了出來。很小。小得像一根火柴點起來的火。可是它在。它確確實實地在。</p>
+<p>陸修停下來。</p>
+<p>他盯著那一小簇光看了很久，久到它自己熄掉。</p>
+<p>然後他笑了。不是高興的笑，是那種驗證通過的笑——一個假設，你以為它荒謬，結果它是對的，那一刻的表情不僅僅是快樂，是一種近乎生理的原始滿足。看吧，我就說吧——他在心裡說了一句，然後想起來，這裡沒有人聽。</p>
+<p>魔法不看內容。</p>
+<p>他剛剛用公司的報帳流程，放出了魔法。</p>
+<div class="brk">§</div>
+<p>假設成立，接下來就是找變數。</p>
+<p>他前世的工作就是這個。你不會一次改十個地方，那樣就算成功了你也不知道是哪個地方成功的。你一次只改一個，記下來，再改下一個。慢，可是可靠。快但不知道為什麼，和慢但明確知道為什麼，他選擇後者。</p>
+<p>他先固定內容，只改長度。</p>
+<p>他又講了一次報帳流程，這次講得比剛才長一倍——把每一個步驟都展開，把每一種例外都補上，把他記得的所有細節全部塞進去。他講了很久，久到喉嚨又開始痛。</p>
+<p>這一次冒出來的那簇光，比剛才那根火柴大了一圈。</p>
+<p>他縮短。只講前三句。</p>
+<p>這一次，空氣只是<span class="tremble brief">抖了一下</span>，什麼都沒出來。</p>
+<p>他再拉長。</p>
+<p>光又大了。</p>
+<p>他坐在那塊石頭上，一個人，對著前面的空氣，把公司的報帳流程用各種長度反覆講了不知道多少遍，每講一遍就在心裡記下一個結果。要是那頭野獸還躲在附近，看到這一幕，大概會覺得這個人瘋了。</p>
+<p>到太陽偏過頭頂的時候，他已經很確定了。</p>
+<p>長度是唯一的變數。</p>
+<p>講得越長，出來的東西越大。他一直把長度壓得很短，沒有真的去逼極限，可是在這範圍裡，他講多長、光就多大，完全沒有要停的跡象。他心裡有數：真要一路講到底，先撐不住的會是他的喉嚨、他的肺，不是魔法。也就是說，能擋住他的，從來不是魔法本身，是他這副身體。</p>
+<p>換句話說，如果他的身體撐得住，他可以一直講下去，一直大下去。</p>
+<p>他停下來，坐在那裡，消化這件事。</p>
+<div class="brk">§</div>
+<p>他前世花了整整七年——好吧，也許不是七年，他到現在都算不清楚——去適應一件事：規則永遠是別人定的，而別人定的規則永遠對他不利。</p>
+<p>工時有上限，可是責任沒有上限。薪水有天花板，可是需求沒有天花板。他能出多少力，不是他說了算，是規則說了算，而規則從來不是為他這種人寫的。</p>
+<p>他這輩子第一次遇到一個反過來的規則。</p>
+<p>這個規則說：你付出多少，就得到多少。你講多長，它就多強。沒有天花板，沒有上限，沒有一個主管在某個地方幫你把成果打個折。你講多少，它就給你多少，一個字都不會少。</p>
+<p>他坐在那塊石頭上，一個外來的、疲憊的、連自己前世做了幾年都記不清楚的人，忽然懂了一件事。</p>
+<p>在這個世界，他這種人——能熬、能忍、能把一件無聊的事重複到底、能一個人對著空氣講一整個下午廢話都不覺得羞恥的人——是最強的。</p>
+<p>不是因為他有天分。</p>
+<p>是因為別人講到一半就嫌煩、放棄了，而他不會。</p>
+<div class="brk">§</div>
+<p>他站起來。腿坐麻了，他扶著旁邊那棵樹站了一會兒。</p>
+<p>站起來那一下眼前發黑，一陣頭暈。</p>
+<p>是魔力耗盡了嗎？他想。還是貧血——他一整天沒吃東西。</p>
+<p>他分不出來這兩種說法有什麼不一樣。</p>
+<p>他不餓了。或者說，他還餓，可是那個餓已經被另一種更大的東西壓下去了。</p>
+</section><section data-fx-bg="第一章-素材/3-密林.webp"><p>他往前看。空地的盡頭是一整片更密的林子，樹跟樹之間黑黑的，什麼都看不清。</p>
+<p>他剛才試的都是小東西——火柴那麼大的光，最多不過巴掌大。他一直很小心地控制長度，怕出什麼意外。</p>
+<p>可是現在他心裡有一個問題，越來越大，壓都壓不住。</p>
+<p>如果魔法真的沒有盡頭——</p>
+<p>那他到底能講到多大？</p>
+<p>他看著那片密林。那是一個很好的靶。夠遠，夠大，燒了也不會有人管——他到現在都還沒看到半個人。</p>
+<p>他吞了一口口水。喉嚨還是痛的。他知道接下來要講的東西，會比今天所有加起來都長。他知道講完他大概會啞掉，可能一整天都講不出話。</p>
+<p>他不在乎。</p>
+<p>他這輩子做過那麼多不值得的事，加過那麼多不值得的班，講過那麼多不值得的廢話。</p>
+<p>這一次，他想知道，如果他把所有的力氣都用上，一次講到底，一個字都不留——</p>
+<p>那會有多大。</p>
+<p>他站直了身體，面對那片林子，深深吸了一口氣，把肺灌到滿。</p>
+<p>然後他開口了。</p>
+<h2>一之三：一萬字的火球</h2>
+<p>他決定講的，還是報帳流程。</p>
+<p>這一點他自己都覺得好笑。他站在一片林子前面，準備放出他這輩子最大的一次魔法，而他要用來當燃料的，是一段連他前世都恨透了的公司規章。</p>
+<p>可是這是最保險的選擇。他要的是長度，是穩定，是一段他絕對不會講到一半卡住的東西。而全世界最不會讓他卡住的，就是這段他被逼著背了不知道多少遍的廢話。他甚至懷疑自己死的時候，腦子裡最後一句話搞不好就是「估價單要三家比價」。</p>
+<p>那就用它。這段廢話害他加了多少年的班，這一次，換它替他放一把火。</p>
+<p>他吸滿氣，開口。</p>
+<div class="brk">§</div>
+<p>一開始跟下午一樣。差旅費請先填單，單子要主管簽。</p>
+<p>他前面的空氣開始積東西。他已經認得那個感覺了——那些字沒有散掉，在他面前排成看不見的線，一個字接一個字。</p>
+<p>他繼續講。他把每一個步驟都拆開，把每一個他記得的表格編號、每一個部門的名字、每一條例外規定，全部倒出來。他講到每個月十號是截止日，講到超過三千的附件，講到跨部門的分攤比例，講到年度結算，講到他其實根本沒搞懂、只是照著做的那幾條。</p>
+<p>他講了很久。</p>
+<p>久到他開始換氣。他一換氣，前面那條線就<span class="tremble brief">抖一下</span>，可是沒有斷——他發現只要他換氣夠快、夠短，那條線就撐得住。於是他學會了在句子跟句子的縫隙裡偷氣，像游泳一樣，把換氣壓縮到最小。</p>
+<p>久到他喉嚨的痛已經從火辣變成一種麻木。</p>
+<p>久到前面那一整片林子前的空氣，開始扭曲。不是熱氣那種扭曲。是空氣被往一個點拉過去、繃得緊緊的那種，好像那裡等一下會有很重的東西落下來，周圍的空間先讓開、騰出了位置。</p>
+<p>他沒有停。</p>
+<p>他這輩子替自己做的事，總是半途而廢。可是這一次不一樣。這一次他要講到底，一個字都不留。</p>
+<p>他把報帳流程講完了。整整一遍，從填單講到結算，一個環節都沒漏。</p>
+<p>講完的那一瞬間，他把最後一口氣也吐光了。腦子一陣發空，整個人晃了一下，才勉強站穩。</p>
+<p>然後那條線繃到底。</p>
+<div class="brk">§</div>
+</section><section data-fx-bg="第一章-素材/4-燒林.webp"><p>後來他想，那片林子要是有名字，今天大概就得從地圖上劃掉了。</p>
+<p>火不是從地上長出來的。這一次它是直接出現的，出現在那片林子的正上方，一整片，像有人把天空掀開一角，把後面的東西倒了下來。</p>
+<p>聲音是後到的。</p>
+<p>他看到那片林子被光吞掉，看到樹一排一排地倒，看到最前面那些樹在他眼前化成黑色的骨架——他全都看到了，可是聲音沒有跟上。有那麼一下，也許不到一秒，眼前是一片無聲的燃燒，安靜得不像話。</p>
+<p>他知道這很正常——光比聲音快，遠的東西本來就是先看到、才聽到。他等著那聲巨響追上來。</p>
+<p>只是它追得有點慢。慢到他懷疑自己是不是聾了。</p>
+<p data-fire-start>然後聲音才轟一聲砸過來，補上剛才那段畫面該有的聲音。</p>
+<p>他還注意到別的。</p>
+<p>有幾片被熱氣掀起來的葉子，掛在半空中。不是慢慢飄，是掛著。掛了比它們應該掛的時間久了一點點——就那麼一點點，多到他察覺，少到他沒辦法確定自己有沒有看錯。然後它們才想起來要往下掉。</p>
+<p data-freeze>整個世界，好像為了這件事，停了他一下。</p>
+<div class="brk">§</div>
+<p>陸修站在那裡，喉嚨啞到一個字都發不出來，看著那片正在燒的林子。</p>
+<p>他心裡冒出一個念頭。</p>
+<p>那個念頭來得又快又清楚，清楚到他自己嚇了一跳——</p>
+<p>像遊戲裡放大招的時候，畫面會為你停一下。</p>
+<p>他愣了半秒。</p>
+<p>然後他甩了甩頭。</p>
+<p>什麼鬼。他在心裡罵自己。他都幾歲了，一個快要餓死、剛剛才差點被咬死的三十幾歲的男人，站在異世界的森林前面，第一個想到的居然是打電動。</p>
+<p>大概是缺氧吧。他剛剛喘成那樣，眼前一陣陣發黑，看什麼都慢半拍，很正常。</p>
+<p>而且那個停頓實在太短了，短到只要他不想信，就可以當作沒發生。</p>
+<p>他就沒有再想下去。</p>
+<div class="brk">§</div>
+<p>火燒了很久。</p>
+<p>他坐下來看它燒。他沒有力氣站著了。他的腿在抖，手也在抖，喉嚨啞得像被砂紙磨過，可是他心裡是滿的。</p>
+<p>那是一種他前世幾乎沒有體會過的滿足。</p>
+<span class="memcue" data-i="2"></span><p>他前世的成就感，永遠是打折的。專案上線了，可是沒人記得是誰做的。加班加出來的東西，被改了三遍，最後上線的版本他自己都不認得。他付出的一切，到最後都會經過某個人、某道流程、某個他看不見的手，被切掉一塊，再交到他手上，告訴他「就這樣」。</p>
+<p>這一次，沒有人來切掉那一塊。</p>
+<p>他沒去數自己講了多少，可是那份報帳流程整整一遍，少說也有一萬字。而這裡，一個字都沒有少地還給了他。沒有主管，沒有流程，沒有「這個需求砍掉一半」。他付出多少，眼前就有多少。這種公平，他反而有點不習慣。</p>
+<p>他坐在那裡，看著自己親手放出來的火，第一次覺得，這個世界好像願意還他一個公道。</p>
+<p>火還在燒。</p>
+<p>他知道他該走了——這麼大的動靜，附近要是真有人，一定會有人來看。可是他還是多坐了一會兒，捨不得走。</p>
+<p data-fire-end>坐到腿都涼了，他才撐著膝蓋站起來，拍掉褲子上的土，往反方向走。</p>
+<p>他沒有回頭看那片林子。</p>
+<p>他要是回頭，也許會注意到一件事：火燒過的地方，那些倒下的樹之間，有幾片葉子，剛才被掀到半空中，到現在都還掛在那裡，沒有落下來。</p>
+</section><div class="end">第 一 章 ・ 初 稿 完</div>
+<style>
+.chapnav{max-width:32em;margin:0 auto;padding:2vh 1.5rem 6vh;display:flex;flex-direction:column;
+ align-items:center;gap:1.4rem;position:relative;z-index:5}
+.chapnav .soon{display:flex;flex-direction:column;align-items:center;gap:.45rem;
+ padding:1.5rem 2.4rem;border:1px dashed rgba(120,130,138,.32);border-radius:12px;
+ min-width:15em;text-align:center;opacity:.6}
+.chapnav .lbl{font-size:.72rem;letter-spacing:.3em;color:#8a939a}
+.chapnav .ttl{font-size:1.05rem;letter-spacing:.06em;color:#3a4650}
+.chapnav a.toc{font-size:.78rem;letter-spacing:.2em;color:#6b7580;text-decoration:none;
+ border-bottom:1px solid rgba(120,130,138,.32);padding-bottom:.15rem}
+.chapnav a.toc:hover{color:#20262b}
+</style>
+<nav class="chapnav">
+ <span class="soon"><span class="lbl">下　一　章</span><span class="ttl">第二章　公會與貴族的餐桌　·　連載中</span></span>
+ <a class="toc" href="index.html">回　目　錄</a>
+</nav>
+</main><script>
+(function(){
+  var secs=[].slice.call(document.querySelectorAll('[data-fx-bg]'));
+  if(!secs.length) return;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var la=document.querySelector('#backdrop .a'), lb=document.querySelector('#backdrop .b');
+  var front=la, back=lb, cur='';
+  // 預載，換場才不會閃
+  secs.forEach(function(s){ var i=new Image(); i.src=s.getAttribute('data-fx-bg'); });
+  function show(url){
+    if(url===cur) return; cur=url;
+    back.style.backgroundImage="url('"+url+"')";
+    void back.offsetWidth;                 // 強制 reflow，確保 transition 生效
+    back.classList.add('on'); front.classList.remove('on');
+    var t=front; front=back; back=t;
+  }
+  function active(){
+    // scroll-spy：取「頂端已捲過畫面中央線的最後一段」＝正在讀的那一段。
+    // 不用「包含中央線」判定，跨段間隙就不會掉進錯的 fallback。
+    var mid=innerHeight/2, best=secs[0];
+    for(var i=0;i<secs.length;i++){
+      if(secs[i].getBoundingClientRect().top<=mid) best=secs[i];
+      else break;
+    }
+    show(best.getAttribute('data-fx-bg'));
+  }
+  addEventListener('scroll',active,{passive:true});
+  addEventListener('resize',active);
+  show(secs[0].getAttribute('data-fx-bg')); active();
+})();
+</script>
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var els=document.querySelectorAll('.tremble'); if(!els.length) return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var el=e.target;
+      if(e.isIntersecting){ el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+      else el.classList.remove('shake');
+    });
+  },{rootMargin:'-42% 0px -42% 0px'});   // 只在畫面中央一條窄帶算「正在讀」
+  [].forEach.call(els,function(el){ io.observe(el); });
+})();
+</script>
+<div id="freezeveil"></div>
+<script>
+/* 時停：捲到「世界停了一下」那句就觸發（不必繼續捲）——畫面凍約 0.9 秒：
+   褪色＋淡幕＋動畫暫停，同時吃掉捲動。全書第一次時停，做成明顯察覺得到；
+   之後章節會愈停愈久。reduced-motion 自動關。 */
+(function(){
+  var el=document.querySelector('[data-freeze]'); if(!el) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var frozenUntil=0, MS=900, ready=true;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){ if(ready){ ready=false; freeze(); } }
+      else ready=true;   // 離開後可重觸發
+    });
+  },{rootMargin:'-45% 0px -45% 0px'}).observe(el);
+  function freeze(){
+    frozenUntil=Date.now()+MS;
+    document.documentElement.classList.add('mfx-frozen');
+    setTimeout(function(){ document.documentElement.classList.remove('mfx-frozen'); }, MS);
+  }
+  function eat(ev){ if(Date.now()<frozenUntil) ev.preventDefault(); }
+  addEventListener('wheel', eat, {passive:false});
+  addEventListener('touchmove', eat, {passive:false});
+})();
+</script>
+<script>
+/* 聲音總控 + 環境配樂（跟序章同一首，雙 audio 交叉淡接無縫循環）。開關同時管音樂與火聲。 */
+(function(){
+  var btn=document.getElementById('snd');
+  window.MFXSound=(function(){
+    var on=true; try{ on=localStorage.getItem('fx-bgm')!=='0'; }catch(e){}
+    var subs=[];
+    return { isOn:function(){return on;},
+      toggle:function(){ on=!on; try{localStorage.setItem('fx-bgm',on?'1':'0');}catch(e){} subs.forEach(function(f){f(on);}); return on; },
+      onChange:function(f){ subs.push(f); } };
+  })();
+  function setBtn(){ if(btn) btn.textContent = window.MFXSound.isOn() ? '♪　聲音開啟中' : '♪　開啟聲音'; }
+  setBtn();
+
+  var A=document.getElementById('bgmA'), B=document.getElementById('bgmB');
+  var cur=A, nxt=B, on=false, env=0, envTarget=0, fading=false, fadeT0=0, started=false;
+  var VOL=0.34, FADE=5;
+  function tick(){
+    requestAnimationFrame(tick);
+    var now=performance.now()/1000;
+    if(env<envTarget) env=Math.min(envTarget, env+(1/6)*0.016);
+    else if(env>envTarget) env=Math.max(envTarget, env-(1/1.8)*0.016);
+    if(on && cur.duration){
+      if(!fading && cur.currentTime>cur.duration-FADE){ try{nxt.currentTime=0;nxt.play();}catch(e){} fading=true; fadeT0=now; }
+      if(fading){ var p=Math.min(1,(now-fadeT0)/FADE);
+        cur.volume=env*VOL*Math.cos(p*Math.PI/2); nxt.volume=env*VOL*Math.sin(p*Math.PI/2);
+        if(p>=1){ try{cur.pause();}catch(e){} var t=cur;cur=nxt;nxt=t;fading=false; } }
+      else { cur.volume=env*VOL; nxt.volume=0; }
+    } else if(cur) cur.volume=env*VOL;
+  }
+  function onEnded(e){ if(!on||e.target!==cur) return; try{nxt.currentTime=0;nxt.volume=env*VOL;nxt.play();}catch(err){} var t=cur;cur=nxt;nxt=t;fading=false; }
+  if(A&&B){ A.addEventListener('ended',onEnded); B.addEventListener('ended',onEnded); }
+  function musicStart(){ if(!A) return; try{cur.play();}catch(e){} envTarget=1; on=true; if(!started){started=true;tick();} }
+  function musicStop(){ envTarget=0; on=false; setTimeout(function(){ if(!on){try{A&&A.pause();B&&B.pause();}catch(e){}} },2000); }
+  document.addEventListener('visibilitychange',function(){ if(on&&!document.hidden){try{cur.play();}catch(e){}} });
+
+  window.MFXSound.onChange(function(v){ if(v) musicStart(); else musicStop(); });
+  if(btn){
+    setTimeout(function(){btn.classList.add('rest');},10000);
+    btn.addEventListener('mouseenter',function(){btn.classList.remove('rest');});
+    btn.addEventListener('mouseleave',function(){btn.classList.add('rest');});
+    btn.addEventListener('click',function(){ window.MFXSound.toggle(); setBtn(); });
+  }
+  var armed=false;
+  function first(){ if(armed) return; armed=true; if(window.MFXSound.isOn()) musicStart(); }
+  ['wheel','touchstart','pointerdown','keydown','click'].forEach(function(ev){ addEventListener(ev,first,{passive:true}); });
+})();
+</script>
+<script>
+/* 燃燒聲：合成（棕噪音低吼床 + 隨機嗶剝 + 進場一發轟），做法取自赤壁 index.html。
+   故意延遲：讀者先讀完「無聲的燃燒」，火聲才在「然後聲音才轟一聲砸過來」那句轟進來，
+   跟正文「聲音是後到的」對上；走到反方向時淡出。瀏覽器規定需先互動才發聲。 */
+(function(){
+  var startEl=document.querySelector('[data-fire-start]'), endEl=document.querySelector('[data-fire-end]');
+  if(!startEl) return;
+  function soundOn(){ return !window.MFXSound || window.MFXSound.isOn(); }
+  var ctx=null, fireGain=null, noiseBuf=null, crackleOn=false, last=0, started=false;
+  function makeNoise(){
+    var b=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate), d=b.getChannelData(0), brown=0;
+    for(var i=0;i<d.length;i++){ brown=(brown+(Math.random()*2-1)*.02)*.985; d[i]=Math.random()*2-1+brown*3; }
+    return b;
+  }
+  function build(){
+    ctx=new (window.AudioContext||window.webkitAudioContext)();
+    noiseBuf=makeNoise();
+    var src=ctx.createBufferSource(); src.buffer=noiseBuf; src.loop=true;
+    var lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=460;
+    fireGain=ctx.createGain(); fireGain.gain.value=0;
+    src.connect(lp); lp.connect(fireGain); fireGain.connect(ctx.destination); src.start();
+    last=performance.now();
+    (function loop(){
+      requestAnimationFrame(loop);
+      var now=performance.now(), dt=(now-last)/1000; last=now;
+      var amt=fireGain.gain.value;
+      if(crackleOn && amt>.02 && Math.random() < dt*9){        // 嗶剝 ~9/秒
+        var n=ctx.createBufferSource(); n.buffer=noiseBuf; n.loop=true;
+        var f=ctx.createBiquadFilter(); f.type='highpass'; f.frequency.value=2000+Math.random()*2500;
+        var g=ctx.createGain(), t0=ctx.currentTime;
+        g.gain.setValueAtTime(amt*(.06+Math.random()*.1),t0);
+        g.gain.exponentialRampToValueAtTime(.001,t0+.04);
+        n.connect(f); f.connect(g); g.connect(ctx.destination); n.start(t0); n.stop(t0+.05);
+      }
+    })();
+  }
+  function ensure(){ if(!ctx) build(); if(ctx.state==='suspended') ctx.resume(); }
+  function fadeTo(v,sec){ fireGain.gain.cancelScheduledValues(ctx.currentTime);
+    fireGain.gain.setValueAtTime(fireGain.gain.value, ctx.currentTime);
+    fireGain.gain.linearRampToValueAtTime(v, ctx.currentTime+sec); }
+  function boom(){                                            // 進場那一「轟」
+    var n=ctx.createBufferSource(); n.buffer=noiseBuf; n.loop=true;
+    var f=ctx.createBiquadFilter(); f.type='lowpass'; var t0=ctx.currentTime;
+    f.frequency.setValueAtTime(600,t0); f.frequency.exponentialRampToValueAtTime(90,t0+.9);
+    var g=ctx.createGain(); g.gain.setValueAtTime(.0001,t0);
+    g.gain.exponentialRampToValueAtTime(.72,t0+.06); g.gain.exponentialRampToValueAtTime(.001,t0+1.3);
+    n.connect(f); f.connect(g); g.connect(ctx.destination); n.start(t0); n.stop(t0+1.3);
+  }
+  function startFire(){ if(!soundOn()) return; ensure(); if(started) return; started=true; boom(); crackleOn=true; fadeTo(.22,1.6); }
+
+  var armed=false, want=false;
+  function first(){ if(armed) return; armed=true; ensure(); if(want) startFire(); }
+  ['wheel','touchstart','pointerdown','keydown','click'].forEach(function(ev){ addEventListener(ev,first,{passive:true}); });
+
+  new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ want=true; if(armed) startFire(); } }); },
+    {rootMargin:'0px 0px -30% 0px'}).observe(startEl);
+  if(endEl) new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && ctx){ fadeTo(0,3.5); setTimeout(function(){crackleOn=false;},3800); } }); },
+    {rootMargin:'0px 0px -30% 0px'}).observe(endEl);
+  if(window.MFXSound) window.MFXSound.onChange(function(on){
+    ensure();
+    if(on){ if(want && !started) startFire(); else if(started){ crackleOn=true; fadeTo(.22,.8); } }
+    else if(ctx){ fadeTo(0,.6); setTimeout(function(){crackleOn=false;},700); }
+  });
+})();
+</script>
+<script>
+/* 側邊記憶 mem（同序章）：桌機顯示離畫面中央最近的一格；手機搬進正文、捲到浮起。 */
+(function(){
+  var cues=[].slice.call(document.querySelectorAll('.memcue')), mems={};
+  if(!cues.length) return;
+  [].forEach.call(document.querySelectorAll('.mem'),function(m){mems[m.dataset.i]=m;});
+  function h(){var vh=innerHeight,best=null,bd=1e9;
+    cues.forEach(function(c){var t=c.getBoundingClientRect().top,d=Math.abs(t-vh*0.45);
+      if(t<vh*0.95&&t>-vh*0.35&&d<bd){bd=d;best=c.dataset.i;}});
+    for(var k in mems) mems[k].classList.toggle('on',k===best);}
+  addEventListener('scroll',h,{passive:true});addEventListener('resize',h);h();
+  if(innerWidth<=1180){
+    cues.forEach(function(c){ var m=mems[c.dataset.i]; if(!m) return;
+      var para=c.nextElementSibling;
+      if(para&&para.parentNode){ para.parentNode.insertBefore(m,para.nextSibling); m.classList.add('inline'); } });
+    if(window.IntersectionObserver){
+      var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('seen'); io.unobserve(e.target); } }); },{rootMargin:'0px 0px -6% 0px'});
+      [].forEach.call(document.querySelectorAll('.mem.inline'),function(m){io.observe(m);});
+    } else { [].forEach.call(document.querySelectorAll('.mem.inline'),function(m){m.classList.add('seen');}); }
+  }
+})();
+</script>
+<script>
+/* 餘燼／懸葉層：只在「燒掉的林子」那一幕浮現（進場淡入、離場淡出）。 */
+(function(){
+  var sec=document.querySelector('[data-fx-bg*="燒林"]'); if(!sec) return;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){ document.body.classList.toggle('ash-on', e.isIntersecting); });
+  },{rootMargin:'0px 0px -20% 0px'}).observe(sec);
+})();
+</script>
+</body></html>
