@@ -37,10 +37,40 @@ html,body{margin:0;height:100%;background:#eef3f7}
 #snd.rest{opacity:.34}
 #snd:hover{opacity:1}
 @media(max-width:700px){#snd{right:.7rem;font-size:.72rem;padding:.5rem 1rem}}
-</style></head><body>
+#seo{position:absolute;inset:0;z-index:0;max-width:34em;margin:0 auto;padding:12vh 1.5rem;
+ font-family:"Noto Serif TC","Songti TC",Georgia,serif;color:#20262b;line-height:2}
+#seo h1{font-size:1.6rem;letter-spacing:.06em;margin:0 0 1.2em}
+#seo p{margin:0 0 2em;color:#4a565e}
+#seo ul{list-style:none;padding:0}
+#seo li{margin:0 0 1em}
+#seo a{color:#20262b;text-decoration:none;border-bottom:1px solid rgba(32,38,43,.28);padding-bottom:.15em}
+#page{position:relative;z-index:1}
+</style><script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Book","name":"轉生異世界的我 token 無限",
+"inLanguage":"zh-Hant-TW","author":{"@type":"Person","name":"林亞澤"},
+"url":"https://yazelin.github.io/token-unlimited/",
+"image":"https://yazelin.github.io/token-unlimited/og-cover.jpg",
+"description":"一個把加班當呼吸的軟體工程師，醒來在異世界。這裡的魔法不看你講什麼，只看你講多長。連載中的網頁小說。",
+"genre":"奇幻小說","bookFormat":"https://schema.org/EBook",
+"hasPart":[
+ {"@type":"Chapter","name":"序章：睜開眼睛的地方","position":0,
+  "url":"https://yazelin.github.io/token-unlimited/%E5%BA%8F%E7%AB%A0-%E9%96%B1%E8%AE%80%E7%89%88.html"},
+ {"@type":"Chapter","name":"第一章：一萬字的火球","position":1,
+  "url":"https://yazelin.github.io/token-unlimited/%E7%AC%AC%E4%B8%80%E7%AB%A0-%E9%96%B1%E8%AE%80%E7%89%88.html"}]}
+</script>
+</head><body>
 <audio id="bgmA" src="序章-素材/ambient.mp3" preload="auto"></audio>
 <audio id="bgmB" src="序章-素材/ambient.mp3" preload="auto"></audio>
 <button id="snd">♪　開啟聲音</button>
+<main id="seo">
+  <h1>轉生異世界的我 token 無限</h1>
+  <p>一個把加班當呼吸的軟體工程師，醒來在異世界。這裡的魔法不看你講什麼，只看你講多長。連載中的網頁小說。</p>
+  <nav><ul>
+    <li><a href="序章-閱讀版.html">序章：睜開眼睛的地方</a></li>
+    <li><a href="第一章-閱讀版.html">第一章：一萬字的火球</a></li>
+    <li><a href="home.html">目錄</a></li>
+  </ul></nav>
+</main>
 <iframe id="page" title="閱讀內容" src="home.html"></iframe>
 <script>
 /* 閱讀器殼：章節切換用 iframe（不重載），背景音樂在這一層持續播放、跨章不斷。

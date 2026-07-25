@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yazelin.github.io/token-unlimited/sitemap.xml
