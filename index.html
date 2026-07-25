@@ -89,8 +89,9 @@ html,body{margin:0;height:100%;background:#eef3f7}
   document.addEventListener('visibilitychange',function(){ if(on&&!document.hidden){try{cur.play();}catch(e){}} });
   function apply(){ setBtn(); try{localStorage.setItem('fx-bgm',on?'1':'0');}catch(e){} if(on) start(); else stop(); }
   btn.addEventListener('click',function(){ on=!on; apply(); });
-  /* 重整後還原上次的開關；真正出聲要等下一次互動（見 onGesture）。 */
-  try{ if(localStorage.getItem('fx-bgm')==='1'){ on=true; setBtn(); start(); } }catch(e){}
+  /* 預設想播：除非讀者按過關閉（fx-bgm==='0'），否則載入就嘗試播放；
+     被自動播放政策擋下時，改在第一次互動（殼或章節任一邊）接回去。 */
+  try{ if(localStorage.getItem('fx-bgm')!=='0'){ on=true; setBtn(); start(); } }catch(e){ on=true; setBtn(); start(); }
   setTimeout(function(){btn.classList.add('rest');},10000);
   btn.addEventListener('mouseenter',function(){btn.classList.remove('rest');});
   btn.addEventListener('mouseleave',function(){btn.classList.add('rest');});
