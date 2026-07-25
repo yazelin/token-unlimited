@@ -194,6 +194,12 @@ main::before{content:'';position:fixed;z-index:-1;top:0;bottom:0;left:50%;transf
   width:min(56em,100vw);pointer-events:none;
   background:radial-gradient(ellipse 45% 60% at center,rgba(250,252,253,.80) 0%,rgba(250,252,253,.62) 40%,rgba(250,252,253,.22) 72%,rgba(250,252,253,0) 100%)}
 section{padding:5vh 0}
+/* 手機：柔光帶左右滿版、不淡出。原本左右淡出到透明，在 390px 的螢幕上等於兩側
+   各數十 px 沒有底，而文字從 24px 就開始，字會壓在沒底的地方。 */
+@media(max-width:700px){
+ main::before{width:100vw;background:rgba(250,252,253,.86)}
+}
+
 /* 第二個聲音。不說自己是什麼，只在他停住、或他已經不在的時候出現。 */
 .rec{color:#8f989e;letter-spacing:.16em;font-size:.95em;text-align:left;text-shadow:none}
 p{margin:0 0 1.8em;text-align:justify;text-shadow:0 1px 0 rgba(255,255,255,.4)}

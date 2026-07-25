@@ -2,7 +2,7 @@
    全量 precache（app 殼＋所有章節與資產）→ 首訪即可離線。
    HTML＝network-first（線上拿最新、離線吃快取）；其他資源＝cache-first。
    改內容要更新：bump 下面的 CACHE 版本號。 */
-const CACHE = 'tu-v19';
+const CACHE = 'tu-v21';
 const ASSETS = [
   './', './index.html', './home.html',
   './序章-閱讀版.html', './第一章-閱讀版.html',

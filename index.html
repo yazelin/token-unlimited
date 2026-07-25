@@ -39,7 +39,8 @@ html,body{margin:0;height:100%;height:100dvh;background:#eef3f7;overflow:hidden;
  white-space:nowrap;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
  box-shadow:0 2px 12px rgba(60,80,70,.14);transition:opacity .8s ease,background .3s}
 #snd.rest{opacity:.34}
-#snd:hover{opacity:1}
+#inst.rest{opacity:.55}   /* 安裝鈕也要退場，但它是要被點的，淡得少一點 */
+#snd:hover,#inst:hover{opacity:1}
 #inst{display:none}
 #inst.show{display:block}
 @media(max-width:700px){#btns{right:.7rem;gap:.4rem}
@@ -138,9 +139,13 @@ html,body{margin:0;height:100%;height:100dvh;background:#eef3f7;overflow:hidden;
   /* 預設想播：除非讀者按過關閉（fx-bgm==='0'），否則載入就嘗試播放；
      被自動播放政策擋下時，改在第一次互動（殼或章節任一邊）接回去。 */
   try{ if(localStorage.getItem('fx-bgm')!=='0'){ on=true; setBtn(); start(); } }catch(e){ on=true; setBtn(); start(); }
-  setTimeout(function(){btn.classList.add('rest');},10000);
-  btn.addEventListener('mouseenter',function(){btn.classList.remove('rest');});
-  btn.addEventListener('mouseleave',function(){btn.classList.add('rest');});
+  var inst=document.getElementById('inst');
+  [btn,inst].forEach(function(el){
+    if(!el) return;
+    setTimeout(function(){el.classList.add('rest');},10000);
+    el.addEventListener('mouseenter',function(){el.classList.remove('rest');});
+    el.addEventListener('mouseleave',function(){el.classList.add('rest');});
+  });
 
   /* hash 路由 ↔ iframe：深連結、可分享、重整回到同一章 */
   var frame=document.getElementById('page');

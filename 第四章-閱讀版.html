@@ -54,6 +54,12 @@ main::before{content:'';position:fixed;z-index:-1;top:0;bottom:0;left:50%;transf
  width:min(44em,100vw);pointer-events:none;
  background:linear-gradient(90deg,transparent 0%,rgba(249,251,252,.74) 14%,rgba(249,251,252,.78) 50%,rgba(249,251,252,.74) 86%,transparent 100%)}
 section{display:block}
+/* 手機：柔光帶左右滿版、不淡出。原本左右淡出到透明，在 390px 的螢幕上等於兩側
+   各數十 px 沒有底，而文字從 24px 就開始，字會壓在沒底的地方。 */
+@media(max-width:700px){
+ main::before{width:100vw;background:rgba(249,251,252,.86)}
+}
+
 @media(prefers-reduced-motion:reduce){#backdrop .layer{transition:none}}
 
 /* 克制的抖動：只給那句驚慌的喊叫，像發抖的聲音。reduced-motion 自動關。 */
