@@ -60,7 +60,9 @@ html,body{margin:0;height:100%;background:#eef3f7}
  {"@type":"Chapter","name":"第二章：公會與貴族的餐桌","position":2,
   "url":"https://yazelin.github.io/token-unlimited/%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E9%96%B1%E8%AE%80%E7%89%88.html"},
  {"@type":"Chapter","name":"第三章：總是在場的神官","position":3,
-  "url":"https://yazelin.github.io/token-unlimited/%E7%AC%AC%E4%B8%89%E7%AB%A0-%E9%96%B1%E8%AE%80%E7%89%88.html"}]}
+  "url":"https://yazelin.github.io/token-unlimited/%E7%AC%AC%E4%B8%89%E7%AB%A0-%E9%96%B1%E8%AE%80%E7%89%88.html"},
+ {"@type":"Chapter","name":"第四章：屠龍那天下了雪","position":4,
+  "url":"https://yazelin.github.io/token-unlimited/%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E9%96%B1%E8%AE%80%E7%89%88.html"}]}
 </script>
 </head><body>
 <audio id="bgmA" src="序章-素材/ambient.mp3" preload="auto"></audio>
@@ -74,6 +76,7 @@ html,body{margin:0;height:100%;background:#eef3f7}
     <li><a href="第一章-閱讀版.html">第一章：一萬字的火球</a></li>
     <li><a href="第二章-閱讀版.html">第二章：公會與貴族的餐桌</a></li>
     <li><a href="第三章-閱讀版.html">第三章：總是在場的神官</a></li>
+    <li><a href="第四章-閱讀版.html">第四章：屠龍那天下了雪</a></li>
     <li><a href="home.html">目錄</a></li>
   </ul></nav>
 </main>
@@ -135,7 +138,8 @@ html,body{margin:0;height:100%;background:#eef3f7}
   /* hash 路由 ↔ iframe：深連結、可分享、重整回到同一章 */
   var frame=document.getElementById('page');
   var MAP={home:'home.html', xu:'序章-閱讀版.html', ch1:'第一章-閱讀版.html',
-            ch2:'第二章-閱讀版.html', ch3:'第三章-閱讀版.html'};
+            ch2:'第二章-閱讀版.html', ch3:'第三章-閱讀版.html',
+            ch4:'第四章-閱讀版.html'};
   function pageFromHash(){ var h=(location.hash||'').replace(/^#/,''); return MAP[h]||'home.html'; }
   function load(p){ var s=frame.getAttribute('src'); if((s||'').split('/').pop()!==p) frame.setAttribute('src',p); }
   var want=pageFromHash(); if(want!=='home.html') load(want);

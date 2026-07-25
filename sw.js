@@ -2,18 +2,19 @@
    全量 precache（app 殼＋所有章節與資產）→ 首訪即可離線。
    HTML＝network-first（線上拿最新、離線吃快取）；其他資源＝cache-first。
    改內容要更新：bump 下面的 CACHE 版本號。 */
-const CACHE = 'tu-v11';
+const CACHE = 'tu-v12';
 const ASSETS = [
   './', './index.html', './home.html',
   './序章-閱讀版.html', './第一章-閱讀版.html',
-  './第二章-閱讀版.html', './第三章-閱讀版.html',
+  './第二章-閱讀版.html', './第三章-閱讀版.html', './第四章-閱讀版.html',
   './og-cover.jpg', './manifest.json',
   './icon-180.png', './icon-192.png', './icon-512.png',
   './序章-素材/ambient.mp3', './序章-素材/far-meadow.webp',
   './第一章-素材/1-森林.webp', './第一章-素材/2-空地.webp',
   './第一章-素材/3-密林.webp', './第一章-素材/4-燒林.webp',
   './第二章-素材/1-城門.webp', './第二章-素材/2-訓練場.webp', './第二章-素材/3-餐廳.webp',
-  './第三章-素材/1-山路.webp', './第三章-素材/2-削掉的坡.webp', './第三章-素材/3-夜營地.webp'
+  './第三章-素材/1-山路.webp', './第三章-素材/2-削掉的坡.webp', './第三章-素材/3-夜營地.webp',
+  './第四章-素材/1-空村.webp', './第四章-素材/2-龍.webp', './第四章-素材/3-雪.webp'
 ];
 
 self.addEventListener('install', e => {
