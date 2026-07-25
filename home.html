@@ -15,6 +15,9 @@
 <meta name="twitter:title" content="轉生異世界的我 token 無限">
 <meta name="twitter:description" content="一個把加班當呼吸的人，轉生到一個「付出多少、就得到多少」的世界。連載中的網頁小說。">
 <meta name="twitter:image" content="https://yazelin.github.io/token-unlimited/og-cover.jpg">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#eef3f7">
+<meta name="mobile-web-app-capable" content="yes">
 
 <meta name="description" content="一個把加班當呼吸的人，轉生到一個「付出多少、就得到多少」的世界。連載中。">
 <style>
@@ -137,4 +140,10 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 })();
 </script>
 
+<script>
+/* 這一頁可能是分享連結直接打開的落地頁，要自己註冊 SW（頂層才註冊，iframe 內交給殼）。 */
+if(window.top===window.self && 'serviceWorker' in navigator){
+  addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+}
+</script>
 </body></html>

@@ -28,15 +28,19 @@
 html,body{margin:0;height:100%;background:#eef3f7}
 #page{position:fixed;inset:0;width:100%;height:100%;border:0;display:block}
 /* 持久聲音開關（跟章節同款）：右上角，前 10 秒清楚、之後低調，但一直在。 */
-#snd{position:fixed;top:1.1rem;right:1.1rem;z-index:50;border:0;background:rgba(255,255,255,.82);
+#btns{position:fixed;z-index:50;right:1.1rem;top:calc(1.1rem + env(safe-area-inset-top));
+ display:flex;align-items:flex-start;gap:.55rem}
+#btns button{border:0;background:rgba(255,255,255,.82);
  color:#4a565e;font:inherit;font-family:"Noto Serif TC","Songti TC",Georgia,serif;
  font-size:.76rem;letter-spacing:.18em;padding:.55rem 1.15rem;border-radius:2rem;cursor:pointer;
- -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
- box-shadow:0 2px 12px rgba(60,80,70,.14);opacity:1;transition:opacity .8s ease,background .3s;
- top:calc(1.1rem + env(safe-area-inset-top))}
+ white-space:nowrap;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+ box-shadow:0 2px 12px rgba(60,80,70,.14);transition:opacity .8s ease,background .3s}
 #snd.rest{opacity:.34}
 #snd:hover{opacity:1}
-@media(max-width:700px){#snd{right:.7rem;font-size:.72rem;padding:.5rem 1rem}}
+#inst{display:none}
+#inst.show{display:block}
+@media(max-width:700px){#btns{right:.7rem;gap:.4rem}
+ #btns button{font-size:.72rem;padding:.5rem 1rem;letter-spacing:.12em}}
 #seo{position:absolute;inset:0;z-index:0;max-width:34em;margin:0 auto;padding:12vh 1.5rem;
  font-family:"Noto Serif TC","Songti TC",Georgia,serif;color:#20262b;line-height:2}
 #seo h1{font-size:1.6rem;letter-spacing:.06em;margin:0 0 1.2em}
@@ -67,7 +71,7 @@ html,body{margin:0;height:100%;background:#eef3f7}
 </head><body>
 <audio id="bgmA" src="序章-素材/ambient.mp3" preload="auto"></audio>
 <audio id="bgmB" src="序章-素材/ambient.mp3" preload="auto"></audio>
-<button id="snd">♪　開啟聲音</button>
+<div id="btns"><button id="inst">＋　安裝</button><button id="snd">♪　開啟聲音</button></div>
 <main id="seo">
   <h1>轉生異世界的我 token 無限</h1>
   <p>一個把加班當呼吸的軟體工程師，醒來在異世界。這裡的魔法不看你講什麼，只看你講多長。連載中的網頁小說。</p>
@@ -154,5 +158,26 @@ html,body{margin:0;height:100%;background:#eef3f7}
   });
 })();
 if('serviceWorker' in navigator){ addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); }); }
+
+/* 自家安裝鈕：Chrome 桌機只在網址列給一個很小的圖示，多數人不會看到。
+   關掉之後記住，已安裝就不再出現（PWA 守則）。 */
+(function(){
+  var btn=document.getElementById('inst'), deferred=null;
+  function dismissed(){ try{ return localStorage.getItem('tu-install')==='0'; }catch(e){ return false; } }
+  function hide(){ btn.classList.remove('show'); }
+  addEventListener('beforeinstallprompt',function(e){
+    e.preventDefault(); deferred=e;
+    if(!dismissed() && !matchMedia('(display-mode: standalone)').matches) btn.classList.add('show');
+  });
+  addEventListener('appinstalled',function(){ hide(); try{localStorage.setItem('tu-install','0');}catch(e){} });
+  btn.addEventListener('click',function(){
+    if(!deferred){ hide(); return; }
+    deferred.prompt();
+    deferred.userChoice.then(function(r){
+      if(r.outcome!=='accepted'){ try{localStorage.setItem('tu-install','0');}catch(e){} }
+      deferred=null; hide();
+    });
+  });
+})();
 </script>
 </body></html>

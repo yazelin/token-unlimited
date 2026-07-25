@@ -16,6 +16,9 @@
 <meta name="twitter:title" content="第四章：屠龍那天下了雪｜轉生異世界的我 token 無限">
 <meta name="twitter:description" content="北邊那個村子空了。不是被毀，是空。他去看了，回來的路上天暗了下來，而那不是雲。">
 <meta name="twitter:image" content="https://yazelin.github.io/token-unlimited/og-cover.jpg">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#eef3f7">
+<meta name="mobile-web-app-capable" content="yes">
 <style>
 :root{--ink:#20262b;--dim:#6b7580}
 *{box-sizing:border-box}
@@ -800,4 +803,10 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 })();
 </script>
 
+<script>
+/* 這一頁可能是分享連結直接打開的落地頁，要自己註冊 SW（頂層才註冊，iframe 內交給殼）。 */
+if(window.top===window.self && 'serviceWorker' in navigator){
+  addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+}
+</script>
 </body></html>

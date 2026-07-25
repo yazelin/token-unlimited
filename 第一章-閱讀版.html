@@ -16,6 +16,9 @@
 <meta name="twitter:title" content="第一章：一萬字的火球｜轉生異世界的我 token 無限">
 <meta name="twitter:description" content="被野獸逼到絕境，他扯開喉嚨大喊。然後他發現，這裡的魔法看的不是內容，是長度。">
 <meta name="twitter:image" content="https://yazelin.github.io/token-unlimited/og-cover.jpg">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#eef3f7">
+<meta name="mobile-web-app-capable" content="yes">
 <style>
 :root{--ink:#20262b;--dim:#6b7580}
 *{box-sizing:border-box}
@@ -670,4 +673,10 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 })();
 </script>
 
+<script>
+/* 這一頁可能是分享連結直接打開的落地頁，要自己註冊 SW（頂層才註冊，iframe 內交給殼）。 */
+if(window.top===window.self && 'serviceWorker' in navigator){
+  addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+}
+</script>
 </body></html>

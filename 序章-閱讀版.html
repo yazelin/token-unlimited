@@ -16,6 +16,9 @@
 <meta name="twitter:title" content="序章：睜開眼睛的地方｜轉生異世界的我 token 無限">
 <meta name="twitter:description" content="他在異世界醒來，帶著前世的記憶，和幾頁怎麼也想不起來的空白。">
 <meta name="twitter:image" content="https://yazelin.github.io/token-unlimited/og-cover.jpg">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#eef3f7">
+<meta name="mobile-web-app-capable" content="yes">
 <style>/*!
  * mycelium-fx — 敘事效果庫樣式
  * 這份 CSS 只負責「效果長什麼樣」，不負責藏內容：
@@ -1535,4 +1538,10 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 })();
 </script>
 
+<script>
+/* 這一頁可能是分享連結直接打開的落地頁，要自己註冊 SW（頂層才註冊，iframe 內交給殼）。 */
+if(window.top===window.self && 'serviceWorker' in navigator){
+  addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+}
+</script>
 </body></html>
