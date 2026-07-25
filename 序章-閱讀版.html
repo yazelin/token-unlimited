@@ -54,6 +54,23 @@
 .mfx-eyelid-top { top: 0; }
 .mfx-eyelid-bottom { bottom: 0; }
 
+/* 眼睛不是一條方形的縫：中間開得多、往兩邊收窄。
+   支援遮罩的瀏覽器改用「整片黑挖一個橢圓」，--open 是開合高度、--rx 是橢圓的水平半徑
+   （越開越大，開到底時橢圓幾乎攤平，四個角才不會殘黑）。
+   不支援遮罩就退回上下兩條直邊 bar，行為跟以前一樣。 */
+@supports (mask-image: radial-gradient(#000, #000)) or (-webkit-mask-image: radial-gradient(#000, #000)) {
+  .mfx-eyelid {
+    background: #000;
+    --rx: 62vw;
+    --ry: 0px;
+    -webkit-mask-image: radial-gradient(ellipse var(--rx) var(--ry) at 50% 50%,
+      transparent 0 70%, #000 100%);
+    mask-image: radial-gradient(ellipse var(--rx) var(--ry) at 50% 50%,
+      transparent 0 70%, #000 100%);
+  }
+  .mfx-eyelid-bar { display: none; }
+}
+
 /* 睜眼的提示：讀者完全不動時，縫下方浮出一個很淡的向下 chevron（#37）。
    透明度刻意壓低——它只是個邀請，不能搶走那個畫面的質感。 */
 .mfx-eyelid-hint {
@@ -129,8 +146,9 @@ line-height:2.2;font-size:19px;letter-spacing:.02em}
 #sky{position:fixed;inset:0;z-index:0;background:linear-gradient(180deg,#cfe0ee 0%,#e8f0f6 45%,#f4f6f4 100%)}
 #ground{position:fixed;inset:0;z-index:1;--rev:0%;
   background:url('序章-素材/far-meadow.webp') bottom center/cover no-repeat;
-  -webkit-mask-image:linear-gradient(0deg,#000 0%,#000 var(--rev),transparent calc(var(--rev) + 14%));
-  mask-image:linear-gradient(0deg,#000 0%,#000 var(--rev),transparent calc(var(--rev) + 14%))}
+  /* 漸層帶要長在揭露線底下，否則 --rev:0 時螢幕最下緣還是會露出 14% 的草 */
+  -webkit-mask-image:linear-gradient(0deg,#000 0%,#000 max(0%,calc(var(--rev) - 14%)),transparent var(--rev));
+  mask-image:linear-gradient(0deg,#000 0%,#000 max(0%,calc(var(--rev) - 14%)),transparent var(--rev))}
 /* 雲影：一道緩慢橫越草原的柔和暗帶 */
 #shade{position:fixed;left:0;right:0;bottom:0;height:0;z-index:2;pointer-events:none;
   mix-blend-mode:multiply;opacity:.35;overflow:hidden;
@@ -150,7 +168,12 @@ background:
  radial-gradient(26vmin 18vmin at 8% 82%, rgba(70,88,62,.13), transparent 58%),
  radial-gradient(30vmin 24vmin at 60% 92%, rgba(255,252,232,.30), transparent 60%),
  radial-gradient(20vmin 16vmin at 32% 38%, rgba(255,250,226,.26), transparent 58%);
-animation:sway 16s ease-in-out infinite alternate;will-change:transform}
+animation:sway 16s ease-in-out infinite alternate;will-change:transform;
+/* 躺著仰望時視野幾乎只有天空：壓掉大半光斑，坐起來才長回來 */
+opacity:calc(.18 + var(--situp,1) * .67)}
+/* 躺著時再蓋一層過曝的白，對應「白得發亮的天空」 */
+#sky::after{content:'';position:absolute;inset:0;pointer-events:none;
+ background:#eef5fa;opacity:calc((1 - var(--situp,1)) * .62)}
 @keyframes sway{
  0%{transform:translate3d(-3.5vmin,-2vmin,0) scale(1.02) rotate(-.6deg)}
  35%{transform:translate3d(2vmin,1.4vmin,0) scale(1.07) rotate(.5deg)}
@@ -164,8 +187,12 @@ main::before{content:'';position:fixed;z-index:-1;top:0;bottom:0;left:50%;transf
   width:min(56em,100vw);pointer-events:none;
   background:radial-gradient(ellipse 45% 60% at center,rgba(250,252,253,.80) 0%,rgba(250,252,253,.62) 40%,rgba(250,252,253,.22) 72%,rgba(250,252,253,0) 100%)}
 section{padding:5vh 0}
+/* 第二個聲音。不說自己是什麼，只在他停住、或他已經不在的時候出現。 */
+.rec{color:#8f989e;letter-spacing:.16em;font-size:.95em;text-align:left;text-shadow:none}
 p{margin:0 0 1.8em;text-align:justify;text-shadow:0 1px 0 rgba(255,255,255,.4)}
 .brk{text-align:center;color:var(--dim);letter-spacing:.5em;margin:3.5em 0;font-size:.8rem}
+/* 人稱交界：他變成我的那個縫，多留一點空白讓它沉一下 */
+.brk.switch{margin:9em 0}
 h1{font-size:1.55rem;line-height:1.6;letter-spacing:.08em;margin:0 0 .3em;font-weight:600}
 .meta{color:var(--dim);font-size:.78rem;letter-spacing:.1em;margin-bottom:7vh}
 .end{color:var(--dim);font-size:.78rem;letter-spacing:.2em;text-align:center;
@@ -182,7 +209,12 @@ background:rgba(250,252,253,.72);backdrop-filter:blur(3px);-webkit-backdrop-filt
 box-shadow:0 1px 8px rgba(60,80,70,.10)}
 .mem.on{opacity:.85;transform:translateY(0)}
 .mem.empty{min-height:5.5rem;border-left-color:rgba(93,106,114,.18)}
-@media(max-width:1180px){#margin{display:none}}
+#margin{display:none}
+.memcue{display:block;position:relative;height:0}
+.mem.side{position:absolute;left:100%;right:auto;top:.2em;margin-left:2.5rem;width:13rem;
+ opacity:0;transform:translateY(10px);transition:opacity .8s ease,transform .8s ease}
+.mem.side.seen{opacity:.85;transform:none}
+@media(max-width:1180px){.mem.side{display:none}}
 /* 窄螢幕：記憶框插進正文，但要讀起來像他腦中浮起來的畫面，不是卡進來的方塊。
    所以拿掉底色、邊框與陰影，字級貼近正文，只用縮排、行距與顏色把它推遠一層。 */
 .mem.inline{position:static;display:block;
@@ -209,147 +241,194 @@ animation:drift 90s ease-in-out infinite alternate;will-change:transform}
  0%{transform:translate3d(-4vw,0,0)}
  100%{transform:translate3d(4vw,1.2vh,0)}}
 @media(prefers-reduced-motion:reduce){#clouds{animation:none}}
-</style></head><body>
-<div id="sky"></div><div id="clouds"></div><div id="ground"></div><div id="dapple"></div><canvas id="motes"></canvas><div id="shade"></div>
+
+/* 第一幕：他還沒睜開眼睛。畫面全黑、文字淺色，但照常捲動照常讀。
+   所有值都由 --mfx-eyelid-p（眼皮開合度 0→1，mycelium-fx 掛上來的）帶動，
+   睜到底時剛好回到平常的樣子，不需要誰在事後把這個 class 拆掉。
+   .act1 由 <head> 那支小腳本加：關掉 JS 或偏好減少動態時，畫面永遠不會黑。 */
+html.act1{--p:var(--mfx-eyelid-p,0);
+ --ink:color-mix(in srgb,#20262b calc(var(--p)*100%),#c9d1d6);
+ --dim:color-mix(in srgb,#6b7580 calc(var(--p)*100%),#8d979e)}
+#dark{display:none}
+html.act1 #dark{display:block;position:fixed;inset:0;z-index:2;pointer-events:none;
+ background:#000;opacity:calc(1 - var(--p))}
+/* 黑幕上的白：柔光帶與文字白描邊都要跟著眼皮一起亮起來 */
+html.act1 main::before{opacity:var(--p)}
+html.act1 p{text-shadow:0 1px 0 rgba(255,255,255,calc(var(--p)*.4))}
+</style>
+<script>/* 全黑只在「效果有在跑」時才成立：關 JS、偏好減少動態、關掉效果 → 沒有這個 class。 */
+try{if(!(matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)&&
+ localStorage.getItem('mycelium-fx:off')!=='1')document.documentElement.classList.add('act1');}catch(e){}</script>
+</head><body>
+<div id="sky"></div><div id="clouds"></div><div id="ground"></div><div id="dapple"></div><canvas id="motes"></canvas><div id="shade"></div><div id="dark"></div>
 <div id="margin"><div class="mem" data-i="0">凌晨三點<br>三排沒關的螢幕<br>冷氣停了兩個小時</div><div class="mem" data-i="1">200<br>46<br>（法定上限）</div><div class="mem" data-i="2">四點零七分<br>震動<br>又一次</div><div class="mem" data-i="3">「當初講的不是這樣」<br>附件：會議紀錄.docx</div><div class="mem" data-i="4">很多人<br>有人在講電話<br>門口<br>手上拿著什麼</div><div class="mem" data-i="5"><svg viewBox="0 0 64 64" width="56" height="56" aria-label="公司標誌：一張笑臉" role="img"><circle cx="32" cy="32" r="29" fill="#F6C945"/><circle cx="23" cy="27" r="3.4" fill="#3a3f45"/><circle cx="41" cy="27" r="3.4" fill="#3a3f45"/><path d="M21 39 q11 11 22 0" fill="none" stroke="#3a3f45" stroke-width="3.4" stroke-linecap="round"/></svg></div><div class="mem empty" data-i="6">⋯⋯</div></div><main>
-<section data-fx="eyelid"><h1>序章：睜開眼睛的地方</h1>
+<section><h1>序章：睜開眼睛的地方</h1>
 <div class="meta">《轉生異世界的我 token 無限》・第一卷</div>
 <p>先是溫度。</p>
 <p>臉上有一塊地方是暖的。那塊暖會移動，很慢，像有什麼東西在他上面晃。</p>
 <p>他沒有睜開眼睛。</p>
-<p>不是因為警覺，是因為不想。那塊暖從顴骨挪到眉骨，停了一下，又滑開。他就讓它去。</p>
-<p>空氣是涼的，可是身體底下的地是溫的，像曬了一整天的石頭。涼跟溫同時貼在他身上，各佔一半，誰也沒有贏。</p>
-<p>還有味道。</p>
-<p>他花了最久的時間，才想清楚自己聞到的是什麼。</p>
-<p>濕的土，這個他認得。壓爛的草，有點嗆，也有點甜。還有一種很淡的，像木頭放久了的氣味，他叫不出名字。</p>
-<p>他能想到最接近的形容是「外面」。</p>
+<p>就是不想。那塊暖從顴骨挪到眉骨，停了一下，又滑開。</p>
+<p>空氣是涼的，可是身體底下的地是溫的。那種溫是從底下慢慢滲上來的，像有人在這裡躺了很久。</p>
+<p>然後才是味道。</p>
+<p>他花了很久的時間，才想清楚自己聞到的是什麼。</p>
+<p>微濕的土，這個他認得。至於在哪裡聞過的，他想不起來。壓爛的草，有點嗆，也有點甜。還有一種很淡的，像木頭放久了的氣味。霉味嗎？也不像。他叫不出名字。</p>
+<p>他最先想到的形容詞是「外面」。</p>
+<p>可是他每天也走在外面。上下班，中午出去買飯。他的外面聞起來是機車跟水溝。</p>
+<p>那就「山上」吧。</p>
 <p>他習慣的空氣是關起來的。同一批空氣在整層樓裡繞了一整天，悶悶的，什麼味道都不帶，也哪裡都去不了。</p>
+<p>空氣自己沒有味道。有味道的是人。</p>
 <p>他能想起來最清楚的兩個味道。一個是隔壁座位的狐臭，被電扇規律地吹過來。另一個是主管的口臭，那個人坐在自己的位子上，隔著兩張桌子，他照樣聞得到。</p>
 <p>七年。就這兩個。</p>
-<p>這裡不一樣。空氣是動的，一陣一陣吹過來，每一陣帶的味道都不太一樣。</p>
-<p>然後才是光。</p>
+<p>這裡不一樣。空氣是流動的，每一陣風帶來的味道都不太一樣。</p>
+<p>最後是光。</p>
 <p>不是螢幕那種光。</p>
-<p>他花了大概三秒鐘才確定這件事。螢幕的光是平的，從一個方向壓過來，照久了眼睛會乾，不會動，也不會暖。</p>
-<p>他張開眼睛。</p>
-<p>視野的上緣晃著綠色的東西，再過去是白得發亮的天空。</p>
+<p>他花了大概三秒鐘才確定這件事。螢幕的光是平的，從一個方向壓過來，看久了眼睛會乾。那種光不會移動，也不會暖。</p>
+<p>這裡的光會動。而且是暖的。從剛才就一直在他臉上。</p></section>
+<section data-fx="eyelid" data-fx-slit="0" data-fx-arm-vh="55">
+<p>他慢慢張開眼。</p>
+<p>視野上方，遠遠地晃著綠色的東西。再往上，就是白得發亮的天空。</p>
 <p>樹葉。他想。有風。</p>
-<p>他躺著。這是第二件確定的事。背後是硬的，有點濕，有一顆石頭還是樹根之類的東西，正頂著他左邊的肩胛骨。</p>
-<p>那個東西有點痛。</p>
+<p>他躺著。這件事也是確定的。背後不是硬的，反而有點軟，是草，是土，帶著濕氣。只有一顆石頭還是樹根之類的東西，正頂著他左邊的肩胛骨。</p>
+<p>那個東西有點痛。就那一點，別的地方都沒事。</p>
 <p>他沒有動。</p>
 <p>然後是安靜。</p>
-<p>不是那種「附近沒有人在講話」的安靜。是更下面一層的，把整個背景音抽掉的安靜。</p>
 <p>沒有冷氣的低鳴。沒有鍵盤聲。沒有誰在走廊上講電話。沒有遠處的車聲。</p>
-<p>原來那些聲音一直都在。他從來沒有注意過，直到它們全部不見。</p>
-<p>他就那樣躺著，聽了很久。</p>
-<p>久到足夠讓一個念頭慢慢浮上來：</p>
-<p>他不在辦公室。</p></section>
-<section><div class="brk">§</div>
-<p>然後他注意到一件更奇怪的事。</p>
-<p>他很舒服。</p>
-<p>整個身體是放鬆的。</p>
-<p>他胸口悶了三年。自從接了那個案子以後就這樣，一天也沒有停過。</p>
+<p>原來那些聲音一直都在。直到它們全部不見，才讓人注意到。</p>
+<p>此刻靜得能聽見自己的心跳。</p>
+<p>心跳一點一點放慢。呼吸也跟著慢下來，越來越平緩，越來越深沉。</p>
+<p>他就那樣靜靜地躺著，不想起來。放空了很久。</p></section>
+<section><div class="brk switch">§</div>
+<p>我為什麼躺在這裡？</p>
+<p>我不在辦公室。那我在哪裡？</p>
+<p>然後我注意到一件更奇怪的事。</p>
+<p>我沒有一個地方在痛。</p>
+<p>脖子不緊了，腰也不痛了。手腳就那樣攤著，沒有一塊肌肉是繃的。吸氣可以一路吸到底。</p>
+<p>胸口悶了幾年。自從接了那個案子以後就這樣，一天也沒有停過。</p>
 <p>現在不悶了。</p>
-<p>以前每天醒來時身體都是繃著的。這幾年來一直都是。</p>
-<p>風吹過來，臉上那塊暖動了一下。</p>
-<p>他不記得發生過什麼事。</p>
-<p>最後的印象是在公司加班。凌晨兩點，他想說趴在桌上瞇一下，等一下再繼續。</p>
-<p>然後就到這裡了。</p>
-<p>中間連睡著的印象都沒有。</p>
-<p>說「死」好像也太肯定了。不過人不會無緣無故換一個身體，所以大概就是那麼回事吧。</p>
-<p>他想此時應該要難過一下吧。但心裡什麼感覺都沒有。</p>
-<p>他試著想有什麼是他放不下的。專案沒做完。房租繳到下個月。冰箱裡有一盒優格快過期了。</p>
+<p>以前每天醒來，跳下床，穿衣服，出門，五分鐘解決。身體都是緊繃著的。一直都是。</p>
+<p>這具身體，和原本的我完全不一樣了。</p>
+<p>太陽穿過樹葉。風一吹，影子就在臉上來回地移。一塊暖，一塊涼，一塊暖，一塊涼。</p>
+<p>這些溫度我都感覺得清清楚楚，卻想不起來到底發生了什麼事。</p>
+<p>最後的印象是在公司加班。凌晨兩點，我想趴在桌上瞇一下，等一下再繼續。</p>
+<p>然後⋯⋯然後就到這裡了。</p>
+<p>中間我大概睡著了，因為什麼印象都沒有。</p>
+<p>現在這感覺，又很像在做夢。</p>
+<p>我已經很久沒好好做過夢了。可是這個夢清楚得不像夢。</p>
+<p>我不知道自己是死了，還是只是在夢裡。</p>
+<p>如果說是「死」，好像也太肯定了。不過人不會無緣無故換一個身體，所以大概就是那麼回事吧。</p>
+<p>如果我真的死了，照理說應該要難過一下吧。</p>
+<p>可是我沒有。什麼感覺都沒有。</p>
+<p>我想了想，自己還有沒有什麼放不下的，或是什麼還沒做完的事。</p>
+<p>專案沒做完。房租繳到下個月。</p>
+<p>冰箱裡有一盒優格，快過期了。</p>
 <p>就這些。</p>
-<p>如果這裡是天堂，他心想，那也好。至少不用回去上班了。</p>
+<p>如果這裡是天堂，那也還好。至少不用回去上班，不用加班了。</p>
 <div class="brk">§</div>
-<p>他伸手去摸了摸口袋。</p>
-<p>那個動作比想法來得快，像是反射動作。左邊，右邊，外套內側。摸到第三次的時候他才意識到自己在做什麼。</p>
+<p>我伸手去摸口袋。</p>
+<p>那個動作比想法來得快，像是反射動作。左邊，右邊，外套內側。</p>
+<p>不對。我沒有外套。</p>
+<p>摸到第三次，我才反應過來自己在幹嘛。</p>
 <p>找手機。</p>
-<p>那些位置上什麼都沒有。連口袋都沒有。</p>
-<p>他摸到的是布，粗的，硬的，接縫的地方咬手。</p>
-<p class="situp">他這才坐起來。</p>
+<p>那些位置上什麼都沒有。連口袋都沒有，更別說手機。</p>
+<p>我摸到的是布，粗的，接縫的地方咬手。很舊，有一點破。雖然我不是裁縫師，也摸得出來這做工不怎麼樣，大概比公司尾牙發的那件紀念 T 還差。</p>
+<p>這身衣服不是我的。</p>
+<p class="situp">我這才用手撐著地，把自己撐起來。</p>
+<p>躺著的時候，我只看得到天空。天空，還有樹，就這樣。</p>
+<p>坐起來，才看見這個世界的樣子。</p>
 <div class="brk">§</div>
 <p>理論上，這種時候應該要驚慌。</p>
-<p>他大概也知道那個流程：先否認，再恐懼，然後想辦法找人求救，最後崩潰。他看過的每一部作品裡的人都是這樣。</p>
-<p>但他發現自己第一個冒出來的情緒是煩。</p>
-<p>那種很具體的煩。像是專案上線前一天的晚上，你收到一封主管寄來的信，主旨寫著「幫我加一個小需求，應該很快」。</p>
-<p>他低頭看自己的手。</p>
-<p>那雙手很陌生。不夠瘦。指節上沒有他熟悉的那個因為長年打字磨出來的繭，右手中指外側應該要有一塊硬皮的地方，是平的。</p>
-<p>他把手翻過來，又翻回去，看了大概十秒。</p>
-<p>「⋯⋯好喔。」他說。</p>
-<p>聲音也不是他的。</p>
+<p>我大概也知道那個流程：先否認，再恐懼，然後想辦法找人求救，最後崩潰。我看過的小說跟電影裡，每個人都是這樣。</p>
+<p>但那些都沒有發生。</p>
+<p>我竟然有點高興。</p>
+<p>這裡是哪裡，我不知道。</p>
+<p>反正風很好。</p>
+<p>陽光也很好。</p>
+<p>沒有人在等我回信。</p>
+<p>這個世界也很好。</p>
+<p>我好像自由了。</p>
+<p>我低頭看自己的手。</p>
+<p>很陌生。不夠瘦，指節粗，看得出來有力氣。</p>
+<p>我原本那雙手，一天十幾個小時在鍵盤跟滑鼠上，這樣過了七年，其實什麼也沒留下。指甲剪得短，掌根靠滑鼠那一側亮了一小塊，就這樣。七年，就磨出這麼一點。</p>
+<p>這雙手不一樣。它有繭，長在指節上，厚，一看就是常年握著什麼東西磨出來的。</p>
+<p>也是一雙用得很熟的手。熟，卻不是我那種熟。</p>
+<p>比較像幹活的人的手。而且很健康。</p>
+<p>我是寫程式的。這種繭不是我能磨出來的。</p>
+<p>我把手翻過來，又翻回去，看了十秒左右。</p>
+<p>「⋯⋯好喔。」我說。</p>
+<p>聲音也不是我的。</p>
 <div class="brk">§</div>
-<p>如果要說他適應得太快，那大概不是因為他有多堅強。</p>
-<p>是因為他太累了。</p>
-<p>驚慌需要力氣。他已經很久沒有力氣驚慌了。</p>
-<p>而且他上一份工作教會他的就是這個：規格書永遠是錯的。</p>
-<p>所以當現實突然換了一套規則，他的反應不是「這不可能」，而是：</p>
+<p>我沒有慌。</p>
+<p>以前上線前一晚我會胃痛，痛到吃不下東西。後來連胃痛都沒有了。</p>
+<p>驚慌需要力氣。</p>
+<p>規格書永遠是錯的。這是上一份工作唯一教會我的事。</p>
+<p>所以我想的是：</p>
 <p>那新的規格在哪？</p>
-<p>他等了一會兒。</p>
-<p>沒有等來任何人說明。沒有半透明的視窗浮在眼前。沒有一個溫柔的聲音告訴他他被選中了。沒有技能欄，沒有數值，也沒有人塞給他一本手冊。</p>
+<p>我等了一會兒。</p>
+<p>沒有等來任何人說明。沒有半透明的視窗浮在眼前。沒有一個溫柔的聲音說我被選中了。沒有技能欄，也沒有數值。</p>
 <p>風吹過來，葉子動了一下。</p>
 <p>就這樣。</p>
-<p>「連文件都沒有。」他說。</p>
-<p>遊戲會有教學關。小說會有女神。連詐騙都會先給你一個說法。</p>
-<p>只有現實不解釋自己。</p>
-<p>他反而因為這樣才確定：這是真的。沒有人特地把他放到這裡。</p>
+<p>「連說明書都沒有。」我說。</p>
+<p>遊戲會有教學關。小說會有女神。連詐騙都會先編一個說法。</p>
+<p>只有現實不會。想要一個說法，得自己編。</p>
 <div class="brk">§</div>
-<p>他站起來，拍掉褲子上的土，開始整理他知道的事。</p>
+<p>我站起來，拍掉褲子上的草屑，開始整理我知道的事。</p>
 <p>我叫什麼？</p>
 <p>陸修。這個出來得最快，一點都沒有卡。</p>
 <p>那我記得什麼？</p>
 <p>公司。加班。改不完的需求。這些也都在，而且清楚得不像話。</p>
-<p>所以他不是失憶。</p>
-<p>但是這雙手不是他的。聲音也不是。</p>
-<p>那就只剩一種可能了。他在心裡把那個詞找出來的時候，自己都覺得好笑。</p>
+<p>所以我不是失憶。</p>
+<p>但是這雙手，這個聲音，都不是我的。</p>
+<p>那就只剩一種可能了。我在心裡把那個詞找出來的時候，自己都覺得好笑。</p>
 <p>我死了，然後投胎了。</p>
 <p>轉生。應該是這樣講吧。</p>
-<p>他等了一下，看有沒有別的解釋可以冒出來。沒有。</p>
-<p>那如果是這樣，公司、加班、那些改不完的需求——那些就叫「前世」了。</p>
-<p>「前世」這兩個字，他在心裡默念了一遍。很不習慣。</p>
-<p>而且他愈想愈發現，那些記憶裡有些地方清楚得像昨天的行事曆，有些地方翻過去卻是空白的。</p>
-<span class="memcue" data-i="0"></span><p>加班。這個最清楚。清楚到他現在還能叫出那個感覺：凌晨三點，整層樓只剩下他跟三排沒關的螢幕，冷氣早就停了，空氣悶得像有人把整層樓封起來。</p>
-<span class="memcue" data-i="1"></span><p>那個月他加了兩百個小時。他記得這個數字，因為他算過一次。算完之後就沒有再算了。</p>
-<p>他記得那時候自己在想什麼。</p>
+<p>我等了一下，看有沒有別的解釋。沒有。</p>
+<p>那如果是這樣，公司、加班、改不完的需求，那些就叫「前世」了。</p>
+<p>「前世」這兩個字，我在心裡默念了一遍。很不習慣。</p>
+<p>那些記憶裡，有些地方清楚得像昨天的行事曆，有些地方翻過去是空白的。</p>
+<span class="memcue" data-i="0"></span><p>加班。這個最清楚。清楚到我現在還能叫出那個感覺：凌晨三點，整層樓只剩下我跟三排沒關的螢幕，冷氣早就停了，空氣悶得像有人把門窗全封死了。</p>
+<span class="memcue" data-i="1"></span><p>那個月我加了兩百個小時。我記得這個數字，因為我算過一次。算完之後就沒有再算了。</p>
+<p>我記得那時候自己在想什麼。</p>
 <p>快好了。等這個做完。明天應該來得及上線。</p>
 <p>那，做完了嗎？上線了嗎？</p>
-<p>他不知道。他記得自己坐在那裡這樣想，但是那件事後來怎麼了，沒有跟著出來。</p>
-<span class="memcue" data-i="2"></span><p>on-call。手機在凌晨四點響的那個震動頻率，他到現在都認得。他曾經在夢裡聽到那個聲音然後驚醒，發現手機沒響，然後躺著等它響。</p>
-<span class="memcue" data-i="3"></span><p>改不完的需求。這週說要這樣，下週說當初講的不是這樣，然後拿出一份他沒看過的會議紀錄。</p>
-<p>他做了七年。</p>
-<p>七年——還是五年？</p>
-<p>他想把數字定下來，卻定不下來。三年，五年，七年，好像都對，也都不太對。回頭看，那段日子長得像一輩子，可是真要算，他算不清楚。</p>
-<p>明明是他自己的事。</p>
+<p>我不知道。我記得自己坐在那裡這樣想。後來那件事怎麼了，我不記得。</p>
+<span class="memcue" data-i="2"></span><p>on-call。手機在凌晨四點響的那個震動頻率，我到現在都認得。我曾經在夢裡聽到那個聲音然後驚醒，發現手機沒響，然後躺著等它響。</p>
+<span class="memcue" data-i="3"></span><p>改不完的需求。這週說要這樣，下週說當初講的不是這樣，然後拿出一份我沒看過的會議紀錄。</p>
+<p>我做了七年。</p>
+<p>七年，還是五年？</p>
+<p>三年，五年，七年，好像都對，也都不太對。回頭看那段日子長得像一輩子，可是真要算，我算不清楚。</p>
+<p>明明是我自己的事。</p>
 <p>好像是七年吧。</p>
 <p>如果是七年，那是從什麼時候開始的？</p>
-<p>他等了一下。腦中並沒有浮現出正確答案。</p>
-<p>轉生大概還是會有一點副作用吧，他想。</p>
+<p>轉生大概還是會有一點副作用吧。</p>
 <div class="brk">§</div>
-<p>他試著回想第一天上班的樣子。</p>
+<p>我試著回想第一天上班的樣子。</p>
 <span class="memcue" data-i="4"></span><p>一間辦公室。很多人。有人在講電話。我呆站在門口，手上拿著什麼東西。</p>
-<p>但他不確定那間辦公室的窗戶是靠哪一邊。</p>
-<span class="memcue" data-i="5"></span><p>他去想那間公司叫什麼名字。腦子裡浮出一個標誌的形狀。一張黃色的圓臉，兩個點當眼睛，一條彎起來的嘴。可是名字居然想不起來。他又試著想其他辦公場景，還是想不起來。</p>
-<span class="memcue" data-i="6"></span><p>然後他想到母親。</p>
-<p>那裡有一個人。他知道那是誰。他知道她講話的節奏，知道她煮的味噌湯偏鹹，知道她打電話來的第一句永遠是「你有沒有好好吃飯」，也知道她一定會在他還沒回答之前就開始講別的事。</p>
-<p>他甚至回憶起她的笑聲充滿魔性。但是唯獨臉卻想不起來。</p>
-<p>思緒回到家中，母親穿著的圍裙在，流理臺在，抽油煙機的聲音也在。可是印象裡的母親始終背對著他。他把注意力挪過去，繞不到前面，看不到她正面長什麼樣子。</p>
+<p>但我不確定那間辦公室的窗戶是靠哪一邊。</p>
+<span class="memcue" data-i="5"></span><p>我去想那間公司叫什麼名字。腦子裡浮出一個標誌的形狀。一張黃色的圓臉，兩個點當眼睛，一條彎起來的嘴。可是名字居然想不起來。我又試著想其他辦公場景，一樣是空的。</p>
+<span class="memcue" data-i="6"></span><p>然後我想到母親。</p>
+<p>那裡有一個人。我知道那是誰。我知道她講話的節奏，知道她煮的味噌湯偏鹹，知道她打電話來的第一句永遠是「你有沒有好好吃飯」，也知道她一定會在我還沒回答之前就開始講別的事。</p>
+<p>我甚至記得她的笑聲有多誇張。但是唯獨臉卻想不起來。</p>
+<p>思緒回到家裡，母親穿著的圍裙在，流理臺在，抽油煙機的聲音也在。可是印象裡的母親始終背對著我。我把注意力挪過去，繞不到前面，看不到她正面長什麼樣子。</p>
 <div class="brk">§</div>
-<p>陸修在森林裡站了很久。</p>
+<p>我就那樣在森林裡站了很久。</p>
 <p>久到肩膀開始發酸。</p>
-<p>然後他笑了一聲。很短的、只有一個音節的那種笑。</p>
+<p>然後我笑了一聲。很短的、只有一個音節的那種笑。</p>
 <p>「哈。」</p>
-<p>「轉生副作用吧。」他說。</p>
+<p>「轉生副作用吧。」我說。</p>
 <p>畢竟連身體都換了。記憶缺了幾頁，好像也不算什麼。</p>
-<p>他決定先不管它。</p>
+<p>我決定先不管它。</p>
 <p data-fx="stutter" data-fx-times="2">反正也不影響現在。</p>
 <div class="brk">§</div>
-<p>他抬頭看了看太陽的位置，隨便挑了一個方向。</p>
-<p>走了幾步，他停下來，回頭看了一眼自己剛剛躺著的地方。</p>
+<p>我抬頭看了看太陽的位置，隨便挑了一個方向。</p>
+<p>走了幾步，我停下來，回頭看了一眼自己剛剛躺著的地方。</p>
 <p>草是壓平的。形狀剛好是一個人。</p>
 <p>除此之外什麼都沒有。</p>
 <p>沒有腳印。沒有拖行的痕跡。沒有被壓斷的樹枝，沒有翻起來的土。</p>
 <p>沒有任何跡象顯示有人來過。</p>
-<p>就好像他不是走到這裡的。</p>
-<p>就好像在這一刻之前，根本沒有他這個人。</p></section>
+<p>就好像我不是走到這裡的。</p>
+<p>就好像在這一刻之前，根本沒有我這個人。</p>
+<p class="rec">陸修走了。</p>
+<p class="rec">草上那個形狀還在。過了很久都還在。</p></section>
 <canvas id="eq"></canvas><div class="end">序 章 ・ 完</div>
 <style>
 .chapnav{max-width:32em;margin:0 auto;padding:2vh 1.5rem 6vh;display:flex;flex-direction:column;
@@ -479,6 +558,7 @@ animation:drift 90s ease-in-out infinite alternate;will-change:transform}
   var frozenUntil = 0;      // 凍結解除的時間戳
   var dragActive = null;    // 目前生效的 drag 元素
   var hasScrolled = false;  // 讀者是否已經動過（鍵盤也算）
+  var userInput = false;    // 讀者是否真的用手動過（wheel/touch）；瀏覽器還原捲動不算
   var settled = false;      // 載入後是否已過緩衝期
   var started = false;
   var rafPending = false;
@@ -679,6 +759,10 @@ animation:drift 90s ease-in-out infinite alternate;will-change:transform}
     s.userTook = false;
     s.p = 0; // 開合度：只由 eyelidAdvance / eyelidSkipToOpen 推進，不讀 scrollY
     var now = Date.now();
+    // 眼皮不一定掛在頁首：掛上去的那一刻，讀者上一次捲動的餘勢
+    // （瀏覽器的平滑捲動、觸控慣性）通常還在跑。那不是「讀者按了鍵盤要跳過」，
+    // 所以這一小段時間內只把基準線跟著移，不當成逃生出口（見 #41）。
+    s.skipGuardUntil = now + num(el, 'data-fx-skip-guard-ms', 500, 0);
     s.hintAt = now + num(el, 'data-fx-hint-ms', config.eyelidHintDelayMs, 0);
     s.autoOpenAt = now + num(el, 'data-fx-auto-ms', config.eyelidAutoOpenDelayMs, 0);
     s.autoOpenDuration = num(el, 'data-fx-auto-duration-ms', config.eyelidAutoOpenDurationMs, 100);
@@ -699,7 +783,16 @@ animation:drift 90s ease-in-out infinite alternate;will-change:transform}
   // 呼吸感的緩開曲線：慢入、慢出，中段快一點，不是瞬開也不是等速。
   function eyelidEase(t) { return t * t * (3 - 2 * t); }
 
+  // 把開合度掛到 :root 的 CSS 變數上，讓頁面自己決定要拿它做什麼
+  // （序章拿它把黑幕與文字顏色一起帶回來）。頁面上只有一個 eyelid 時才有意義。
+  function eyelidExpose(p) {
+    try {
+      document.documentElement.style.setProperty('--mfx-eyelid-p', p.toFixed(3));
+    } catch (e) { /* 不影響閱讀 */ }
+  }
+
   function eyelidFinish(s, el) {
+    eyelidExpose(1);
     s.lid.remove(); s.lid = null;
     if (s.hint) { s.hint.remove(); s.hint = null; }
     s.fired = true;
@@ -760,7 +853,11 @@ animation:drift 90s ease-in-out infinite alternate;will-change:transform}
     var bar = Math.max(0, (h - open) / 2);
     s.lid.firstChild.style.height = bar + 'px';
     s.lid.lastChild.style.height = bar + 'px';
+    // 弧度：水平半徑固定（眼睛的寬度不會變），垂直半徑隨開合度長。
+    // 末段多給一點垂直半徑，否則橢圓的兩端追不上畫面高度，全開前四個角會殘黑。
+    s.lid.style.setProperty('--ry', (open / 2 * (1 + p * 0.95)).toFixed(1) + 'px');
     el.setAttribute('data-fx-state', state);
+    eyelidExpose(p);
 
     if (s.hint) {
       // 提示只在「等待→提示」這一段顯示；一旦開始自動展開或讀者接管，立刻淡出。
@@ -778,7 +875,16 @@ animation:drift 90s ease-in-out infinite alternate;will-change:transform}
       var el = list[i], s = stateOf(el);
       if (s.fired) continue;
       var r = el.getBoundingClientRect();
-      if (!s.lid && r.top < vh() && r.bottom > 0) eyelidSetup(el);
+      // data-fx-arm-vh：這一段捲到畫面的哪個高度才掛眼皮（100 = 一進畫面就掛）。
+      // 睜眼綁在正文某一行時，要等那一行捲到舒服的位置才開始，不然是在螢幕底緣睜眼。
+      var armAt = num(el, 'data-fx-arm-vh', 100, 0, 100) * vh() / 100;
+      // 重整／回到書籤：瀏覽器會還原捲動位置，可能直接落在這一段之後。
+      // 讀者早就睜過眼了，不能再把畫面蓋黑（#42）。在他真的動手之前，
+      // 只要這一段已經整個在畫面上方，就當作睜完了。
+      if (!s.lid && !userInput && r.top < 0) {
+        s.fired = true; eyelidExpose(1); el.setAttribute('data-fx-state', 'done'); continue;
+      }
+      if (!s.lid && r.top < armAt && r.bottom > 0) eyelidSetup(el);
       else if (s.lid) eyelidPaint(el);
     }
   }
@@ -943,7 +1049,9 @@ animation:drift 90s ease-in-out infinite alternate;will-change:transform}
     var eye = activeEyelid();
     if (eye) {
       var y = global.scrollY || global.pageYOffset || 0;
-      if (y !== eye.s.startY) eyelidSkipToOpen(eye.s);
+      // 剛掛上眼皮的那一瞬間還在滑的餘勢不算「跳過」（#41）：基準線跟著走。
+      if (Date.now() < eye.s.skipGuardUntil) eye.s.startY = y;
+      else if (y !== eye.s.startY) eyelidSkipToOpen(eye.s);
     }
     schedule();
   }
@@ -951,6 +1059,7 @@ animation:drift 90s ease-in-out infinite alternate;will-change:transform}
   function onWheel(e) {
     if (!active()) return;
     hasScrolled = true;
+    userInput = true;
     if (Date.now() < frozenUntil) { e.preventDefault(); return; }
     if (tryFire(false)) { e.preventDefault(); return; }
     var eye = activeEyelid();
@@ -971,6 +1080,7 @@ animation:drift 90s ease-in-out infinite alternate;will-change:transform}
 
   function onTouchStart(e) {
     if (!e.touches || !e.touches.length) return;
+    userInput = true;
     touchY = e.touches[0].clientY;
     touchVel = 0;
     touchLast = Date.now();
@@ -1142,22 +1252,23 @@ animation:drift 90s ease-in-out infinite alternate;will-change:transform}
 var g=document.getElementById('ground'),a=document.querySelector('.situp');
 var red=matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(g&&a){ if(red){ g.style.setProperty('--rev','100%');
+  document.documentElement.style.setProperty('--situp','1');
   var hz0=document.getElementById('haze'); if(hz0) hz0.style.height='44vh';
   var sd0=document.getElementById('shade'); if(sd0) sd0.style.height='44vh'; } else {
   var f=function(){var r=a.getBoundingClientRect(),vh=innerHeight;
   var t=Math.max(0,Math.min(1,(vh-r.top)/(vh*0.8))),h=(t*44).toFixed(2)+'vh';
   g.style.setProperty('--rev',(t*100).toFixed(1)+'%');
+  document.documentElement.style.setProperty('--situp',t.toFixed(3));
   var hz=document.getElementById('haze');if(hz)hz.style.height=h;
   var sd=document.getElementById('shade');if(sd)sd.style.height=h;};
   addEventListener('scroll',f,{passive:true});addEventListener('resize',f);f(); } }
 if(red) return;
 var cues=[].slice.call(document.querySelectorAll('.memcue')), mems={};
 [].forEach.call(document.querySelectorAll('.mem'),function(m){mems[m.dataset.i]=m;});
-function h(){var vh=innerHeight,best=null,bd=1e9;
-cues.forEach(function(c){var t=c.getBoundingClientRect().top,d=Math.abs(t-vh*0.45);
-if(t<vh*0.95&&t>-vh*0.35&&d<bd){bd=d;best=c.dataset.i;}});
-for(var k in mems) mems[k].classList.toggle('on',k===best);}
-addEventListener('scroll',h,{passive:true});addEventListener('resize',h);h();
+/* 卡片插在它那一段旁邊，跟著文章一起捲；捲到才淡入，浮起來就不收回去。 */
+var wide=innerWidth>1180;
+cues.forEach(function(c){ var m=mems[c.dataset.i]; if(!m) return;
+  if(wide){ c.appendChild(m); m.classList.add('side'); } });
 
 /* 窄螢幕沒有側邊欄，把每一格搬到它對應的段落後面。只做一次，不隨旋轉來回搬。 */
 if(innerWidth<=1180){
@@ -1171,9 +1282,9 @@ if(innerWidth<=1180){
     var io=new IntersectionObserver(function(es){
       es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('seen'); io.unobserve(e.target); } });
     },{rootMargin:'0px 0px -6% 0px'});
-    [].forEach.call(document.querySelectorAll('.mem.inline'),function(m){io.observe(m);});
+    [].forEach.call(document.querySelectorAll('.mem.inline,.mem.side'),function(m){io.observe(m);});
   } else {
-    [].forEach.call(document.querySelectorAll('.mem.inline'),function(m){m.classList.add('seen');});
+    [].forEach.call(document.querySelectorAll('.mem.inline,.mem.side'),function(m){m.classList.add('seen');});
   }
 }
 var c=document.getElementById('motes'); if(!c) return;
@@ -1238,8 +1349,8 @@ tick();
 <script>
 /* 背景音：leberch - soft soft music（CC 授權）。
    無縫循環用雙 audio 交叉淡接：兩個同一首歌輪流播，
-   当一個快到尾巴（剩 FADE 秒）就讓另一個從頭進，等功率交叉淡入淡出，
-   把結尾溣進開頭，接縫被蓋掉。不用 fetch/decodeAudioData，所以 file:// 雙擊也能用。
+   當一個快到尾巴（剩 FADE 秒）就讓另一個從頭進，等功率交叉淡入淡出，
+   把結尾溶進開頭，接縫被蓋掉。不用 fetch/decodeAudioData，所以 file:// 雙擊也能用。
    波形：file:// 下 AnalyserNode 讀媒體檔會被當跨來源而回零，
    所以頻譜是離線先算好的（20fps×32 對數分頻），用 currentTime 查表畫成折線。 */
 (function(){

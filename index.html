@@ -70,11 +70,27 @@ html,body{margin:0;height:100%;background:#eef3f7}
   }
   function onEnded(e){ if(!on||e.target!==cur) return; try{nxt.currentTime=0;nxt.volume=env*VOL;nxt.play();}catch(err){} var t=cur;cur=nxt;nxt=t;fading=false; }
   A.addEventListener('ended',onEnded); B.addEventListener('ended',onEnded);
-  function start(){ try{cur.play();}catch(e){} envTarget=1; on=true; if(!started){started=true;tick();} }
+  /* play() 被自動播放政策擋下來是 reject 不是 throw，catch 抓不到，
+     所以要接 .catch，並掛上「下一次互動就接回去」的監聽（#43）。 */
+  var waiting=false;
+  var EV=['pointerdown','keydown','touchstart','wheel'];
+  function resume(){ if(!waiting) return; waiting=false; offGesture(); if(on) start(); }
+  function onGesture(){ EV.forEach(function(t){ addEventListener(t,resume,{capture:true}); });
+    try{ var d=document.getElementById('page').contentDocument;
+      if(d) EV.forEach(function(t){ d.addEventListener(t,resume,{capture:true}); }); }catch(e){}
+    waiting=true; }
+  function offGesture(){ EV.forEach(function(t){ removeEventListener(t,resume,{capture:true}); });
+    try{ var d=document.getElementById('page').contentDocument;
+      if(d) EV.forEach(function(t){ d.removeEventListener(t,resume,{capture:true}); }); }catch(e){} }
+  function start(){ var pr; try{ pr=cur.play(); }catch(e){}
+    if(pr&&pr.catch) pr.catch(function(){ onGesture(); });
+    envTarget=1; on=true; if(!started){started=true;tick();} }
   function stop(){ envTarget=0; on=false; setTimeout(function(){ if(!on){try{A.pause();B.pause();}catch(e){}} },2000); }
   document.addEventListener('visibilitychange',function(){ if(on&&!document.hidden){try{cur.play();}catch(e){}} });
   function apply(){ setBtn(); try{localStorage.setItem('fx-bgm',on?'1':'0');}catch(e){} if(on) start(); else stop(); }
   btn.addEventListener('click',function(){ on=!on; apply(); });
+  /* 重整後還原上次的開關；真正出聲要等下一次互動（見 onGesture）。 */
+  try{ if(localStorage.getItem('fx-bgm')==='1'){ on=true; setBtn(); start(); } }catch(e){}
   setTimeout(function(){btn.classList.add('rest');},10000);
   btn.addEventListener('mouseenter',function(){btn.classList.remove('rest');});
   btn.addEventListener('mouseleave',function(){btn.classList.add('rest');});
@@ -87,6 +103,7 @@ html,body{margin:0;height:100%;background:#eef3f7}
   var want=pageFromHash(); if(want!=='home.html') load(want);
   addEventListener('hashchange',function(){ load(pageFromHash()); });
   frame.addEventListener('load',function(){
+    if(waiting){ offGesture(); onGesture(); }
     try{
       var base=decodeURIComponent(frame.contentWindow.location.pathname.split('/').pop());
       var key=null; for(var k in MAP){ if(MAP[k]===base) key=k; }
