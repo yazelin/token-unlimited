@@ -165,19 +165,24 @@ if('serviceWorker' in navigator){ addEventListener('load',function(){ navigator.
 /* 自家安裝鈕：Chrome 桌機只在網址列給一個很小的圖示，多數人不會看到。
    關掉之後記住，已安裝就不再出現（PWA 守則）。 */
 (function(){
-  var btn=document.getElementById('inst'), deferred=null;
-  function dismissed(){ try{ return localStorage.getItem('tu-install')==='0'; }catch(e){ return false; } }
+  var btn=document.getElementById('inst'), deferred=null, KEY='tu-install';
+  function get(){ try{ return localStorage.getItem(KEY); }catch(e){ return null; } }
+  function set(v){ try{ localStorage.setItem(KEY,v); }catch(e){} }
+  /* 'installed' = 永久不再問；數字 = 在這個時間之前不要再問（按取消只安靜兩週，
+     不是永久，否則手滑按一次錯就再也裝不了）。 */
+  function quiet(){ var v=get(); if(v==='installed') return true; return !!v && Date.now() < +v; }
   function hide(){ btn.classList.remove('show'); }
   addEventListener('beforeinstallprompt',function(e){
     e.preventDefault(); deferred=e;
-    if(!dismissed() && !matchMedia('(display-mode: standalone)').matches) btn.classList.add('show');
+    if(!quiet() && !matchMedia('(display-mode: standalone)').matches) btn.classList.add('show');
   });
-  addEventListener('appinstalled',function(){ hide(); try{localStorage.setItem('tu-install','0');}catch(e){} });
+  addEventListener('appinstalled',function(){ hide(); set('installed'); });
   btn.addEventListener('click',function(){
     if(!deferred){ hide(); return; }
     deferred.prompt();
     deferred.userChoice.then(function(r){
-      if(r.outcome!=='accepted'){ try{localStorage.setItem('tu-install','0');}catch(e){} }
+      if(r.outcome==='accepted') set('installed');
+      else set(String(Date.now() + 14*864e5));   // 兩週後再問
       deferred=null; hide();
     });
   });
