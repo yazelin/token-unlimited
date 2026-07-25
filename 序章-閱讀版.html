@@ -452,7 +452,7 @@ try{if(!(matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)&&
 .chapnav a.toc:hover{color:#20262b}
 </style>
 <nav class="chapnav">
- <a class="next" href="第一章-閱讀版.html"><span class="lbl">接　著　讀</span><span class="ttl">第一章　一萬字的火球</span></a>
+ <a class="next" href="第一章-閱讀版.html" data-hash="ch1"><span class="lbl">下　一　章</span><span class="ttl">第一章　一萬字的火球</span></a>
  <a class="toc" href="home.html">回　目　錄</a>
 </nav>
 <style>
@@ -1547,5 +1547,18 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 if(window.top===window.self && 'serviceWorker' in navigator){
   addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
 }
+</script>
+<script>
+/* 章尾「下一章」：嵌在閱讀器殼裡時改殼的 hash（換章不重載、音樂不斷、
+   重新整理也回得到同一章）；直接開這一頁就走一般連結。 */
+(function(){
+  var a=document.querySelector('.chapnav a.next[data-hash]');
+  if(!a || window.top===window.self) return;
+  a.addEventListener('click',function(e){
+    e.preventDefault();
+    try{ window.top.location.hash = '#' + a.getAttribute('data-hash'); }
+    catch(_){ location.href = a.getAttribute('href'); }
+  });
+})();
 </script>
 </body></html>

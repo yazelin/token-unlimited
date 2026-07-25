@@ -451,6 +451,12 @@ body.ash-on #ashfall{opacity:1}
 .chapnav .soon{display:flex;flex-direction:column;align-items:center;gap:.45rem;
  padding:1.5rem 2.4rem;border:1px dashed rgba(120,130,138,.32);border-radius:12px;
  min-width:15em;text-align:center;opacity:.6}
+.chapnav a.next{display:flex;flex-direction:column;align-items:center;gap:.45rem;text-decoration:none;
+ padding:1.5rem 2.4rem;border:1px solid rgba(120,130,138,.3);border-radius:12px;
+ background:rgba(255,255,255,.46);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+ transition:background .25s,transform .25s;min-width:15em;text-align:center}
+.chapnav a.next:hover{background:rgba(255,255,255,.78);transform:translateY(-2px)}
+.chapnav a.next .ttl{color:#20262b}
 .chapnav .lbl{font-size:.72rem;letter-spacing:.3em;color:#8a939a}
 .chapnav .ttl{font-size:1.05rem;letter-spacing:.06em;color:#3a4650}
 .chapnav a.toc{font-size:.78rem;letter-spacing:.2em;color:#6b7580;text-decoration:none;
@@ -458,7 +464,7 @@ body.ash-on #ashfall{opacity:1}
 .chapnav a.toc:hover{color:#20262b}
 </style>
 <nav class="chapnav">
- <span class="soon"><span class="lbl">下　一　章</span><span class="ttl">第三章　總是在場的神官　·　連載中</span></span>
+ <a class="next" href="第三章-閱讀版.html" data-hash="ch3"><span class="lbl">下　一　章</span><span class="ttl">第三章　總是在場的神官</span></a>
  <a class="toc" href="home.html">回　目　錄</a>
 </nav>
 <style>
@@ -765,6 +771,19 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 })();
 </script>
 
+<script>
+/* 章尾「下一章」：嵌在閱讀器殼裡時改殼的 hash（換章不重載、音樂不斷、
+   重新整理也回得到同一章）；直接開這一頁就走一般連結。 */
+(function(){
+  var a=document.querySelector('.chapnav a.next[data-hash]');
+  if(!a || window.top===window.self) return;
+  a.addEventListener('click',function(e){
+    e.preventDefault();
+    try{ window.top.location.hash = '#' + a.getAttribute('data-hash'); }
+    catch(_){ location.href = a.getAttribute('href'); }
+  });
+})();
+</script>
 <script>
 /* 這一頁可能是分享連結直接打開的落地頁，要自己註冊 SW（頂層才註冊，iframe 內交給殼）。 */
 if(window.top===window.self && 'serviceWorker' in navigator){
