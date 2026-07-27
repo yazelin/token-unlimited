@@ -490,15 +490,35 @@ body.ash-on #ashfall{opacity:1}
   if(!secs.length) return;
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var la=document.querySelector('#backdrop .a'), lb=document.querySelector('#backdrop .b');
-  var front=la, back=lb, cur='';
-  // 預載，換場才不會閃
-  secs.forEach(function(s){ var i=new Image(); i.src=s.getAttribute('data-fx-bg'); });
+  var front=la, back=lb, cur='', loaded={};
+  // 預載並記下真的載完了沒有：沒載完就換，新層是空的，會透出底色
+  secs.forEach(function(s){ var u=s.getAttribute('data-fx-bg'), i=new Image();
+    i.onload=function(){ loaded[u]=1; }; i.src=u; if(i.complete) loaded[u]=1; });
+  /* 交叉淡入不能兩層各自半透明——那樣中間會露出 #skybase 的淺色（實測中點兩層
+     0.58/0.42，實際覆蓋率只有 0.76，24% 底色透出來＝那一下白閃）。
+     改成：出去的那層立刻補滿並壓到下面（被蓋住，看不出來），
+     進來的那層疊在上面從 0 淡到 1，全程底下都是不透明的。 */
+  function paint(url){
+    front.style.transition='none';
+    front.style.zIndex='0';
+    front.classList.add('on');
+    void front.offsetWidth;
+    front.style.transition='';
+    back.style.transition='none';
+    back.classList.remove('on');
+    back.style.backgroundImage="url('"+url+"')";
+    back.style.zIndex='1';
+    void back.offsetWidth;                 // 強制 reflow，確保 transition 生效
+    back.style.transition='';
+    back.classList.add('on');
+    var t=front; front=back; back=t;
+  }
   function show(url){
     if(url===cur) return; cur=url;
-    back.style.backgroundImage="url('"+url+"')";
-    void back.offsetWidth;                 // 強制 reflow，確保 transition 生效
-    back.classList.add('on'); front.classList.remove('on');
-    var t=front; front=back; back=t;
+    if(loaded[url]) return paint(url);
+    var im=new Image();
+    im.onload=function(){ loaded[url]=1; if(cur===url) paint(url); };
+    im.src=url;
   }
   function active(){
     // scroll-spy：取「頂端已捲過畫面中央線的最後一段」＝正在讀的那一段。
