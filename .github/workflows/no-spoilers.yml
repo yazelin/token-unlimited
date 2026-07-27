@@ -1,0 +1,43 @@
+name: 劇透守衛
+
+# 這個 repo 是公開的（GitHub Pages 試閱站）。
+# canon.md、設定集、角色規格、後續各卷永不對外——canon §一 標的等級是「劇透最高」。
+# 私有母版是 yazelin/novel-token-unlimited，同步只走 sync-to-public.sh。
+# 一次手滑的 git 指令就會把整本書的底層推上網，所以這裡設一道機械閘門。
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 設定檔不准存在
+        run: |
+          bad=0
+          for f in canon.md 角色.md 卷一大綱.md 時間線.md 公式書.html token-unlimited-設定集.md 設定; do
+            hits=$(find . -name "$f" -not -path './.git/*' 2>/dev/null || true)
+            if [ -n "$hits" ]; then
+              echo "::error::公開 repo 出現設定檔：$hits"
+              bad=1
+            fi
+          done
+          exit $bad
+
+      - name: 底層字眼不准出現
+        run: |
+          # 只列「一看到就代表底層外洩」的詞。
+          # 角色名不列（試閱站本來就有），「token」不列（那是書名），
+          # 「魔王軍」不列（第二章餐桌上的對白就有）。
+          bad=0
+          for w in 記憶體溢位 訓練資料 遙測 沙盒 伺服器 清空記憶 第二卷 第三卷 第四卷 終局; do
+            hits=$(grep -rln --include='*.html' --include='*.md' --include='*.js' --include='*.json' -- "$w" . 2>/dev/null | grep -v '^\./\.git' || true)
+            if [ -n "$hits" ]; then
+              echo "::error::公開 repo 出現底層字眼「$w」：$hits"
+              bad=1
+            fi
+          done
+          exit $bad
