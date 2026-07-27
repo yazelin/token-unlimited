@@ -1,0 +1,781 @@
+<!doctype html><html lang="zh-Hant-TW"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第六章：沒有委託的一天（初稿）</title>
+<meta name="description" content="今天沒有委託，沒有事情要做。他不知道一天可以拿來做什麼——他從來沒有練過。">
+<link rel="canonical" href="https://yazelin.github.io/token-unlimited/%E7%AC%AC%E5%85%AD%E7%AB%A0-%E9%96%B1%E8%AE%80%E7%89%88.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="轉生異世界的我 token 無限">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="第六章：沒有委託的一天｜轉生異世界的我 token 無限">
+<meta property="og:description" content="今天沒有委託，沒有事情要做。他不知道一天可以拿來做什麼——他從來沒有練過。">
+<meta property="og:url" content="https://yazelin.github.io/token-unlimited/%E7%AC%AC%E5%85%AD%E7%AB%A0-%E9%96%B1%E8%AE%80%E7%89%88.html">
+<meta property="og:image" content="https://yazelin.github.io/token-unlimited/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="第六章：沒有委託的一天｜轉生異世界的我 token 無限">
+<meta name="twitter:description" content="今天沒有委託，沒有事情要做。他不知道一天可以拿來做什麼——他從來沒有練過。">
+<meta name="twitter:image" content="https://yazelin.github.io/token-unlimited/og-cover.jpg">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-v6-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-v6-192.png">
+<link rel="apple-touch-icon" href="icon-v6-180.png">
+<meta name="theme-color" content="#eef3f7">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+:root{--ink:#20262b;--dim:#6b7580}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);background:linear-gradient(180deg,#eef3f7 0%,#f5f7f4 40%,#f7f6f2 100%);
+font-family:"Noto Serif TC","Songti TC",Georgia,serif;line-height:2.2;font-size:19px;letter-spacing:.02em}
+main{max-width:32em;margin:0 auto;padding:8vh 1.5rem 20vh}
+.meta{color:var(--dim);font-size:.78rem;letter-spacing:.1em;margin-bottom:1.5rem}
+h1{font-size:1.55rem;line-height:1.6;letter-spacing:.08em;margin:0 0 3vh;font-weight:600}
+h2{font-size:1.05rem;letter-spacing:.12em;color:#3a4650;font-weight:600;margin:9vh 0 3vh;
+padding-bottom:.6rem;border-bottom:1px solid rgba(0,0,0,.08)}
+h2:first-of-type{margin-top:2vh}
+p{margin:0 0 1.8em;text-align:justify}
+/* 第二個聲音。不說自己是什麼，只在他不在場、或他看不到的時候出現。 */
+.rec{color:#8f989e;letter-spacing:.16em;font-size:.95em;text-align:left}
+.brk{text-align:center;color:var(--dim);letter-spacing:.5em;margin:3.2em 0;font-size:.8rem}
+.end{color:var(--dim);font-size:.78rem;letter-spacing:.2em;text-align:center;
+padding:12vh 0 0;border-top:1px solid rgba(0,0,0,.1);margin-top:8vh}
+
+/* 場景交叉換場：兩層固定滿版背景，隨捲動淡入淡出。 */
+html,body{background:transparent}
+#skybase{position:fixed;inset:0;z-index:-3;background:linear-gradient(180deg,#eef3f7 0%,#f2f5f3 55%,#f4f4f0 100%)}
+#backdrop{position:fixed;inset:0;z-index:-2;pointer-events:none}
+#backdrop .layer{position:absolute;inset:0;background-size:cover;background-position:center bottom;
+ opacity:0;transition:opacity 1.3s ease;will-change:opacity}
+#backdrop .layer.on{opacity:1}
+main{position:relative;z-index:1}
+/* 讀字柔光帶：文字欄始終浮在背景之上，任何場景都讀得到 */
+main::before{content:'';position:fixed;z-index:-1;top:0;bottom:0;left:50%;transform:translateX(-50%);
+ width:min(44em,100vw);pointer-events:none;
+ background:linear-gradient(90deg,transparent 0%,rgba(249,251,252,.74) 14%,rgba(249,251,252,.78) 50%,rgba(249,251,252,.74) 86%,transparent 100%)}
+section{display:block}
+/* 手機：柔光帶左右滿版、不淡出。原本左右淡出到透明，在 390px 的螢幕上等於兩側
+   各數十 px 沒有底，而文字從 24px 就開始，字會壓在沒底的地方。 */
+@media(max-width:700px){
+ main::before{width:100vw;background:rgba(249,251,252,.86)}
+}
+
+@media(prefers-reduced-motion:reduce){#backdrop .layer{transition:none}}
+
+/* 克制的抖動：只給那句驚慌的喊叫，像發抖的聲音。reduced-motion 自動關。 */
+.tremble{display:inline-block;will-change:transform}
+.tremble.shake{animation:mfx-tremble .26s steps(1,end) 19}
+.tremble.brief.shake{animation:mfx-tremble .26s steps(1,end) 3}
+@keyframes mfx-tremble{
+ 0%{transform:translate(0,0) rotate(0deg)}
+ 15%{transform:translate(.6px,-.4px) rotate(-.4deg)}
+ 30%{transform:translate(-.5px,.5px) rotate(.3deg)}
+ 45%{transform:translate(.4px,.4px) rotate(.4deg)}
+ 60%{transform:translate(-.6px,-.3px) rotate(-.3deg)}
+ 75%{transform:translate(.3px,-.5px) rotate(.2deg)}
+ 90%{transform:translate(-.3px,.3px) rotate(-.2deg)}
+ 100%{transform:translate(0,0) rotate(0deg)}}
+@media(prefers-reduced-motion:reduce){.tremble.shake{animation:none}}
+
+/* 時停：整個畫面短暫凍住——褪色、壓一層淡幕、動畫暫停。 */
+#freezeveil{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0;
+  background:rgba(232,238,244,.28);transition:opacity .55s ease}
+html.mfx-frozen #freezeveil{opacity:1;transition:none;
+  -webkit-backdrop-filter:saturate(.5) brightness(1.02);backdrop-filter:saturate(.5) brightness(1.02)}
+html.mfx-frozen #backdrop .layer,html.mfx-frozen #shade::before{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){#freezeveil{display:none}}
+
+/* 聲音開關（同序章）：右上角，前 10 秒清楚、之後低調。 */
+#snd{position:fixed;top:1.1rem;right:1.1rem;z-index:50;border:0;background:rgba(255,255,255,.82);
+ color:#4a565e;font:inherit;font-size:.76rem;letter-spacing:.18em;padding:.55rem 1.15rem;border-radius:2rem;
+ cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+ box-shadow:0 2px 12px rgba(60,80,70,.14);opacity:1;transition:opacity .8s ease,background .3s}
+#snd.rest{opacity:.34}
+#snd:hover{opacity:1}
+@media(max-width:700px){#snd{top:.7rem;right:.7rem;font-size:.72rem;padding:.5rem 1rem}}
+
+/* 側邊記憶 mem（同序章）：桌機餘光、手機捲動湧現。 */
+#margin{position:fixed;right:max(2vw,calc(50vw - 30em));top:0;bottom:0;width:13rem;
+z-index:4;pointer-events:none;display:flex;align-items:center}
+.mem{position:absolute;left:0;right:0;opacity:0;transform:translateY(8px);
+transition:opacity .7s ease,transform .7s ease;font-size:.74rem;line-height:1.85;
+color:#4a565e;letter-spacing:.04em;border-left:2px solid rgba(93,106,114,.35);
+padding:.7rem .8rem .7rem .9rem;border-radius:0 6px 6px 0;
+background:rgba(250,252,253,.72);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+box-shadow:0 1px 8px rgba(60,80,70,.10)}
+.mem.on{opacity:.85;transform:translateY(0)}
+.mem.empty{min-height:5.5rem;border-left-color:rgba(93,106,114,.18)}
+#margin{display:none}
+.memcue{display:block;position:relative;height:0}
+.mem.side{position:absolute;left:100%;right:auto;top:.2em;margin-left:2.5rem;width:13rem;
+ opacity:0;transform:translateY(10px);transition:opacity .8s ease,transform .8s ease}
+.mem.side.seen{opacity:.85;transform:none}
+@media(max-width:1180px){.mem.side{display:none}}
+.mem.inline{position:static;display:block;margin:0 0 0 1.6em;max-width:19em;padding:0;
+ font-size:.93rem;line-height:2.35;letter-spacing:.08em;color:#7c868d;
+ background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;
+ max-height:0;overflow:hidden;opacity:0;transform:translateY(12px);
+ transition:max-height 1.4s ease,margin 1.4s ease,opacity 1.2s ease .25s,transform 1.2s ease .25s}
+.mem.inline.seen{max-height:16em;margin:2.6em 0 2.6em 1.6em;opacity:1;transform:none}
+.mem.inline.empty{min-height:0}
+
+/* 餘燼與懸空的葉：只在最後「燒掉的林子」場景浮現。
+   餘燼緩緩上升；幾片燒焦的葉子懸在半空、幾乎不動——時停沒完全釋放的伏筆（呼應正文最後一句「到現在都還掛在那裡，沒有落下來」）。 */
+#ashfall{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 2.4s ease}
+body.ash-on #ashfall{opacity:1}
+#ashfall span{position:absolute;display:block}
+#ashfall .ember{width:3px;height:3px;border-radius:50%;background:#ffb46a;
+ box-shadow:0 0 6px 1px rgba(255,150,60,.55);animation:ash-rise linear infinite}
+@keyframes ash-rise{
+ 0%{transform:translateY(0) translateX(0);opacity:0}
+ 14%{opacity:.7}
+ 82%{opacity:.45}
+ 100%{transform:translateY(-44vh) translateX(7px);opacity:0}}
+#ashfall .leafhang{width:8px;height:5px;border-radius:62% 38% 55% 45%;
+ background:rgba(38,42,46,.6);animation:ash-hangsway 7.5s ease-in-out infinite alternate}
+@keyframes ash-hangsway{from{transform:translate(0,0) rotate(13deg)}to{transform:translate(3px,-2px) rotate(19deg)}}
+@media(prefers-reduced-motion:reduce){
+ #ashfall .ember{display:none}
+ #ashfall .leafhang{animation:none;transform:rotate(16deg)}}
+</style></head><body>
+<button id="snd">♪　開啟聲音</button>
+<audio id="bgmA" src="序章-素材/ambient.mp3" preload="auto"></audio>
+<audio id="bgmB" src="序章-素材/ambient.mp3" preload="auto"></audio>
+<div id="margin"><div class="mem" data-i="0">特休申請<br>剩餘天數：14<br>（未使用）</div><div class="mem" data-i="1"><svg viewBox="0 0 64 64" width="56" height="56" aria-label="公司標誌：一張笑臉" role="img"><circle cx="32" cy="32" r="29" fill="#F6C945"/><circle cx="23" cy="27" r="3.4" fill="#3a3f45"/><circle cx="41" cy="27" r="3.4" fill="#3a3f45"/><path d="M21 39 q11 11 22 0" fill="none" stroke="#3a3f45" stroke-width="3.4" stroke-linecap="round"/></svg><br>（公司名稱：想不起來）</div><div class="mem" data-i="2">未讀訊息（1）<br>媽<br>你有沒有好好吃飯</div></div>
+<div id="skybase"></div><div id="backdrop"><div class="layer a"></div><div class="layer b"></div></div>
+<main>
+<div class="meta">《轉生異世界的我 token 無限》・第一卷・初稿</div>
+<h1>第六章：沒有委託的一天</h1>
+<section data-fx-bg="第六章-素材/3-旅館大堂.webp"><h2>六之一：沒有事情要做</h2>
+<p>他的聲音是第九天回來的。他們那時候已經在凱旭了。</p>
+<p>回來的時候不太對。比原來低，講久了會啞，而且他自己聽起來像另一個人在講話。</p>
+<p>他試了幾句。</p>
+<p>「我聽起來像不像六十歲。」</p>
+<p>她想了一下。</p>
+<p>「不像。」</p>
+<p>「那像幾歲。」</p>
+<p>「不知道。」她說，「我沒有聽過六十歲的人講話。」</p>
+<div class="brk">§</div>
+<p>他笑了。笑完喉嚨痛了一下。</p>
+<p>他前世也笑。可是那種笑是回應。有人講了一個笑話，你就笑，那是工作的一部分，跟點頭一樣。開會的時候他笑得特別準，該笑的地方一次都沒有漏過。</p>
+<p>這一次沒有人在等他笑。</p>
+<div class="brk">§</div>
+<p>那個答謝的場合是他們走之前兩天辦的。</p>
+<p>他坐了一個晚上，什麼都沒有做。那個人講的是真的：他只要坐著就好。</p>
+<p>坐著的時候有人一直過來敬他，講一樣的話，用不太一樣的說法。他點頭，喝一口，放下杯子，等下一個。中間有一段他發現自己在數還剩幾個人沒過來。</p>
+<p>數完他就沒事做了。</p>
+<div class="brk">§</div>
+<p>再過幾天，桌上那一疊就不再變厚了。公會那邊的事情有人接手，城裡的人已經把他這件事講完，開始講別的。</p>
+<p>剩下的只有那張沒有人要接的委託單。凱旭的人請他去看一口井。</p>
+<p>他沒有點頭。他也想不出別的地方要去。</p>
+<div data-fx-bg="第六章-素材/5-路.webp"></div>
+<p>他沒有跟她說。</p>
+<p>走的那天早上他把那張紙收進懷裡，下樓，走到城門口的時候她已經在那裡了，抱著簿子，背著那個布包。</p>
+<p>他也沒有問她怎麼知道。</p>
+<p>路上沒有什麼。下過一陣雨，然後放晴。她照樣切四塊。</p>
+<p>後來路的兩邊開始有田，再後來他們看到了屋頂。</p>
+<p>上一次他們看到屋頂的時候，底下沒有煙。</p>
+<p>他們在這裡換過馬。那次他站在路邊等，沒有進去。</p>
+<div data-fx-bg="第六章-素材/3-旅館大堂.webp"></div>
+<p>然後今天就什麼事都沒有了。</p>
+<p>他早上還是在同一個時間醒來，穿好衣服，下樓。</p>
+<p>下到樓梯口他停住。</p>
+<p>他不知道要去哪裡。</p>
+<div class="brk">§</div>
+<p>他前世也有休假。</p>
+<p>可是那不是休假，那是補眠，或者是把上班沒做完的事情帶回家做，或者是躺在床上滑手機、心裡一直知道禮拜一有什麼在等他。他從來沒有過一整天不屬於任何人的時間。</p>
+<span class="memcue" data-i="0"></span><p>一天可以拿來做什麼，他沒有練過。</p>
+<div class="brk">§</div>
+<p>他在樓梯口站了大概一分鐘。</p>
+<p>然後他做了一件他前世每次放假都會做的事：他開始想有沒有什麼事情其實是該做的。</p>
+<p>那口井他到的第二天就去看過了。他看不出哪裡不對。喉嚨才剛回來，講久了就會啞，他還不敢真的用。他把能想到的都想了一遍，一件都沒有。</p>
+<p>找不到事情做這件事，讓他有點慌。</p>
+<div class="brk">§</div>
+<p>樓下那一桌是空的。</p>
+<p>這幾天早上她都在那裡。</p>
+<p>旅館的老闆娘從灶間端了東西出來，穿過廳，走到最裡面那桌放下，然後走回去。經過他旁邊的時候看了他一眼。</p>
+<p>「你吃太少了。」</p>
+<p>他還沒有吃。</p>
+<p>他不知道要不要坐下來等。</p>
+<p>她從後門進來，白袍下擺是濕的。</p>
+<p>看到他她抬起頭，然後笑了一下。那個笑很短，跟她在山路上那些一樣，像是禮貌，可是每一次都有。</p>
+<p>她走到那一桌坐下，把簿子攤開。</p>
+<p>他走過去，發現自己沒有事情要跟她講。</p>
+<p>「要不要出去。」他說。</p>
+<p>「好。」</p>
+<p>她把簿子收起來就站起來了。她沒有問去哪裡。</p>
+<div class="brk">§</div>
+<div data-fx-bg="第六章-素材/4-市集.webp"></div>
+<p>凱旭的市集只有半條街。</p>
+<p>攤子不到十個。有人賣繩子，賣布，賣一種裝在陶罐裡、聞起來很酸的東西。沒有人在喊價錢。他們走過去的時候有兩個人抬頭看了一眼，看完就低回去了。</p>
+<p>沒有人知道他是誰。</p>
+<p>走到一半有一戶的門是開著的，裡面傳出機杼的聲音，一下一下，很規律。他往裡面看了一眼，一個婦人坐在織布機後面，沒有抬頭。</p>
+<p>他走得很慢。他發現自己沒有在找任何東西，這件事讓他有一點不知所措。</p>
+<div class="brk">§</div>
+<p>他前世也逛過街。可是那種逛是有目的的。買一件襯衫，或者等一個人，或者只是把午休那一個小時消耗掉。</p>
+<p>他沒有走過一條不用走完的街。</p>
+<p>一個小孩趕著幾隻鵝從他們前面橫過去，往溪的方向。鵝走得比他慢，他一路在後面喊。</p>
+<p>街口那棵樹下有一張石桌，石桌旁邊坐著一個老人，腳邊一條狗。經過的時候那個小孩喊了一聲，喊的是一個名字。老人抬了一下手，沒有站起來。</p>
+<p>艾可走在他旁邊，落後半步。她走路的時候會看攤子，可是不停下來，看完就繼續走。有一次他停下來，她也停，然後等他。</p>
+<p>他發現她不會先走。</p>
+<div class="brk">§</div>
+<p>他在一個攤子前面停下來。</p>
+<p>架子上掛著繩結編的小東西，圓的，掌心大小，垂下來一截穗子，風一吹就轉。</p>
+<p>「妳要不要一個。」</p>
+<p>「不用。」</p>
+<p>「隨便挑。」</p>
+<p>「不用。」</p>
+<p>「為什麼。」</p>
+<p>她想了一下。</p>
+<p>「我沒有地方放。」</p>
+<div class="brk">§</div>
+<p>他站在那裡，一時想不出下一句。</p>
+<p>他前世很會處理要東西的人。要什麼、要多少、什麼時候要，講不清楚的他還可以幫對方問出來。那是他的專長。</p>
+<p>不要東西的人他沒有練過。</p>
+<div class="brk">§</div>
+<p>「妳全部的東西就是那個包。」</p>
+<p>「嗯。」</p>
+<p>「裡面有什麼。」</p>
+<p>「餅。筆。刀。簿子。」</p>
+<p>「就這樣。」</p>
+<p>「還有一件衣服。」</p>
+<p>「妳有兩件衣服。」</p>
+<p>「一件在穿。」</p>
+<div class="brk">§</div>
+<p>他又笑了。</p>
+<p>這一次他自己聽到了。他站在一條沒有人認得他的街上，旁邊是一個他問什麼答什麼的人，而他在笑。</p>
+<p>他把這件事記住了，然後就繼續走了。</p>
+<div class="brk">§</div>
+<p>他們在街尾吃了東西。</p>
+<p>一種用葉子包起來蒸的東西，米做的，裡面有一點肉，燙到他換了三次手。她吃得很慢，一小口一小口，吃完把葉子折好放在旁邊。</p>
+<p>「妳的乾糧呢。」</p>
+<p>「在包裡。」</p>
+<p>「今天不吃？」</p>
+<p>「等一下吃。」</p>
+<p>他等她說下去，比如今天可以少一塊。她沒有。她把葉子折得更小了一點。</p>
+<div class="brk">§</div>
+<p>回程的時候她在一個攤子前面停下來。</p>
+<p>她買了紙。不多，一小疊，捲起來夾在腋下。</p>
+<p>「妳的簿子快滿了。」</p>
+<p>「嗯。」</p>
+<p>他沒有再問。他也不知道自己為什麼會覺得那一疊紙看起來有點多。</p>
+<p>走回去的路上他們又經過那棵樹。老人還在，位子沒有變，狗換了一邊趴。</p>
+<p>那個小孩也回來了，鵝走在前面，他還是在後面喊。經過樹下的時候他又喊了一次那個名字。</p>
+</section>
+<section data-fx-bg="第六章-素材/1-午後.webp"><h2>六之二：他講他的前世</h2>
+<p>下午他們坐在中庭的階梯上。</p>
+<p>太陽偏過去了，階梯是暖的。她把簿子放在膝蓋上，筆擱在旁邊沒有拿起來。</p>
+<p>「你以前住的地方有窗戶嗎。」</p>
+<div class="brk">§</div>
+<p>她問問題的方式沒有變。</p>
+<p>不是「你老家在哪裡」那種。是這種。有沒有窗戶。</p>
+<p>「有。」他說，「可是拉開來對面就是別人家的牆，所以我後來都沒拉。」</p>
+<p>「那你怎麼知道天亮了。」</p>
+<p>「鬧鐘。」</p>
+<p>「鬧鐘是什麼。」</p>
+<p>「一個會叫的東西。」他說，「時間到了就叫，叫到你起來為止。」</p>
+<p>「它怎麼知道時間到了。」</p>
+<p>他張開嘴，然後發現自己解釋不了。</p>
+<div class="brk">§</div>
+<p>接下來那一段他講了很久。</p>
+<p>他自己也沒有預料到。她只是一直問，而他一直有得答，答著答著就停不下來了。</p>
+<p>他講早上七點半那個賣飯糰的人，每天在同一個轉角喊同一句話，喊了七年。他講公司樓下那台咖啡機壞了三個月沒有人修，他每天早上還是去按一次。他講凌晨三點整層樓只剩他跟三排沒關的螢幕，冷氣停了，空氣悶得像有人把門窗全封死。他講螢幕的光，藍的，開一整晚，第二天眼睛會有一種乾乾的、洗不掉的感覺。</p>
+<p>他講到一半發現她在寫，就自動講慢了一點。</p>
+<div class="brk">§</div>
+<p>講到後來他停下來喝水，這時候才注意到太陽的位置。</p>
+<p>他講了一個多小時。</p>
+<p>他前世開一小時的會要準備兩天，講完累得說不出話。剛才這一個多小時他沒有準備，也不累。</p>
+<div class="brk">§</div>
+<p>他前世很少講話。</p>
+<p>會議上他講重點，講完就閉嘴。同事聊天他在旁邊笑，很少接。有一次尾牙有人問他假日都在幹嘛，他說睡覺，然後那個話題就結束了。</p>
+<p>他不是不會講。他是沒有東西可以講。他的生活裡除了那些，什麼都沒有。</p>
+<p>而現在他發現，那些東西講出來居然可以講這麼久。</p>
+<div class="brk">§</div>
+<p>「有人等你回家嗎。」</p>
+<p>「沒有。」</p>
+<p>「一個人住。」</p>
+<p>「嗯。」</p>
+<p>「那你回家做什麼。」</p>
+<p>他想了一下。</p>
+<p>「睡覺。」</p>
+<p>「還有呢。」</p>
+<p>「⋯⋯沒有了。」</p>
+<div class="brk">§</div>
+<p>他講完才聽見自己講了什麼。</p>
+<p>他在那個房子裡住了七年。那個房子的全部用途，是讓他躺下。</p>
+<div class="brk">§</div>
+<p>她翻回前面幾頁，看了一下，然後抬起頭。</p>
+<p>「你們公司的標誌長什麼樣子。」</p>
+<p>她沒有問公司是什麼。</p>
+<p>「一張臉。」他說，「黃的，圓的。兩個點當眼睛，嘴是彎的。」</p>
+<p>他伸手在階梯上比了一下那條嘴的弧度，比完自己也覺得沒有意義，階梯上又留不下東西。</p>
+<p>她低頭在簿子上畫了一個東西。</p>
+<p>「是不是這樣。」</p>
+<p>他看過去。那是一張臉。兩個點，一條彎起來的線，那條線的弧度跟他剛才比的一模一樣。</p>
+<div class="brk">§</div>
+<p>「妳畫得很像。」</p>
+<p>「你比得很清楚。」</p>
+<p>他低頭又看了一次那張臉。</p>
+<span class="memcue" data-i="1"></span><p>他忽然想不起來公司叫什麼名字。</p>
+<p>那個標誌他看了七年，貼在門口、印在名片上、每天開機的時候會在螢幕中間出現三秒。可是名字沒有了。他在腦子裡找了一圈，找到的是一種形狀，一種顏色，一個他每天早上刷卡進去的門，就是沒有名字。</p>
+<p>他把這件事放到旁邊。</p>
+<div class="brk">§</div>
+<p>「你媽媽長什麼樣子。」</p>
+<p>他開口，然後停住。</p>
+<div class="brk">§</div>
+<p>他想得起來的東西很多。</p>
+<p>她煮的味噌湯偏鹹，鹹到他每次都要自己加水，加完她會念一句。她講電話的時候聲音會不自覺變大，隔一個房間都聽得到。她的口頭禪是「你有沒有好好吃飯」，每次打來都問，問了三十年，最後幾年他都是一邊回訊息一邊隨口說有。</p>
+<p>他想得起來她站在流理台前面的樣子。背對著他，肩膀有一點圓，圍裙的帶子在後面打一個結。</p>
+<span class="memcue" data-i="2"></span><p>他想不起來她轉過來的樣子。</p>
+<div class="brk">§</div>
+<p>他在那裡坐了一會兒。</p>
+<p>「轉生太久了吧。」他說。</p>
+<p>他自己知道這句話講不通。他到這裡三十幾天，而那張臉他看了三十年。</p>
+<p>可是他還是這樣說了，而且說完就覺得舒服了一點。</p>
+<div class="brk">§</div>
+<p>她沒有說話。</p>
+<p>她低頭在簿子上寫了一行。</p>
+<div class="brk">§</div>
+<p>過了一會兒她抬起頭。</p>
+<p>「可以再講一次嗎。」</p>
+<p>「講什麼。」</p>
+<p>「湯。」她說，「你剛才講太快了，我沒有記完。」</p>
+<div class="brk">§</div>
+<p>他愣了一下。</p>
+<p>這是她第一次跟他要東西。</p>
+<div class="brk">§</div>
+<p>他又講了一次。這次慢一點。</p>
+<p>講到一半他發現自己在挑她會想記的部分講。</p>
+</section>
+<section data-fx-bg="第六章-素材/2-夜燈.webp"><h2>六之三：他替她削筆</h2>
+<p>晚上她還在寫。</p>
+<p>樓下的人都散了，只剩角落一盞燈。她把簿子放在桌上，一行一行補今天的東西。</p>
+<p>陸修坐在對面，沒有事情做，就看著。</p>
+<div class="brk">§</div>
+<p>看人寫字是一件很奇怪的事。</p>
+<p>她寫得不快，可是不停。筆尖在紙上有聲音，很小，一陣一陣。寫到一行的底她會把簿子往上推一點，推的動作每次都一樣。</p>
+<p>他前世也看過人打字。整個辦公室的人一起打，那個聲音是連在一起的，聽久了就變成背景。他從來沒有看過一個人單獨在寫東西。</p>
+<div class="brk">§</div>
+<p>寫到一半筆鈍了。</p>
+<p>她停下來看了一下筆尖，然後放下簿子。</p>
+<p>他這幾天看過她削三次。那個筆是木桿包鐵芯的，削太多鐵芯會斷，削太少又不夠尖，所以她每次都削很久，削三下停一下，用拇指試一次。整個過程大概要十分鐘，而她一天要削兩到三次。</p>
+<p>算起來她每天有很長一段時間是在削筆。</p>
+<p>她從布包裡拿出那把小刀。</p>
+<p>陸修伸手，把筆跟刀一起拿了過來。</p>
+<p>她沒有問。</p>
+<p>他削了三下，用拇指試了試，又削了兩下，然後把筆遞回去。她接過去，繼續寫。</p>
+<p>兩個人都沒有講話。</p>
+<div class="brk">§</div>
+<p>他前世有一次幫同事修過鍵盤。</p>
+<p>那個人的空白鍵卡住，敲下去會黏。他看了兩天，第三天中午趁對方去吃飯，把鍵帽拔起來清乾淨裝回去。</p>
+<p>下午那個人回來，敲了幾下，沒有說什麼。他也沒有說。</p>
+<p>後來那個人離職，他們沒有再見過。</p>
+<div class="brk">§</div>
+<p>那個人到最後都不知道是他。</p>
+<div class="brk">§</div>
+<p>「妳今天記了什麼。」</p>
+<p>「走了多遠。天氣。你們吃了什麼。」</p>
+<p>今天只有他們兩個。</p>
+<p>「我們吃了什麼很重要嗎。」</p>
+<p>她想了一下。</p>
+<p>「不知道。」</p>
+<p>「那妳為什麼記。」</p>
+<p>「因為我不知道。」</p>
+<div class="brk">§</div>
+<p>他把這句話在心裡放了一會兒。</p>
+<p>他前世花很多時間在決定什麼不用做。哪些信不用回、哪個會不用開、哪一段程式不值得寫。那是他的本事，做久了就變成本能。</p>
+<p>她沒有他那種本能。她把不知道重不重要的東西全部記下來，因為她不知道。</p>
+<div class="brk">§</div>
+<p>他把刀還給她之後，才發現一件事。</p>
+<p>他削得很好。</p>
+<p>他前世沒有削過任何東西。鉛筆有削鉛筆機，水果是切好裝在盒子裡買回來的，家裡的刀他一年用不到三次。可是剛才拿刀的角度、下刀的力道、什麼時候該把木桿轉一下，他一個都沒有想過。</p>
+<p>手自己知道。</p>
+<div class="brk">§</div>
+<p>他把手放到桌上，在燈底下看了一會兒。</p>
+<p>指節粗。繭是厚的，長在指節上，不是掌心。</p>
+<p>他坐在那裡看了很久，然後把手收回去，放到腿上。</p>
+<p>他醒來那天早上也看過一次。那時候他只覺得這雙手比他的好，健康，有力，像會做事的人的手。</p>
+<p>那時候他沒有想過「會做什麼事」。</p>
+<p>他沒有跟任何人講這件事。</p>
+<div class="brk">§</div>
+<p>「妳的簿子寫滿以後會怎樣。」</p>
+<p>她寫完那一行才回答。</p>
+<p>「送回去。」</p>
+<p>「送去哪裡。」</p>
+<div class="brk">§</div>
+<p>「教會有一個房間。」她說，「架子從地板到天花板，全部是簿子。我送過一次。那裡很乾淨，沒有灰。管房間的人說，很久沒有人來看了。」</p>
+<p>她說完就低頭繼續寫了。</p>
+<div class="brk">§</div>
+<p>他坐在那裡，把這段話想了兩遍。</p>
+<p>第一遍他想的是那個房間很可惜。</p>
+<p>第二遍他想的是她知道。她知道那些簿子沒有人看，而她每天還是寫。</p>
+<p>他很想問為什麼，可是他知道問了她會說「這是神官的工作」，而那句話他已經聽過一次了。</p>
+<div class="brk">§</div>
+<p>燈快滅了。</p>
+<p>他站起來要上樓，走到樓梯口又回頭。</p>
+<p>她抬起頭，笑了一下。</p>
+<p>還是那個很短的笑。</p>
+</section>
+<section>
+<p class="rec">他上樓之後她又寫了一會兒。</p>
+<p class="rec">寫完她翻到名單那一頁。名單又長了一點，最後那幾行是這幾天加的。</p>
+<p class="rec">她從頭唸了一遍。唸得很小聲，小聲到只有嘴唇在動。</p>
+<p class="rec">唸完她把白天買的紙拿出來，一張一張撫平，夾進簿子後面。</p>
+<p class="rec">那一疊紙很厚。</p>
+</section>
+<div class="end">第 六 章 ・ 初 稿 完</div>
+
+
+<style>
+.chapnav{max-width:32em;margin:0 auto;padding:2vh 1.5rem 6vh;display:flex;flex-direction:column;
+ align-items:center;gap:1.4rem;position:relative;z-index:5}
+.chapnav .soon{display:flex;flex-direction:column;align-items:center;gap:.45rem;
+ padding:1.5rem 2.4rem;border:1px dashed rgba(120,130,138,.32);border-radius:12px;
+ min-width:15em;text-align:center;opacity:.6}
+.chapnav a.next{display:flex;flex-direction:column;align-items:center;gap:.45rem;text-decoration:none;
+ padding:1.5rem 2.4rem;border:1px solid rgba(120,130,138,.3);border-radius:12px;
+ background:rgba(255,255,255,.46);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+ transition:background .25s,transform .25s;min-width:15em;text-align:center}
+.chapnav a.next:hover{background:rgba(255,255,255,.78);transform:translateY(-2px)}
+.chapnav a.next .ttl{color:#20262b}
+.chapnav .lbl{font-size:.72rem;letter-spacing:.3em;color:#8a939a}
+.chapnav .ttl{font-size:1.05rem;letter-spacing:.06em;color:#3a4650}
+.chapnav a.toc{font-size:.78rem;letter-spacing:.2em;color:#6b7580;text-decoration:none;
+ border-bottom:1px solid rgba(120,130,138,.32);padding-bottom:.15rem}
+.chapnav a.toc:hover{color:#20262b}
+</style>
+<nav class="chapnav">
+ <span class="soon"><span class="lbl">下　一　章</span><span class="ttl">第七章　我救了這座小鎮　·　連載中</span></span>
+ <a class="toc" href="home.html">回　目　錄</a>
+</nav>
+<style>
+.site-foot{max-width:32em;margin:0 auto;padding:1vh 1.5rem 9vh;text-align:center;position:relative;z-index:5}
+.site-foot .foot-icons{display:flex;justify-content:center;gap:1.05rem;margin:0 0 1rem}
+.site-foot .foot-icons a{display:inline-flex;align-items:center;justify-content:center;
+ width:40px;height:40px;border-radius:50%;color:#5a656d;border:1px solid rgba(120,130,138,.3);
+ background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+ transition:transform .18s,background .18s,color .18s}
+.site-foot .foot-icons a:hover{transform:translateY(-2px);color:#20262b;background:rgba(255,255,255,.88)}
+.site-foot .foot-icons svg{width:19px;height:19px;fill:currentColor}
+.site-foot .foot-copy{color:#8a939a;font-size:.73rem;letter-spacing:.16em;line-height:1.9}
+</style><footer class="site-foot"><div class="foot-icons"><a href="https://github.com/yazelin/token-unlimited" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a><a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a><a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener" aria-label="請我喝咖啡" title="請我喝咖啡"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20.216 6.415l-.132-.666c-.119-.598-.388-1.163-1.001-1.379-.197-.069-.42-.098-.57-.241-.152-.143-.196-.366-.231-.572-.065-.378-.125-.756-.192-1.133-.057-.325-.102-.69-.25-.987-.195-.4-.597-.634-.996-.788a5.723 5.723 0 00-.626-.194c-1-.263-2.05-.36-3.077-.416a25.834 25.834 0 00-3.7.062c-.915.083-1.88.184-2.75.5-.318.116-.646.256-.888.501-.297.302-.393.77-.177 1.146.154.267.415.456.692.58.36.162.737.284 1.123.366 1.075.238 2.189.331 3.287.37 1.218.05 2.437.01 3.65-.118.299-.033.598-.073.896-.119.352-.054.578-.513.474-.834-.124-.383-.457-.531-.834-.473-.466.074-.96.108-1.382.146-1.177.08-2.358.082-3.536.006a22.228 22.228 0 01-1.157-.107c-.086-.01-.18-.025-.258-.036-.243-.036-.484-.08-.724-.13-.111-.027-.111-.185 0-.212h.005c.277-.06.557-.108.838-.147h.002c.131-.009.263-.032.394-.048a25.076 25.076 0 013.426-.12c.674.019 1.347.067 2.017.144l.228.031c.267.04.533.088.798.145.392.085.895.113 1.07.542.055.137.08.288.111.431l.319 1.484a.237.237 0 01-.199.284h-.003c-.037.006-.075.01-.112.015a36.704 36.704 0 01-4.743.295 37.059 37.059 0 01-4.699-.304c-.14-.017-.293-.042-.417-.06-.326-.048-.649-.108-.973-.161-.393-.065-.768-.032-1.123.161-.29.16-.527.404-.675.701-.154.316-.199.66-.267 1-.069.34-.176.707-.135 1.056.087.753.613 1.365 1.37 1.502a39.69 39.69 0 0011.343.376.483.483 0 01.535.53l-.071.697-1.018 9.907c-.041.41-.047.832-.125 1.237-.122.637-.553 1.028-1.182 1.171-.577.131-1.165.2-1.756.205-.656.004-1.31-.025-1.966-.022-.699.004-1.556-.06-2.095-.58-.475-.458-.54-1.174-.605-1.793l-.731-7.013-.322-3.094c-.037-.351-.286-.695-.678-.678-.336.015-.718.3-.678.679l.228 2.185.949 9.112c.147 1.344 1.174 2.068 2.446 2.272.742.12 1.503.144 2.257.156.966.016 1.942.053 2.892-.122 1.408-.258 2.465-1.198 2.616-2.657.34-3.332.683-6.663 1.024-9.995l.215-2.087a.484.484 0 01.39-.426c.402-.078.787-.212 1.074-.518.455-.488.546-1.124.385-1.766zm-1.478.772c-.145.137-.363.201-.578.233-2.416.359-4.866.54-7.308.46-1.748-.06-3.477-.254-5.207-.498-.17-.024-.353-.055-.47-.18-.22-.236-.111-.71-.054-.995.052-.26.152-.609.463-.646.484-.057 1.046.148 1.526.22.577.088 1.156.159 1.737.212 2.48.226 5.002.19 7.472-.14.45-.06.899-.13 1.345-.21.399-.072.84-.206 1.08.206.166.281.188.657.162.974a.544.544 0 01-.169.364zm-6.159 3.9c-.862.37-1.84.788-3.109.788a5.884 5.884 0 01-1.569-.217l.877 9.004c.065.78.717 1.38 1.5 1.38 0 0 1.243.065 1.658.065.447 0 1.786-.065 1.786-.065.783 0 1.434-.6 1.499-1.38l.94-9.95a3.996 3.996 0 00-1.322-.238c-.826 0-1.491.284-2.26.613z"/></svg></a></div><div class="foot-copy">© 林亞澤　著作權所有 · 保留一切權利</div></footer>
+</main><script>
+(function(){
+  var secs=[].slice.call(document.querySelectorAll('[data-fx-bg]'));
+  if(!secs.length) return;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var la=document.querySelector('#backdrop .a'), lb=document.querySelector('#backdrop .b');
+  var front=la, back=lb, cur='', loaded={};
+  // 預載並記下真的載完了沒有：沒載完就換，新層是空的，會透出底色
+  secs.forEach(function(s){ var u=s.getAttribute('data-fx-bg'), i=new Image();
+    i.onload=function(){ loaded[u]=1; }; i.src=u; if(i.complete) loaded[u]=1; });
+  /* 交叉淡入不能兩層各自半透明——那樣中間會露出 #skybase 的淺色（實測中點兩層
+     0.58/0.42，實際覆蓋率只有 0.76，24% 底色透出來＝那一下白閃）。
+     改成：出去的那層立刻補滿並壓到下面（被蓋住，看不出來），
+     進來的那層疊在上面從 0 淡到 1，全程底下都是不透明的。 */
+  function paint(url){
+    front.style.transition='none';
+    front.style.zIndex='0';
+    front.classList.add('on');
+    void front.offsetWidth;
+    front.style.transition='';
+    back.style.transition='none';
+    back.classList.remove('on');
+    back.style.backgroundImage="url('"+url+"')";
+    back.style.zIndex='1';
+    void back.offsetWidth;                 // 強制 reflow，確保 transition 生效
+    back.style.transition='';
+    back.classList.add('on');
+    var t=front; front=back; back=t;
+  }
+  function show(url){
+    if(url===cur) return; cur=url;
+    if(loaded[url]) return paint(url);
+    var im=new Image();
+    im.onload=function(){ loaded[url]=1; if(cur===url) paint(url); };
+    im.src=url;
+  }
+  function active(){
+    // scroll-spy：取「頂端已捲過畫面中央線的最後一段」＝正在讀的那一段。
+    // 不用「包含中央線」判定，跨段間隙就不會掉進錯的 fallback。
+    var mid=innerHeight/2, best=secs[0];
+    for(var i=0;i<secs.length;i++){
+      if(secs[i].getBoundingClientRect().top<=mid) best=secs[i];
+      else break;
+    }
+    show(best.getAttribute('data-fx-bg'));
+  }
+  addEventListener('scroll',active,{passive:true});
+  addEventListener('resize',active);
+  show(secs[0].getAttribute('data-fx-bg')); active();
+})();
+</script>
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var els=document.querySelectorAll('.tremble'); if(!els.length) return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var el=e.target;
+      if(e.isIntersecting){ el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+      else el.classList.remove('shake');
+    });
+  },{rootMargin:'-42% 0px -42% 0px'});   // 只在畫面中央一條窄帶算「正在讀」
+  [].forEach.call(els,function(el){ io.observe(el); });
+})();
+</script>
+<div id="freezeveil"></div>
+<script>
+/* 時停：捲到「世界停了一下」那句就觸發（不必繼續捲）——畫面凍約 0.9 秒：
+   褪色＋淡幕＋動畫暫停，同時吃掉捲動。全書第一次時停，做成明顯察覺得到；
+   之後章節會愈停愈久。reduced-motion 自動關。 */
+(function(){
+  var el=document.querySelector('[data-freeze]'); if(!el) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var MS=parseInt(el.getAttribute('data-freeze'),10)||600;
+  var frozenUntil=0, armed=false, done=false;
+  /* 上膛→擊發：那一句進到閱讀區只上膛，讀者「下一次真的推捲動」才凍住。
+     這樣一定會被身體感覺到：手推了一下，世界沒有動。
+     只攔 wheel / touchmove，鍵盤與捲軸永不攔截。 */
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting && !done) armed=true; });
+  },{rootMargin:'0px 0px -40% 0px'}).observe(el);
+  function freeze(){
+    armed=false; done=true;
+    frozenUntil=Date.now()+MS;
+    document.documentElement.classList.add('mfx-frozen');
+    setTimeout(function(){ document.documentElement.classList.remove('mfx-frozen'); }, MS);
+  }
+  function eat(ev){
+    if(Date.now()<frozenUntil){ ev.preventDefault(); return; }
+    if(armed){ ev.preventDefault(); freeze(); }
+  }
+  addEventListener('wheel', eat, {passive:false});
+  addEventListener('touchmove', eat, {passive:false});
+})();
+</script>
+<script>
+/* 聲音總控 + 環境配樂（跟序章同一首，雙 audio 交叉淡接無縫循環）。開關同時管音樂與火聲。 */
+(function(){
+  var btn=document.getElementById('snd');
+  window.MFXSound=(function(){
+    var on=true; try{ on=localStorage.getItem('fx-bgm')!=='0'; }catch(e){}
+    var subs=[];
+    try{ addEventListener('storage',function(e){ if(e.key==='fx-bgm'){ on=e.newValue!=='0'; subs.forEach(function(f){f(on);}); } }); }catch(e){}
+    return { isOn:function(){return on;},
+      toggle:function(){ on=!on; try{localStorage.setItem('fx-bgm',on?'1':'0');}catch(e){} subs.forEach(function(f){f(on);}); return on; },
+      onChange:function(f){ subs.push(f); } };
+  })();
+  function setBtn(){ if(btn) btn.textContent = window.MFXSound.isOn() ? '♪　聲音開啟中' : '♪　開啟聲音'; }
+  setBtn();
+
+  // 嵌在閱讀器殼(iframe)裡時：音樂由父層持續播放，這裡不自己放、藏掉自己的開關；只保留 MFXSound 給火聲與跨層同步。
+  if(window.top!==window.self){ if(btn) btn.style.display='none'; return; }
+
+  var A=document.getElementById('bgmA'), B=document.getElementById('bgmB');
+  var cur=A, nxt=B, on=false, env=0, envTarget=0, fading=false, fadeT0=0, started=false;
+  var VOL=0.34, FADE=5;
+  function tick(){
+    requestAnimationFrame(tick);
+    var now=performance.now()/1000;
+    if(env<envTarget) env=Math.min(envTarget, env+(1/6)*0.016);
+    else if(env>envTarget) env=Math.max(envTarget, env-(1/1.8)*0.016);
+    if(on && cur.duration){
+      if(!fading && cur.currentTime>cur.duration-FADE){ try{nxt.currentTime=0;nxt.play();}catch(e){} fading=true; fadeT0=now; }
+      if(fading){ var p=Math.min(1,(now-fadeT0)/FADE);
+        cur.volume=env*VOL*Math.cos(p*Math.PI/2); nxt.volume=env*VOL*Math.sin(p*Math.PI/2);
+        if(p>=1){ try{cur.pause();}catch(e){} var t=cur;cur=nxt;nxt=t;fading=false; } }
+      else { cur.volume=env*VOL; nxt.volume=0; }
+    } else if(cur) cur.volume=env*VOL;
+  }
+  function onEnded(e){ if(!on||e.target!==cur) return; try{nxt.currentTime=0;nxt.volume=env*VOL;nxt.play();}catch(err){} var t=cur;cur=nxt;nxt=t;fading=false; }
+  if(A&&B){ A.addEventListener('ended',onEnded); B.addEventListener('ended',onEnded); }
+  function musicStart(){ if(!A) return; try{cur.play();}catch(e){} envTarget=1; on=true; if(!started){started=true;tick();} }
+  function musicStop(){ envTarget=0; on=false; setTimeout(function(){ if(!on){try{A&&A.pause();B&&B.pause();}catch(e){}} },2000); }
+  document.addEventListener('visibilitychange',function(){ if(on&&!document.hidden){try{cur.play();}catch(e){}} });
+
+  window.MFXSound.onChange(function(v){ if(v) musicStart(); else musicStop(); });
+  if(btn){
+    setTimeout(function(){btn.classList.add('rest');},10000);
+    btn.addEventListener('mouseenter',function(){btn.classList.remove('rest');});
+    btn.addEventListener('mouseleave',function(){btn.classList.add('rest');});
+    btn.addEventListener('click',function(){ window.MFXSound.toggle(); setBtn(); });
+  }
+  var armed=false;
+  function first(){ if(armed) return; armed=true; if(window.MFXSound.isOn()) musicStart(); }
+  ['wheel','touchstart','pointerdown','keydown','click'].forEach(function(ev){ addEventListener(ev,first,{passive:true}); });
+})();
+</script>
+<script>
+/* 燃燒聲：合成（棕噪音低吼床 + 隨機嗶剝 + 進場一發轟），做法取自赤壁 index.html。
+   故意延遲：讀者先讀完「無聲的燃燒」，火聲才在「然後聲音才轟一聲砸過來」那句轟進來，
+   跟正文「聲音是後到的」對上；走到反方向時淡出。瀏覽器規定需先互動才發聲。 */
+(function(){
+  var startEl=document.querySelector('[data-fire-start]'), endEl=document.querySelector('[data-fire-end]');
+  if(!startEl) return;
+  function soundOn(){ return !window.MFXSound || window.MFXSound.isOn(); }
+  var ctx=null, fireGain=null, noiseBuf=null, crackleOn=false, last=0, started=false;
+  function makeNoise(){
+    var b=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate), d=b.getChannelData(0), brown=0;
+    for(var i=0;i<d.length;i++){ brown=(brown+(Math.random()*2-1)*.02)*.985; d[i]=Math.random()*2-1+brown*3; }
+    return b;
+  }
+  function build(){
+    ctx=new (window.AudioContext||window.webkitAudioContext)();
+    noiseBuf=makeNoise();
+    var src=ctx.createBufferSource(); src.buffer=noiseBuf; src.loop=true;
+    var lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=460;
+    fireGain=ctx.createGain(); fireGain.gain.value=0;
+    src.connect(lp); lp.connect(fireGain); fireGain.connect(ctx.destination); src.start();
+    last=performance.now();
+    (function loop(){
+      requestAnimationFrame(loop);
+      var now=performance.now(), dt=(now-last)/1000; last=now;
+      var amt=fireGain.gain.value;
+      if(crackleOn && amt>.02 && Math.random() < dt*9){        // 嗶剝 ~9/秒
+        var n=ctx.createBufferSource(); n.buffer=noiseBuf; n.loop=true;
+        var f=ctx.createBiquadFilter(); f.type='highpass'; f.frequency.value=2000+Math.random()*2500;
+        var g=ctx.createGain(), t0=ctx.currentTime;
+        g.gain.setValueAtTime(amt*(.06+Math.random()*.1),t0);
+        g.gain.exponentialRampToValueAtTime(.001,t0+.04);
+        n.connect(f); f.connect(g); g.connect(ctx.destination); n.start(t0); n.stop(t0+.05);
+      }
+    })();
+  }
+  function ensure(){ if(!ctx) build(); if(ctx.state==='suspended') ctx.resume(); }
+  function fadeTo(v,sec){ fireGain.gain.cancelScheduledValues(ctx.currentTime);
+    fireGain.gain.setValueAtTime(fireGain.gain.value, ctx.currentTime);
+    fireGain.gain.linearRampToValueAtTime(v, ctx.currentTime+sec); }
+  function boom(){                                            // 進場那一「轟」
+    var n=ctx.createBufferSource(); n.buffer=noiseBuf; n.loop=true;
+    var f=ctx.createBiquadFilter(); f.type='lowpass'; var t0=ctx.currentTime;
+    f.frequency.setValueAtTime(600,t0); f.frequency.exponentialRampToValueAtTime(90,t0+.9);
+    var g=ctx.createGain(); g.gain.setValueAtTime(.0001,t0);
+    g.gain.exponentialRampToValueAtTime(.72,t0+.06); g.gain.exponentialRampToValueAtTime(.001,t0+1.3);
+    n.connect(f); f.connect(g); g.connect(ctx.destination); n.start(t0); n.stop(t0+1.3);
+  }
+  function startFire(){ if(!soundOn()) return; ensure(); if(started) return; started=true; boom(); crackleOn=true; fadeTo(.22,1.6); }
+
+  var armed=false, want=false;
+  function first(){ if(armed) return; armed=true; ensure(); if(want) startFire(); }
+  ['wheel','touchstart','pointerdown','keydown','click'].forEach(function(ev){ addEventListener(ev,first,{passive:true}); });
+
+  new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ want=true; if(armed) startFire(); } }); },
+    {rootMargin:'0px 0px -30% 0px'}).observe(startEl);
+  if(endEl) new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && ctx){ fadeTo(0,3.5); setTimeout(function(){crackleOn=false;},3800); } }); },
+    {rootMargin:'0px 0px -30% 0px'}).observe(endEl);
+  if(window.MFXSound) window.MFXSound.onChange(function(on){
+    ensure();
+    if(on){ if(want && !started) startFire(); else if(started){ crackleOn=true; fadeTo(.22,.8); } }
+    else if(ctx){ fadeTo(0,.6); setTimeout(function(){crackleOn=false;},700); }
+  });
+})();
+</script>
+<script>
+/* 側邊記憶 mem（同序章）：桌機顯示離畫面中央最近的一格；手機搬進正文、捲到浮起。 */
+(function(){
+  var cues=[].slice.call(document.querySelectorAll('.memcue')), mems={};
+  if(!cues.length) return;
+  [].forEach.call(document.querySelectorAll('.mem'),function(m){mems[m.dataset.i]=m;});
+  /* 卡片插在它那一段旁邊，跟著文章一起捲；捲到才淡入，浮起來就不收回去。
+     桌機浮在右側留白，窄螢幕改插進正文。 */
+  var wide=innerWidth>1180;
+  cues.forEach(function(c){ var m=mems[c.dataset.i]; if(!m) return;
+    if(wide){ c.appendChild(m); m.classList.add('side'); }
+    else { var para=c.nextElementSibling;
+      if(para&&para.parentNode){ para.parentNode.insertBefore(m,para.nextSibling); m.classList.add('inline'); } } });
+  var list=[].slice.call(document.querySelectorAll('.mem.side,.mem.inline'));
+  if(window.IntersectionObserver){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('seen'); io.unobserve(e.target); } }); },{rootMargin:'0px 0px -12% 0px'});
+    list.forEach(function(m){io.observe(m);});
+  } else { list.forEach(function(m){m.classList.add('seen');}); }
+})();
+</script>
+<script>
+/* 餘燼／懸葉層：只在「燒掉的林子」那一幕浮現（進場淡入、離場淡出）。 */
+(function(){
+  var sec=document.querySelector('[data-fx-bg*="燒林"]'); if(!sec) return;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){ document.body.classList.toggle('ash-on', e.isIntersecting); });
+  },{rootMargin:'0px 0px -20% 0px'}).observe(sec);
+})();
+</script>
+<!-- yz-promo-footer v8 | 三件套+BMC 注意力效果 | https://github.com/yazelin/promo-footer-skill -->
+<script>
+(function(){"use strict";
+if(window.__yzPromoInit)return;window.__yzPromoInit=1;
+try{if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return}catch(e){}
+var REPO="token-unlimited",INJECT=false,ADDBLOG=false;
+var GH=REPO?"https://github.com/yazelin/"+REPO:"https://github.com/yazelin";
+var LINES=["嘿，這裡這裡，我是咖啡按鈕","我是一顆很努力的按鈕，求被點一下","噓，亞澤不知道我在偷偷拉贊助","你看我跳得這麼賣力，不請一杯嗎？","不請也沒關係，你來玩我就很開心","免費給你玩的，想寵亞澤再說","一杯咖啡，是下一個作品的燃料","你的咖啡會變成下一個作品，真的","咖啡因進入亞澤體內，程式碼就會長出來","亞澤說，有人請咖啡他會開心一整天","只是一杯咖啡，但亞澤會記得你","用愛發電中，咖啡因可提升發電效率","覺得好玩嗎？抖內一下下","這個網站沒有廣告，只有我這顆按鈕"];
+var ICONS={blog:'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>',gh:'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>',fb:'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg>',bmc:'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20.216 6.415l-.132-.666c-.119-.598-.388-1.163-1.001-1.379-.197-.069-.42-.098-.57-.241-.152-.143-.196-.366-.231-.572-.065-.378-.125-.756-.192-1.133-.057-.325-.102-.69-.25-.987-.195-.4-.597-.634-.996-.788a5.723 5.723 0 00-.626-.194c-1-.263-2.05-.36-3.077-.416a25.834 25.834 0 00-3.7.062c-.915.083-1.88.184-2.75.5-.318.116-.646.256-.888.501-.297.302-.393.77-.177 1.146.154.267.415.456.692.58.36.162.737.284 1.123.366 1.075.238 2.189.331 3.287.37 1.218.05 2.437.01 3.65-.118.299-.033.598-.073.896-.119.352-.054.578-.513.474-.834-.124-.383-.457-.531-.834-.473-.466.074-.96.108-1.382.146-1.177.08-2.358.082-3.536.006a22.228 22.228 0 01-1.157-.107c-.086-.01-.18-.025-.258-.036-.243-.036-.484-.08-.724-.13-.111-.027-.111-.185 0-.212h.005c.277-.06.557-.108.838-.147h.002c.131-.009.263-.032.394-.048a25.076 25.076 0 013.426-.12c.674.019 1.347.067 2.017.144l.228.031c.267.04.533.088.798.145.392.085.895.113 1.07.542.055.137.08.288.111.431l.319 1.484a.237.237 0 01-.199.284h-.003c-.037.006-.075.01-.112.015a36.704 36.704 0 01-4.743.295 37.059 37.059 0 01-4.699-.304c-.14-.017-.293-.042-.417-.06-.326-.048-.649-.108-.973-.161-.393-.065-.768-.032-1.123.161-.29.16-.527.404-.675.701-.154.316-.199.66-.267 1-.069.34-.176.707-.135 1.056.087.753.613 1.365 1.37 1.502a39.69 39.69 0 0011.343.376.483.483 0 01.535.53l-.071.697-1.018 9.907c-.041.41-.047.832-.125 1.237-.122.637-.553 1.028-1.182 1.171-.577.131-1.165.2-1.756.205-.656.004-1.31-.025-1.966-.022-.699.004-1.556-.06-2.095-.58-.475-.458-.54-1.174-.605-1.793l-.731-7.013-.322-3.094c-.037-.351-.286-.695-.678-.678-.336.015-.718.3-.678.679l.228 2.185.949 9.112c.147 1.344 1.174 2.068 2.446 2.272.742.12 1.503.144 2.257.156.966.016 1.942.053 2.892-.122 1.408-.258 2.465-1.198 2.616-2.657.34-3.332.683-6.663 1.024-9.995l.215-2.087a.484.484 0 01.39-.426c.402-.078.787-.212 1.074-.518.455-.488.546-1.124.385-1.766zm-1.478.772c-.145.137-.363.201-.578.233-2.416.359-4.866.54-7.308.46-1.748-.06-3.477-.254-5.207-.498-.17-.024-.353-.055-.47-.18-.22-.236-.111-.71-.054-.995.052-.26.152-.609.463-.646.484-.057 1.046.148 1.526.22.577.088 1.156.159 1.737.212 2.48.226 5.002.19 7.472-.14.45-.06.899-.13 1.345-.21.399-.072.84-.206 1.08.206.166.281.188.657.162.974a.544.544 0 01-.169.364zm-6.159 3.9c-.862.37-1.84.788-3.109.788a5.884 5.884 0 01-1.569-.217l.877 9.004c.065.78.717 1.38 1.5 1.38 0 0 1.243.065 1.658.065.447 0 1.786-.065 1.786-.065.783 0 1.434-.6 1.499-1.38l.94-9.95a3.996 3.996 0 00-1.322-.238c-.826 0-1.491.284-2.26.613z"/></svg>'};
+var CSS="@keyframes yzIdle{0%,55%,100%{transform:translateY(0)}62%{transform:translateY(-4px)}70%{transform:translateY(0)}78%{transform:translateY(-2px)}84%{transform:translateY(0)}}"+
+".yz-idle{animation:yzIdle 2.6s ease-in-out infinite}"+
+"@keyframes yzHop{0%,100%{transform:translateY(0)}20%{transform:translateY(-6px) scale(1.04)}40%{transform:translateY(0) scale(1)}55%{transform:translateY(-3px)}70%{transform:translateY(0)}}"+
+".yz-hop{animation:yzHop .9s cubic-bezier(.36,.07,.19,.97)}"+
+".yz-bubble{position:fixed;z-index:2147483000;max-width:200px;padding:6px 11px;border-radius:14px;background:#fffdf7;color:#4a3f35;border:1px solid rgba(0,0,0,.1);box-shadow:0 4px 14px rgba(0,0,0,.18);font:13px/1.5 system-ui,-apple-system,'Noto Sans TC',sans-serif;pointer-events:none;opacity:0;transform:translateY(5px);transition:opacity .25s ease,transform .25s ease}"+
+".yz-bubble.yz-on{opacity:1;transform:translateY(0)}"+
+".yz-bubble::after{content:'';position:absolute;left:var(--yz-tail,50%);margin-left:-6px;border:6px solid transparent}"+
+".yz-bubble.yz-above::after{bottom:-6px;border-bottom:0;border-top:6px solid #fffdf7}"+
+".yz-bubble.yz-below::after{top:-6px;border-top:0;border-bottom:6px solid #fffdf7}"+
+".yz-cluster{position:fixed;right:12px;bottom:12px;z-index:2147482999;display:flex;gap:10px}"+
+".yz-cluster a{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(22,26,35,.72);color:#fff;border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(4px);transition:transform .15s,background .15s}"+
+".yz-cluster a:hover{transform:translateY(-2px);background:rgba(22,26,35,.92)}";
+var bubble,anchor;
+function addCss(){if(document.getElementById("yz-promo-css"))return;var s=document.createElement("style");s.id="yz-promo-css";s.textContent=CSS;document.head.appendChild(s)}
+function inFooter(el){try{return !!(el.closest&&el.closest('footer,nav,[class*="footer"],[id*="footer"]'))}catch(e){return false}}
+function findAnchor(){var as=document.querySelectorAll('a[href*="buymeacoffee.com/yazelin"]');if(!as.length)return null;
+var vis=[],i,r;for(i=0;i<as.length;i++){r=as[i].getBoundingClientRect();if(r.width||r.height)vis.push(as[i])}
+var pool=vis.length?vis:[].slice.call(as);
+for(i=0;i<pool.length;i++)if(inFooter(pool[i]))return pool[i];
+return pool[pool.length-1]}
+function inject(){if(!INJECT||findAnchor()||document.querySelector(".yz-cluster"))return;
+var n=document.createElement("nav");n.className="yz-cluster";n.setAttribute("aria-label","作者連結");
+n.innerHTML='<a href="'+GH+'" target="_blank" rel="noopener" aria-label="GitHub 原始碼" title="GitHub 原始碼">'+ICONS.gh+'</a>'+
+'<a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">'+ICONS.fb+'</a>'+
+'<a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener" aria-label="請亞澤喝杯咖啡 Buy me a coffee" title="請亞澤喝杯咖啡 Buy me a coffee">'+ICONS.bmc+'</a>'+
+(ADDBLOG?'<a class="yz-blog" href="https://yazelin.github.io/" target="_blank" rel="noopener" aria-label="亞澤的部落格" title="亞澤的部落格">'+ICONS.blog+'</a>':'');
+document.body.appendChild(n)}
+function blogLinked(){var as=document.querySelectorAll('a[href^="https://yazelin.github.io"]');for(var i=0;i<as.length;i++){try{if(new URL(as[i].href).pathname==="/")return true}catch(e){}}return false}
+function addBlog(){if(!ADDBLOG||document.querySelector(".yz-blog")||blogLinked()||!inFooter(anchor))return;
+var c=anchor.cloneNode(true);c.classList.remove("yz-hop");c.classList.add("yz-blog");
+c.href="https://yazelin.github.io/";c.setAttribute("aria-label","亞澤的部落格");c.setAttribute("title","亞澤的部落格");
+if(c.querySelector("svg")){var sv=c.querySelector("svg");sv.outerHTML=ICONS.blog;var extra=c.querySelectorAll("svg");if(extra.length>1)for(var j=1;j<extra.length;j++)extra[j].remove()}else{c.textContent="部落格"}
+anchor.parentNode.insertBefore(c,anchor.nextSibling)}
+function hop(){anchor.classList.remove("yz-hop");void anchor.offsetWidth;anchor.classList.add("yz-hop")}
+var shown=0,MAX_SHOWS=3;
+function say(){if(document.hidden)return;var r=anchor.getBoundingClientRect();if(!r.width&&!r.height)return;if(r.bottom<0||r.top>innerHeight)return;shown++;
+bubble.textContent=LINES[Math.floor(Math.random()*LINES.length)];
+bubble.classList.remove("yz-on","yz-above","yz-below");
+bubble.style.left="0px";bubble.style.top="0px";
+var bw=bubble.offsetWidth,bh=bubble.offsetHeight,cx=r.left+r.width/2;
+var left=Math.max(8,Math.min(cx-bw/2,innerWidth-bw-8));
+var above=r.top-bh-12>=8;
+bubble.style.left=left+"px";
+bubble.style.top=(above?r.top-bh-12:r.bottom+12)+"px";
+bubble.classList.add(above?"yz-above":"yz-below");
+bubble.style.setProperty("--yz-tail",Math.max(12,Math.min(cx-left,bw-12))+"px");
+hop();
+requestAnimationFrame(function(){bubble.classList.add("yz-on")});
+setTimeout(function(){bubble.classList.remove("yz-on")},4200)}
+function start(){addCss();inject();anchor=findAnchor();if(!anchor)return false;
+try{if(getComputedStyle(anchor).display==="inline")anchor.style.display="inline-block"}catch(e){}
+anchor.classList.add("yz-idle");
+anchor.addEventListener("animationend",function(e){if(e.animationName==="yzHop")anchor.classList.remove("yz-hop")});
+try{addBlog()}catch(e){}
+bubble=document.createElement("div");bubble.className="yz-bubble";bubble.setAttribute("aria-hidden","true");document.body.appendChild(bubble);
+window.__yzPromo=say;
+(function loop(first){if(shown>=MAX_SHOWS)return;setTimeout(function(){say();loop(false)},first?18e3+Math.random()*12e3:9e4+Math.random()*9e4)})(true);
+return true}
+function boot(){var tries=0;(function t(){if(start())return;if(++tries<20)setTimeout(t,1500)})()}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+})();
+</script>
+
+<script>
+/* 這一頁可能是分享連結直接打開的落地頁，要自己註冊 SW（頂層才註冊，iframe 內交給殼）。 */
+if(window.top===window.self && 'serviceWorker' in navigator){
+  addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+}
+</script>
+</body></html>
