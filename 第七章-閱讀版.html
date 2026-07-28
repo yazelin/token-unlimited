@@ -1,0 +1,1115 @@
+<!doctype html><html lang="zh-Hant-TW"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第七章：我救了這座小鎮（初稿）</title>
+<meta name="description" content="坡在動，底下就是街。他知道講到哪裡就夠了，然後又多講了六句。">
+<link rel="canonical" href="https://yazelin.github.io/token-unlimited/%E7%AC%AC%E4%B8%83%E7%AB%A0-%E9%96%B1%E8%AE%80%E7%89%88.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="轉生異世界的我 token 無限">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="第七章：我救了這座小鎮｜轉生異世界的我 token 無限">
+<meta property="og:description" content="坡在動，底下就是街。他知道講到哪裡就夠了，然後又多講了六句。">
+<meta property="og:url" content="https://yazelin.github.io/token-unlimited/%E7%AC%AC%E4%B8%83%E7%AB%A0-%E9%96%B1%E8%AE%80%E7%89%88.html">
+<meta property="og:image" content="https://yazelin.github.io/token-unlimited/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="第七章：我救了這座小鎮｜轉生異世界的我 token 無限">
+<meta name="twitter:description" content="坡在動，底下就是街。他知道講到哪裡就夠了，然後又多講了六句。">
+<meta name="twitter:image" content="https://yazelin.github.io/token-unlimited/og-cover.jpg">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-v6-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-v6-192.png">
+<link rel="apple-touch-icon" href="icon-v6-180.png">
+<meta name="theme-color" content="#eef3f7">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+:root{--ink:#20262b;--dim:#6b7580}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);background:linear-gradient(180deg,#eef3f7 0%,#f5f7f4 40%,#f7f6f2 100%);
+font-family:"Noto Serif TC","Songti TC",Georgia,serif;line-height:2.2;font-size:19px;letter-spacing:.02em}
+main{max-width:32em;margin:0 auto;padding:8vh 1.5rem 20vh}
+.meta{color:var(--dim);font-size:.78rem;letter-spacing:.1em;margin-bottom:1.5rem}
+h1{font-size:1.55rem;line-height:1.6;letter-spacing:.08em;margin:0 0 3vh;font-weight:600}
+h2{font-size:1.05rem;letter-spacing:.12em;color:#3a4650;font-weight:600;margin:9vh 0 3vh;
+padding-bottom:.6rem;border-bottom:1px solid rgba(0,0,0,.08)}
+h2:first-of-type{margin-top:2vh}
+p{margin:0 0 1.8em;text-align:justify}
+/* 第二個聲音。不說自己是什麼，只在他不在場、或他看不到的時候出現。 */
+.rec{color:#8f989e;letter-spacing:.16em;font-size:.95em;text-align:left}
+.brk{text-align:center;color:var(--dim);letter-spacing:.5em;margin:3.2em 0;font-size:.8rem}
+.end{color:var(--dim);font-size:.78rem;letter-spacing:.2em;text-align:center;
+padding:12vh 0 0;border-top:1px solid rgba(0,0,0,.1);margin-top:8vh}
+
+/* 場景交叉換場：兩層固定滿版背景，隨捲動淡入淡出。 */
+html,body{background:transparent}
+#skybase{position:fixed;inset:0;z-index:-3;background:linear-gradient(180deg,#eef3f7 0%,#f2f5f3 55%,#f4f4f0 100%)}
+#backdrop{position:fixed;inset:0;z-index:-2;pointer-events:none}
+#backdrop .layer{position:absolute;inset:0;background-size:cover;background-position:center bottom;
+ opacity:0;transition:opacity 1.3s ease;will-change:opacity}
+#backdrop .layer.on{opacity:1}
+main{position:relative;z-index:1}
+/* 讀字柔光帶：文字欄始終浮在背景之上，任何場景都讀得到 */
+main::before{content:'';position:fixed;z-index:-1;top:0;bottom:0;left:50%;transform:translateX(-50%);
+ width:min(44em,100vw);pointer-events:none;
+ background:linear-gradient(90deg,transparent 0%,rgba(249,251,252,.74) 14%,rgba(249,251,252,.78) 50%,rgba(249,251,252,.74) 86%,transparent 100%)}
+section{display:block}
+/* 手機：柔光帶左右滿版、不淡出。原本左右淡出到透明，在 390px 的螢幕上等於兩側
+   各數十 px 沒有底，而文字從 24px 就開始，字會壓在沒底的地方。 */
+@media(max-width:700px){
+ main::before{width:100vw;background:rgba(249,251,252,.86)}
+}
+
+@media(prefers-reduced-motion:reduce){#backdrop .layer{transition:none}}
+
+/* 時停：整個畫面短暫凍住——褪色、壓一層淡幕、動畫暫停。 */
+#freezeveil{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0;
+  background:rgba(232,238,244,.28);transition:opacity .55s ease}
+html.mfx-frozen #freezeveil{opacity:1;transition:none;
+  -webkit-backdrop-filter:saturate(.5) brightness(1.02);backdrop-filter:saturate(.5) brightness(1.02)}
+html.mfx-frozen #backdrop .layer{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){#freezeveil{display:none}}
+
+
+/* 克制的抖動：只給那句驚慌的喊叫，像發抖的聲音。reduced-motion 自動關。 */
+.tremble{display:inline-block;will-change:transform}
+.tremble.shake{animation:mfx-tremble .26s steps(1,end) 19}
+.tremble.brief.shake{animation:mfx-tremble .26s steps(1,end) 3}
+@keyframes mfx-tremble{
+ 0%{transform:translate(0,0) rotate(0deg)}
+ 15%{transform:translate(.6px,-.4px) rotate(-.4deg)}
+ 30%{transform:translate(-.5px,.5px) rotate(.3deg)}
+ 45%{transform:translate(.4px,.4px) rotate(.4deg)}
+ 60%{transform:translate(-.6px,-.3px) rotate(-.3deg)}
+ 75%{transform:translate(.3px,-.5px) rotate(.2deg)}
+ 90%{transform:translate(-.3px,.3px) rotate(-.2deg)}
+ 100%{transform:translate(0,0) rotate(0deg)}}
+@media(prefers-reduced-motion:reduce){.tremble.shake{animation:none}}
+
+/* 時停：整個畫面短暫凍住——褪色、壓一層淡幕、動畫暫停。 */
+#freezeveil{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0;
+  background:rgba(232,238,244,.28);transition:opacity .55s ease}
+html.mfx-frozen #freezeveil{opacity:1;transition:none;
+  -webkit-backdrop-filter:saturate(.5) brightness(1.02);backdrop-filter:saturate(.5) brightness(1.02)}
+html.mfx-frozen #backdrop .layer,html.mfx-frozen #shade::before{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){#freezeveil{display:none}}
+
+/* 聲音開關（同序章）：右上角，前 10 秒清楚、之後低調。 */
+#snd{position:fixed;top:1.1rem;right:1.1rem;z-index:50;border:0;background:rgba(255,255,255,.82);
+ color:#4a565e;font:inherit;font-size:.76rem;letter-spacing:.18em;padding:.55rem 1.15rem;border-radius:2rem;
+ cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+ box-shadow:0 2px 12px rgba(60,80,70,.14);opacity:1;transition:opacity .8s ease,background .3s}
+#snd.rest{opacity:.34}
+#snd:hover{opacity:1}
+@media(max-width:700px){#snd{top:.7rem;right:.7rem;font-size:.72rem;padding:.5rem 1rem}}
+
+/* 側邊記憶 mem（同序章）：桌機餘光、手機捲動湧現。 */
+#margin{position:fixed;right:max(2vw,calc(50vw - 30em));top:0;bottom:0;width:13rem;
+z-index:4;pointer-events:none;display:flex;align-items:center}
+.mem{position:absolute;left:0;right:0;opacity:0;transform:translateY(8px);
+transition:opacity .7s ease,transform .7s ease;font-size:.74rem;line-height:1.85;
+color:#4a565e;letter-spacing:.04em;border-left:2px solid rgba(93,106,114,.35);
+padding:.7rem .8rem .7rem .9rem;border-radius:0 6px 6px 0;
+background:rgba(250,252,253,.72);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+box-shadow:0 1px 8px rgba(60,80,70,.10)}
+.mem.on{opacity:.85;transform:translateY(0)}
+.mem.empty{min-height:5.5rem;border-left-color:rgba(93,106,114,.18)}
+#margin{display:none}
+.memcue{display:block;position:relative;height:0}
+.mem.side{position:absolute;left:100%;right:auto;top:.2em;margin-left:2.5rem;width:13rem;
+ opacity:0;transform:translateY(10px);transition:opacity .8s ease,transform .8s ease}
+.mem.side.seen{opacity:.85;transform:none}
+@media(max-width:1180px){.mem.side{display:none}}
+.mem.inline{position:static;display:block;margin:0 0 0 1.6em;max-width:19em;padding:0;
+ font-size:.93rem;line-height:2.35;letter-spacing:.08em;color:#7c868d;
+ background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;
+ max-height:0;overflow:hidden;opacity:0;transform:translateY(12px);
+ transition:max-height 1.4s ease,margin 1.4s ease,opacity 1.2s ease .25s,transform 1.2s ease .25s}
+.mem.inline.seen{max-height:16em;margin:2.6em 0 2.6em 1.6em;opacity:1;transform:none}
+.mem.inline.empty{min-height:0}
+
+/* 餘燼與懸空的葉：只在最後「燒掉的林子」場景浮現。
+   餘燼緩緩上升；幾片燒焦的葉子懸在半空、幾乎不動——時停沒完全釋放的伏筆（呼應正文最後一句「到現在都還掛在那裡，沒有落下來」）。 */
+#ashfall{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 2.4s ease}
+body.ash-on #ashfall{opacity:1}
+#ashfall span{position:absolute;display:block}
+#ashfall .ember{width:3px;height:3px;border-radius:50%;background:#ffb46a;
+ box-shadow:0 0 6px 1px rgba(255,150,60,.55);animation:ash-rise linear infinite}
+@keyframes ash-rise{
+ 0%{transform:translateY(0) translateX(0);opacity:0}
+ 14%{opacity:.7}
+ 82%{opacity:.45}
+ 100%{transform:translateY(-44vh) translateX(7px);opacity:0}}
+#ashfall .leafhang{width:8px;height:5px;border-radius:62% 38% 55% 45%;
+ background:rgba(38,42,46,.6);animation:ash-hangsway 7.5s ease-in-out infinite alternate}
+@keyframes ash-hangsway{from{transform:translate(0,0) rotate(13deg)}to{transform:translate(3px,-2px) rotate(19deg)}}
+@media(prefers-reduced-motion:reduce){
+ #ashfall .ember{display:none}
+ #ashfall .leafhang{animation:none;transform:rotate(16deg)}}
+</style></head><body>
+<button id="snd">♪　開啟聲音</button>
+<audio id="bgmA" src="序章-素材/ambient.mp3" preload="auto"></audio>
+<audio id="bgmB" src="序章-素材/ambient.mp3" preload="auto"></audio>
+<div id="margin"><div class="mem" data-i="0">報修單<br>項目：三樓走道漏水<br>受理日：（去年）<br>（處理中）</div><div class="mem" data-i="1">資產盤點表<br>盤點人：<br>覆核：</div><div class="mem" data-i="2">感謝各位同仁的辛勞<br>副本收件人：全公司<br>（無須回覆）</div></div>
+<div id="skybase"></div><div id="backdrop"><div class="layer a"></div><div class="layer b"></div></div>
+<main>
+<div class="meta">《轉生異世界的我 token 無限》・第一卷・初稿</div>
+<h1>第七章：我救了這座小鎮</h1>
+<section data-fx-bg="第六章-素材/3-旅館大堂.webp"><h2>七之一：他修好一口井</h2>
+<p>到凱旭的第九天，他還是不知道一天可以拿來做什麼。</p>
+<p>早上在同一個時間醒來，穿好衣服，下樓。樓下最裡面那一桌她已經在了。吃東西。出去走一圈。回來。晚上她寫字，他坐在對面看。</p>
+<div class="brk">§</div>
+<p>那天早上他決定去看那口井。</p>
+<p>不是因為想到了什麼，是因為他沒有別的地方可以去。</p>
+<div class="brk">§</div>
+<div data-fx-bg="第七章-素材/1-井.webp"></div>
+<p>井在街的中段，石頭砌的，井口比他想的低，繩子磨得發亮。</p>
+<p>他第一次來是到這裡的第二天，那時候聲音剛回來，講兩句就啞。他趴在井口看了很久，什麼都沒有看出來。</p>
+<p>那張紙上寫的是去看一口井。</p>
+<p>他看了。</p>
+<p>這一次他還是什麼都沒有看出來。</p>
+<p>水在下面，很遠。是有水的，只是少，而且看起來不乾淨。</p>
+<p>他蹲在井邊。</p>
+<span class="memcue" data-i="0"></span><p>他前世也有一個修不好的東西。</p>
+<p>公司三樓的天花板會漏水，漏在走道正中間。有人放了一個桶子在底下接。他報修過一次，回了一封信說已受理，然後就沒有下文了。那個桶子後來變成走道的一部分，大家走到那裡都會自動繞一下，沒有人再提。</p>
+<p>他蹲了大概五分鐘，什麼也想不出來，就站起來了。</p>
+<p>站起來的時候他發現旁邊有人在看他。</p>
+<div class="brk">§</div>
+<p>是一個小孩。八九歲，手上兩個桶子，腳邊七八隻鵝。</p>
+<p>「你在幹嘛。」</p>
+<p>「看井。」</p>
+<p>「看得出來嗎？」</p>
+<p>「看不出來。」</p>
+<p>那個小孩點了點頭，好像這個答案很合理，然後把桶子放下來，自己也趴到井口去看。</p>
+<p>「我也看不出來。」他說，「可是我知道以前不是這樣。」</p>
+<p>「以前怎樣。」</p>
+<p>「以前很快就滿了。」</p>
+<p>街的那一頭有人在喊。是一個女人的聲音，喊的是兩個字。</p>
+<p>「小洛——」</p>
+<p>「來了！」</p>
+<p>他把空的桶子拎起來就跑，鵝在後面追。</p>
+<div class="brk">§</div>
+<p>陸修站在井邊。</p>
+<p>他知道自己接下來要做什麼，也知道那件事沒有理由會有用。他就是沒有別的事情可以做。</p>
+<p>他清了一下喉嚨。</p>
+<p>「差旅費請先填單，單子要主管簽，主管簽完送會計。」</p>
+<p>他停了一下。</p>
+<p>「會計那邊每個月十號截止，過了十號的算下個月。」</p>
+<p>只有兩句。他現在很清楚兩句是多少。</p>
+<div class="brk">§</div>
+<p>有一下子什麼都沒有。</p>
+<p>然後停頓來了。很短，短到他還來不及開始數。</p>
+<p>然後井裡有聲音。</p>
+<p>不是水聲。是石頭的聲音，很低，從很下面來，像有人在很深的地方把什麼挪開了。那個聲音持續了一會兒，然後停了。</p>
+<p>他往井裡看。</p>
+<p>水在上來。</p>
+<p>不快，可是一直在上，一圈一圈把井壁的顏色蓋掉。上到快滿的地方停住，那時候水已經是清的。</p>
+<p>他站在那裡看了很久。</p>
+<p>他不知道剛才那兩句做了什麼。</p>
+<div class="brk">§</div>
+<p>他把繩子放下去打了一桶上來。</p>
+<p>水是涼的。他喝了一口，把剩下的倒回井裡。</p>
+<p>他沒有想過可以倒在地上。</p>
+<p>他把那張委託單從懷裡拿出來。紙已經軟了，摺痕的地方起毛。他看著上面那些他看不懂的字，看了一會兒，然後往街的那一頭走。</p>
+<div class="brk">§</div>
+<div data-fx-bg="第六章-素材/3-旅館大堂.webp"></div>
+<p>街的那一頭是旅館。</p>
+<p>老闆娘正從灶間端東西出來，穿過廳，走到最裡面那張桌子放下，然後走回去。她每天走這一條，一次都沒有變過。</p>
+<p>他把紙放在櫃檯上。</p>
+<p>「井好了。」</p>
+<p>她抬起頭。</p>
+<p>「什麼好了。」</p>
+<p>「街上那口井。水回來了。」</p>
+<p>她看著他，看了兩秒，然後把手在圍裙上擦了一下，繞過櫃檯就往外走。走得很快。</p>
+<p>陸修跟在後面。</p>
+<div class="brk">§</div>
+<p>到中午的時候井邊有十幾個人。</p>
+<p>有人打了三桶上來，有人蹲著看水面，有人在問這是什麼時候好的。一個婦人把手伸進桶子裡，拿出來，又伸進去一次。</p>
+<p>沒有人問他是怎麼做的。</p>
+<p>有一個老先生從人堆外面走過來，走到井邊，往裡面看了一眼。</p>
+<p>「以前不是這樣的。」他說。</p>
+<p>「井滿了是好事啊。」旁邊有人說。</p>
+<p>「我知道。」他說，「可是以前不是這樣的。」</p>
+<p>那個人笑著搖搖頭，回去看水了。</p>
+<p>老先生沒有再講，走回街口那棵樹底下坐著。</p>
+<div class="brk">§</div>
+<p>下午老闆娘給了他一碗東西。</p>
+<p>他坐下來吃，她站在旁邊，等他吃完第一口。</p>
+<p>「你吃太少了。」</p>
+<p>他才吃了一口。</p>
+<p>桌上還有一個小陶罐，裡面裝著那種聞起來很酸的東西。他掀開來聞了一下，蓋回去，沒有動。</p>
+<p>吃完他上樓的時候聽見有人在門口喊她。</p>
+<p>「昆恩太太——」</p>
+<p>她應了一聲。</p>
+<p>陸修站在樓梯上，把那個名字在心裡放了一下。</p>
+<p>他前世在同一層樓待了七年。隔壁組有一個人，每天早上進電梯的時候會跟他點一下頭，點了七年。</p>
+<p>他到現在都不知道那個人姓什麼。</p>
+<div class="brk">§</div>
+<p>那天晚上艾可問他今天做了什麼。</p>
+<p>「修了一口井。」他說。</p>
+<p>她低頭寫了一行。</p>
+<p>「怎麼修的。」</p>
+<p>「我不知道。」</p>
+<p>她又寫了一行。</p>
+<p>他看著她寫。</p>
+<p>「妳連這個也記。」</p>
+<p>「嗯。」</p>
+<p>「那如果我明天什麼都沒做。」</p>
+<p>「那就記那個。」</p>
+<p>他笑了一下。</p>
+<p>井修好的第二天早上，桌上那個陶罐不見了。</p>
+<p>原來放陶罐的地方換成一小碟醃過的菜，細細的一撮，上面撒了一點什麼。</p>
+<p>他吃了兩口。</p>
+<p>昆恩太太從灶間出來，走過他旁邊。</p>
+<p>「你吃太少了。」</p>
+<div class="brk">§</div>
+<p>昆恩太太決定要餵艾可，是再隔一天的事。</p>
+<p>起因是她問艾可都吃什麼。</p>
+<p>「餅。」</p>
+<p>「什麼餅。」</p>
+<p>「乾的。」</p>
+<p>昆恩太太看了她一會兒，轉頭看陸修。</p>
+<p>「她認真的？」</p>
+<p>「認真的。」</p>
+<p>昆恩太太沒有再問。她轉身回灶間，出來的時候手上多了一碗。</p>
+<p>她把碗放在艾可面前。</p>
+<p>「不用。」艾可說。</p>
+<p>「這是給妳的。」</p>
+<p>「不用。」</p>
+<p>昆恩太太站在那裡看著她。艾可把簿子往旁邊挪了一點，讓那個碗有地方放，然後繼續寫。</p>
+<p>碗留在那裡。</p>
+<div class="brk">§</div>
+<p>又隔一天，她換了方法。她沒有把碗放下，她把碗直接放進艾可手裡。</p>
+<p>艾可接住了。接住的時候她得把筆放下。</p>
+<p>「不用。」</p>
+<p>「妳先吃。」</p>
+<p>「不用。」</p>
+<p>昆恩太太看著她，看了很久。</p>
+<p>然後她轉頭看陸修。</p>
+<p>「她聽得懂我在講什麼吧？」</p>
+<p>「聽得懂。」</p>
+<p>「那她是不是不喜歡我煮的？」</p>
+<p>陸修想了一下要怎麼講。</p>
+<p>「她也不吃別人煮的。」</p>
+<p>昆恩太太的表情變得更差了。</p>
+<p>她把碗拿回去，端回灶間。走到一半她回過頭。</p>
+<p>「妳吃太少了。」</p>
+<div class="brk">§</div>
+<p>陸修坐在那裡。</p>
+<p>他發現自己在等。等她再講一次不用。</p>
+<p>他前世不會等這種東西。開會的時候別人在講什麼他都知道下一句是什麼，他等的是結束。</p>
+<p>他把自己那一碗吃完，發現自己剛才是笑著吃完的。</p>
+<div class="brk">§</div>
+<p>街的北邊那一頭，最後一戶的門是開著的，白天一直開著。裡面有一台織布機，聲音傳到街上，一下一下，很規律。</p>
+<p>他經過的時候會慢下來一點。</p>
+<p>有一天他慢下來的時候，聲音停了。</p>
+<p>他往裡面看。婦人坐在機子後面，一隻手撐著布，另一隻手把已經織好的線往回挑。她挑得很慢，一根一根，挑了大概二十行。</p>
+<p>挑完她把梭子重新拿起來，從那個地方再織一次。</p>
+<p>「錯了一行。」她說。她沒有抬頭。那句話不像是講給誰聽的。</p>
+<p>「看得出來嗎。」陸修問。</p>
+<p>「我看得出來。」</p>
+<p>她把梭子推過去，推回來。</p>
+<p>「快好了。」</p>
+<p>陸修看了一眼機子上那塊布。那塊布還很短。</p>
+<div class="brk">§</div>
+<p>艾可在她的簿子上寫下那個名字，是隔天的事。</p>
+<p>那天她們在門口講了幾句。陸修站在後面，聽不太清楚，只看到婦人指了指機子上那塊布，然後艾可低頭寫。</p>
+<p>走回去的路上他問她寫了什麼。</p>
+<p>「蘿姆嬸。」她說，「還有那塊布是給誰的。」</p>
+<p>「給誰的。」</p>
+<p>「那個趕鵝的。」</p>
+</section>
+<section data-fx-bg="第七章-素材/2-樹下.webp"><h2>七之二：以前不是這樣的</h2>
+<p>街口那棵樹下有一張石桌。</p>
+<p>傍晚那裡會有人。做完事的人繞過去站一下，講兩句就走。</p>
+<p>那個老先生一定在。同一個位子，同一個方向，腳邊一條老狗。</p>
+<p>陸修在那裡坐過三次。</p>
+<p>第一次是因為沒有地方可以去，第二次是因為他發現坐在那裡可以看到整條街，第三次他自己也說不上來。</p>
+<p>老先生講話的時候不太看人。</p>
+<p>「這裡以前有兩口井。」他說，「坡上還有一口。那是我小時候的事，後來塌了。」</p>
+<p>「什麼時候塌的。」</p>
+<p>「六年前。」</p>
+<p>「四年前。」旁邊有人說。是趕鵝經過的小洛，他停下來，兩隻手抓著桶子的把手。「我爸說是四年前，那年我五歲。」</p>
+<p>老先生轉過去看他。</p>
+<p>「⋯⋯喔。」他說，「四年前。」</p>
+<p>然後他點了點頭，好像剛才那句話是他自己講的。</p>
+<p>小洛很滿意，趕著鵝走了。走過樹下的時候他喊了一聲。</p>
+<p>「奧德爺爺——」</p>
+<p>老先生抬了一下手，沒有站起來。</p>
+<div class="brk">§</div>
+<p>奧德有時候會進來坐，坐在最外面那一桌，一個人。</p>
+<p>他沒有來的那幾天，天黑以後昆恩太太會端一份到街尾。他一個人住，他的門不關，她端過去的時候不用敲，推開就進去，放下，出來。</p>
+<p>她回來的時候陸修還坐在廳裡。</p>
+<p>「他自己不會弄嗎。」</p>
+<p>「會啊。」她說，「弄了也是一個人吃。」</p>
+<div class="brk">§</div>
+<p>有一天他在樹下多坐了一會兒。</p>
+<p>「這幾天夜裡狗會叫。」老先生說。</p>
+<p>陸修看了一眼那條狗。牠趴著，眼睛半閉。</p>
+<p>「這一隻？」</p>
+<p>「這一隻，還有別家的。半夜一起叫，叫得很兇。」他說，「出去看，什麼都沒有。」</p>
+<p>「什麼都沒有。」</p>
+<p>「連影子都沒有。」</p>
+<p>他從桌上拿了一根草，在手裡繞。</p>
+<p>「山上有東西下來吧。」旁邊有人說，「今年雪來得早。」</p>
+<p>老先生把那根草繞完，鬆手。</p>
+<p>「以前不是這樣的。」</p>
+<p>沒有人接話。過了一會兒，那個人跟旁邊的另一個人講起別的事了。</p>
+<div class="brk">§</div>
+<div data-fx-bg="第六章-素材/3-旅館大堂.webp"></div>
+<p>有一天傍晚講到了北邊那個村子。</p>
+<p>起因是小洛。他提兩桶水到旅館後面，放完進來，看到陸修，就蹲在他旁邊，問他從哪裡來。</p>
+<p>「南邊。」陸修說。</p>
+<p>「南邊哪裡。」</p>
+<p>「諾德。」</p>
+<p>「你有沒有去過北邊那個村子？」</p>
+<p>昆恩太太正好從旁邊過去，手上端著兩個碗。</p>
+<p>「那裡沒有人了啦。」她說，「早搬走了。」</p>
+<p>她把碗放到桌上，回頭再拿。</p>
+<p>「那邊土薄，種不出東西。撐個幾年就走了，本來就住不久。」</p>
+<p>她端第二趟出來的時候順口又補了一句。</p>
+<p>「也有人說是強盜。反正那條路過去就沒有人了，走了也好。」</p>
+<p>小洛抬起頭。</p>
+<p>「強盜是什麼？」</p>
+<p>「你不要問。」</p>
+<p>她把最後一個碗放下，用圍裙擦了擦手，就進灶間了。</p>
+<p>從街上傳來織布機的聲音，一下一下。</p>
+<div class="brk">§</div>
+<p>陸修坐在那裡。</p>
+<p>他看過那個村子。</p>
+<p>門是開的，前面三間都是。桌上三個碗一個鍋，鍋是空的。有一間的織布機上還有一塊織到一半的布，梭子卡在線裡面。床上的被子掀開著。小孩的鞋放在床邊，兩隻並在一起，鞋尖朝外。柵欄的門閂插得很正。田裡的麥子熟了，沒有人收。</p>
+<p>沒有人搬家會這樣搬。</p>
+<p>所以昆恩太太剛才那一套是假的。</p>
+<p>還有一件：城裡那些人講的是「連鍋子都收得乾乾淨淨，門是關好的」，而他親眼看到的是門開著、碗還在桌上。他出發之前那個說法就已經錯了，當時他沒有想過為什麼會錯。</p>
+<p>兩個說法他都知道是假的。</p>
+<p>他把這兩件事放到旁邊，決定先不看。</p>
+<p>這個動作他很熟。</p>
+<div class="brk">§</div>
+<p>角落有人咕噥了一句。</p>
+<p>「以前不是這樣的。」</p>
+<p>是奧德。他坐在最外面那一桌，一個人。</p>
+<p>沒有人轉過頭。</p>
+<p>過了一下他自己也不講了。</p>
+<div class="brk">§</div>
+<div data-fx-bg="第六章-素材/4-市集.webp"></div>
+<p>隔天中午小洛在市集攔住他。</p>
+<p>「我跟其他人講了。」他說，「說你把那條龍打死了。」</p>
+<p>「我沒有打牠。」</p>
+<p>小洛停住。</p>
+<p>「那牠去哪裡？」</p>
+<p>「不知道。」陸修說，「本來在那裡，後來就不在了。」</p>
+<p>小洛想了很久。想的時候他的嘴巴一直在動，像在把那句話重講一遍。</p>
+<p>然後他跑掉了。</p>
+<div class="brk">§</div>
+<p>再隔天早上他又出現了，帶了另外兩個小孩。</p>
+<p>「他沒有打牠。」他說。他講得很大聲，講完看了陸修一眼。「牠本來在那裡，後來就不在了。」</p>
+<p>另外兩個小孩不太相信。</p>
+<p>「你怎麼知道？」</p>
+<p>「他跟我講的。」</p>
+<p>三個人一起轉過來看陸修。</p>
+<p>陸修點了點頭。</p>
+<p>「那個坑——」他說。</p>
+<p>「我知道！」小洛說。他還沒聽完就說了。</p>
+<p>然後三個人一起跑掉了。</p>
+<div class="brk">§</div>
+<p>小洛剛才看他的那一眼，陸修後來想了很久。</p>
+<p>他前世看過一次。有一個新人問他一個問題，他隨口答了；那個新人在下一場會議裡把那句話講給別人聽，講的時候看了他一眼。他當時在想別的事，沒有反應。</p>
+<p>那個人是在讓別人知道那句話是誰講的。</p>
+<p>小洛在做同一件事。</p>
+<p>陸修站在市集中間，看著那三個人跑遠，一直到看不見。</p>
+<p>又過了幾天，開始下雨。</p>
+<p>不是大雨，是那種一整天都在下、下到你不記得它什麼時候開始的雨。街上的土變黑，鵝不用趕就自己回來，織布機的聲音照樣傳出來。</p>
+<p>下了兩天。</p>
+<p>雨停的那天早上出了太陽，可是山上那一層白的還在。</p>
+<p>陸修站在旅館門口看。凱旭是靠著山蓋的，鎮的北邊有一道坡直接接到山腳，坡上有幾棵樹，樹上面就是那一層白。</p>
+<p>他不知道這裡的雪該在什麼時候下，什麼時候化。</p>
+<p>他回頭看廳裡。</p>
+<p>奧德坐在最外面那一桌，面對著門。</p>
+<p>「以前不是這樣的。」他說。</p>
+<p>沒有人抬頭。</p>
+<div class="brk">§</div>
+<div data-fx-bg="第七章-素材/4-夜.webp"></div>
+<p>那天夜裡狗叫了。</p>
+<p>陸修是被吵醒的。先是一隻，然後是三四隻，然後整個鎮都在叫。那個叫法跟平常不一樣，不是有人經過那種一聲一聲的叫，是連著的，中間不換氣。</p>
+<p>他下床，打開窗。</p>
+<p>外面很黑。他看不到街，只看得到對面屋頂的一條線。</p>
+<p>狗叫了很久。</p>
+<p>然後全部停了。不是一隻一隻停，是一起停的。</p>
+<p>他站在窗邊聽。</p>
+<p>什麼都沒有。</p>
+<div class="brk">§</div>
+<p>他下樓的時候艾可在。</p>
+<p>一盞燈，簿子攤開，她在寫。她抬起頭，笑了一下，然後繼續寫。</p>
+<p>「妳沒睡。」</p>
+<p>「嗯。」</p>
+<p>「剛才那些狗。」</p>
+<p>「我聽到了。」</p>
+<p>「妳知道是什麼嗎。」</p>
+<p>「不知道。」</p>
+<p>他在對面坐下來。他沒有想清楚自己要幹嘛，就是不太想上去。</p>
+<p>她寫了一行，把筆放下，把簿子往上推一點。</p>
+<p>「你想去看嗎。」</p>
+<p>「什麼。」</p>
+<p>「牠們在叫什麼。」</p>
+<p>他往門口看了一眼。</p>
+<p>「外面很黑。」</p>
+<p>「嗯。」</p>
+<p>她重新拿起筆。</p>
+<p>他坐在那裡，過了一會兒才發現一件事。</p>
+<p>他說了外面很黑，她就「嗯」了一聲，然後回去寫字。</p>
+<p>他前世說不要的時候，沒有一次是這樣結束的。</p>
+<div class="brk">§</div>
+<p>他上樓的時候天還沒亮。</p>
+<p>躺下去之前他想到一件事：他到現在都還沒有在這個鎮上講過那種話，差旅費請先填單那種。除了井邊那兩句。</p>
+<p>他躺著想了一下自己為什麼會想到這件事，想不出來，就睡了。</p>
+</section>
+<section data-fx-bg="第六章-素材/3-旅館大堂.webp"><h2>七之三：他們謝他</h2>
+<p>聲音是早上來的。</p>
+<p>他當時在樓下，剛坐下，昆恩太太的碗還沒放到桌上。</p>
+<p>那個聲音很低，低到不像聲音，比較像地板在動。廳裡的人全部停下來，沒有人講話。</p>
+<p>然後碗架上有一個碗自己往前滑了一點，掉下來，破了。</p>
+<p>昆恩太太看著地上那個碗。</p>
+<p>然後她開始跑。</p>
+<div class="brk">§</div>
+<div data-fx-bg="第七章-素材/3-坡.webp"></div>
+<p>陸修跟著跑出去的時候街上已經有人了。</p>
+<p>所有人都往同一個方向看。</p>
+<p>北邊那道坡在動。</p>
+<p>不是滑下來，是整片一起往下沉，慢慢的，樹跟著往前傾，傾到某個角度就整棵倒下去。坡的中間有一道裂開的線，那條線在變寬。</p>
+<p>底下就是街。</p>
+<p>鎮的北邊那一排房子，最外面那一戶是蘿姆嬸家。門開著，織布機的聲音停了。</p>
+<p>有人在喊小孩的名字。</p>
+<p>有人往回跑，想拿東西。</p>
+<p>奧德從樹那邊走過來，走到一半停住，就沒有再動。那條狗在他腳邊叫。</p>
+<div class="brk">§</div>
+<p>陸修站在街中間。</p>
+<p>他前世沒有做過決定。</p>
+<p>他做過選擇——哪一個先修、哪一份先交、哪一封信可以明天再回——可是那些是排序，不是決定。真正的決定永遠在別的地方做完，然後變成一張紙送到他桌上。</p>
+<p>他站在那裡的時候腦子裡很空。</p>
+<p>然後他張開嘴。</p>
+<span class="memcue" data-i="1"></span><p>「資產盤點作業，每年十二月執行一次。」</p>
+<p>他開始講。</p>
+<p>「盤點範圍包括固定資產、低值易耗品，以及租賃資產。」</p>
+<p>坡還在往下。</p>
+<p>「各單位應於盤點日前完成標籤黏貼，標籤脫落者視同未盤。」</p>
+<p>他不知道自己在講的東西跟這件事有什麼關係。他知道那不重要。長度才重要。</p>
+<p>「盤點結果與帳面不符時，應填寫差異說明表，經單位主管核章後送財產管理單位。」</p>
+<p>那條看不見的線開始排。</p>
+<p>「差異金額超過一萬元者，應簽會計主管；超過十萬元者，應簽總經理。」</p>
+<p>「盤點人與覆核人不得為同一人。」</p>
+<p>「盤點表應保存七年。」</p>
+<div class="brk">§</div>
+<p>講到「保存七年」的時候，那條線已經夠了。</p>
+<p>他知道夠了。</p>
+<p>他前世很會估這種東西。這個需求要做多久、這份文件要幾頁、這件事講到哪裡對方就會點頭——他估過幾千次，很少估錯。剛才那條線排到某個地方的時候，他心裡有一個東西說：到這裡就可以了。</p>
+<p>可是知道跟確定不一樣。</p>
+<p>底下是一整條街。</p>
+<p>他繼續講。</p>
+<p>「盤點期間各單位不得異動資產位置。」</p>
+<p>「盤點期間如遇假日，順延至次一工作日。」</p>
+<p>「因故無法親自盤點者，應事先指定代理人。」</p>
+<p>「代理人不得同時代理兩個以上單位。」</p>
+<p>「本作業辦法自公布日起實施。」</p>
+<p>「修訂時亦同。」</p>
+<div class="brk">§</div>
+<p>最後一個字落地。</p>
+<p>那條線繃到底。</p>
+<div class="brk">§</div>
+<p>他抬起頭。</p>
+<p>坡不在那裡了。</p>
+<p>沒有塌下來的聲音，沒有土揚起來，沒有東西滾到街上。那一整片，連同上面的樹、上面的雪、底下的土，不在那裡了。</p>
+<p>留下來的是一個面。很平，從山腳一路切上去，切面是乾的，顏色比土淺。</p>
+<p>街上很安靜。</p>
+<p>最北邊那排房子的屋頂上積了一層土。那是坡開始動的時候飄過來的。</p>
+<div class="brk">§</div>
+<p data-freeze="1100">然後是停頓。</p>
+<p>他開始數。</p>
+<p>一。</p>
+<p>二。</p>
+<p>三。</p>
+<p>數到十一的時候，那條狗動了。</p>
+<p>他停下來。</p>
+<p>比城下那次短。</p>
+<div class="brk">§</div>
+<p>他站在原地。</p>
+<p>喉嚨又壞了一點。他吞了一下口水，感覺到那個位置緊了一點。</p>
+<p>他往後看。</p>
+<p>她在。抱著簿子，已經在寫了。</p>
+<p>他轉回去看那個切面。</p>
+<p>他想的不是自己剛才做了什麼。他想的是那條線排到「保存七年」的時候他就知道夠了，而他又講了六句。</p>
+<p>他知道那六句是多的。</p>
+<p>他也知道下一次他還是會多講。</p>
+<p>第一個過來的是小洛。</p>
+<p>他跑得太快，煞不住，撞到陸修的腿上。</p>
+<p>「我看到了！」他說，「我全部都看到了！」</p>
+<p>他開始講剛才發生的事，講給陸修聽。他講到一半停下來，因為他發現自己講的是對方剛才做的事，可是他還是繼續講完了。</p>
+<p>講完他抬起頭。</p>
+<p>「你可不可以再做一次？」</p>
+<p>「不行。」</p>
+<p>「為什麼？」</p>
+<p>「因為坡只有一個。」</p>
+<p>小洛沒有再問。</p>
+<div class="brk">§</div>
+<p>然後是蘿姆嬸。</p>
+<p>她走過來，站在他前面，沒有講話。她的手上還有線頭。她伸手在他的手臂上放了一下，很輕，然後就轉身回去了。</p>
+<p>陸修看著她走回那扇開著的門。</p>
+<p>她坐下去，把梭子拿起來。</p>
+<p>織布機的聲音又開始了。</p>
+<div class="brk">§</div>
+<p>然後是奧德。</p>
+<p>他從樹下一路走過來，走得很慢。到了他面前站定。</p>
+<p>陸修等他講那句話。</p>
+<p>他沒有講。</p>
+<p>「謝謝你。」他說。</p>
+<p>然後他就站在那裡，沒有再講別的。他站了大概半分鐘，才轉身走回去。</p>
+<p>陸修看著他走。</p>
+<p>他走到樹下，坐回原來那個位子，跟平常一樣。</p>
+<p>可是他剛才站起來了。陸修在那張石桌旁邊坐過三次，那個人一次都沒有站起來過。</p>
+<div class="brk">§</div>
+<p>然後是所有人。</p>
+<p>他們不是一起來的。是一個一個來，或者兩三個一起來，講完就退開，讓後面的人上來。有人握他的手，有人只是站在他面前點頭，有一個老太太哭了。有人帶東西來，放在他腳邊，放完就走。</p>
+<p>沒有人跪下來。</p>
+<p>諾德那次有人跪下來。那個人跑到一半跌了一跤，爬起來繼續跑，跑到他面前跪下去，抱住他的腿，而他當時什麼感覺都沒有。</p>
+<p>他那天在找一個地方。他知道那個地方應該在，他一直找不到。</p>
+<p>這一次他沒有找。</p>
+<p data-freeze="2600">那個地方就在那裡。</p>
+<div class="brk">§</div>
+<p>他站著，一個一個聽他們講話。</p>
+<p>他知道其中一半的人叫什麼。</p>
+<p>這件事他一直到很後來才想通：諾德那天圍著他的是一整座城，而他一個名字都不知道。那些人看的不是他，是那個把龍弄不見的人。這裡不一樣。這裡是昆恩太太、蘿姆嬸、奧德、小洛，還有那個把手伸進桶子裡兩次的婦人。</p>
+<p>他們知道他是誰。</p>
+<div class="brk">§</div>
+<span class="memcue" data-i="2"></span><p>他前世也被謝過。</p>
+<p>那個系統做了十四個月，上線那天早上四點做完。禮拜一進辦公室，沒有人提。後來那個部門發了一封信，開頭是「感謝各位同仁的辛勞」，副本收件人是全公司。</p>
+<p>他當時把那封信看完了。他還記得自己看完之後想的是：這封信寫得滿好的。</p>
+<div class="brk">§</div>
+<p>小洛又擠回來了。</p>
+<p>「你第一次是什麼時候？」</p>
+<p>「什麼第一次。」</p>
+<p>「第一次用那個。」</p>
+<p>陸修想了一下。</p>
+<p>「在森林裡。」</p>
+<p>「你說了什麼？」</p>
+<p>陸修記得開頭。</p>
+<p>「我喊『你不要過來啊』。」</p>
+<p>小洛等著。</p>
+<p>「後面罵了很長一段。」他說，「罵什麼忘了。」</p>
+<p>他那時候在怕。怕的時候講出來的東西留不住——他只記得講到最後那一句的時候，那道光就出來了。</p>
+<p>「我連飯都還沒吃。」</p>
+<p>是艾可。她站在旁邊，簿子攤在手上，沒有抬頭。</p>
+<p>小洛笑了。他笑得很誇張，笑到蹲下去，一邊笑一邊拍地。</p>
+<p>「我連飯都還沒吃！」他學了一遍。</p>
+<p>陸修看著她。</p>
+<p>「妳——」</p>
+<p>「你吃太少了。」</p>
+<p>昆恩太太把一個碗放到他手上。碗是熱的，他不接不行。她站在旁邊等。</p>
+<p>等他吃完第一口，她才走。</p>
+<div class="brk">§</div>
+<p>陸修看著手上那個碗。</p>
+<p>剛才那句話他還沒問完。他低頭吃了兩口，就想不起來要怎麼問了。</p>
+<p>他把碗裡的東西吃完了。</p>
+<div class="brk">§</div>
+<p>謝他的人散掉之後，他才發現艾可不見了。</p>
+<p>不是不見。是她從剛才那一堆人裡面出去了，而他不知道是什麼時候。</p>
+<p>他站在街上，想不出來要去哪裡找，然後聽到有人在講北邊那一排。</p>
+<p>坡沒有壓到房子。可是坡開始動的時候有東西掉下來，一塊石頭砸破了一個屋角，屋角底下有一個人。</p>
+<p>那個人被抬出來了。他還活著。</p>
+<div class="brk">§</div>
+<p>那間屋子在街的最北邊。門是開的，裡面點著一盞燈。</p>
+<p>她跪在床邊。</p>
+<p>床上那個男人的一隻腿被布包起來，包得很厚。他的臉是灰的，呼吸很淺，一口接一口，中間沒有停的地方。</p>
+<p>她在唸。</p>
+<p>陸修站在門口聽了一會兒。她唸的還是那些他聽不懂的詞，唸得很平，一遍完了接下一遍，中間不停。</p>
+<p>沒有人叫她來。</p>
+<p>屋子裡還有兩個人。一個是那個男人的太太，坐在牆邊；一個是幫忙抬的，站在門邊。他們都沒有講話。</p>
+<div class="brk">§</div>
+<p>陸修在門邊站了很久。</p>
+<p>他前世看過人加班。他自己就是那個人。可是他從來沒有從外面看過。</p>
+<p>從外面看是這樣的：一個人在做一件效果非常小的事，做得很慢，而她已經做了很久了。</p>
+<div class="brk">§</div>
+<p>他走進去，站在床尾。</p>
+<p>他不知道要講什麼。</p>
+<p>他講過的話都是同一種——講完之後，會有一個東西不在了。他沒有講過另外一種。</p>
+<p>他還是講了。</p>
+<p>他挑了最長的那一份。那是他在城牆下面用過的那一份。</p>
+<p>「年度考核的評分項目有五大項十八小項，每一項一到五分。」</p>
+<p>講到第三項的時候聲音就散了。他改成用氣講，像那天在城牆下面一樣。</p>
+<p>床上那個人的呼吸沒有變。</p>
+<p>他繼續講。</p>
+<div class="brk">§</div>
+<p>最後一個字落地。</p>
+<p>沒有停頓。</p>
+<div class="brk">§</div>
+<p>他站在那裡。</p>
+<p>什麼都沒有。</p>
+<div class="brk">§</div>
+<p>他往前走了兩步，蹲下來，把地上那盞燈往床邊挪了一點。</p>
+<p>她沒有停。</p>
+<p>挪完他坐在旁邊的地上。</p>
+<div class="brk">§</div>
+<p>過了很久，那個男人的呼吸變了。</p>
+<p>不是好了。是中間開始有停的地方，一口跟一口之間空出一點點。他的臉還是灰的。</p>
+<p>她停下來。</p>
+<p>她把簿子拿起來，在上面寫了一行。</p>
+<p>那個男人的太太從牆邊站起來，走過來，問她怎麼樣了。</p>
+<p>「他睡著了。」艾可說。</p>
+<p>那個太太問她要不要吃點東西。</p>
+<p>「不用。」</p>
+<div class="brk">§</div>
+<p>他們一起走回去。</p>
+<p>街上沒有人了。天已經全黑，只有旅館那邊有燈。</p>
+<p>「他會好嗎。」</p>
+<p>「不知道。」</p>
+<p>「那妳為什麼唸。」</p>
+<p>她走了幾步才回答。</p>
+<p>「因為我不知道。」</p>
+<p>陸修沒有再問。</p>
+<p>這句話他聽過一次。前幾天晚上，就在旅館那張桌子旁邊，講的是她為什麼記那些不重要的東西。當時他覺得那句話很怪，後來就沒有再想。</p>
+<p>現在他知道那不是同一句話，那是同一件事。</p>
+<div class="brk">§</div>
+<p>走到旅館門口的時候他停了一下。</p>
+<p>「今天。」他說。</p>
+<p>「嗯。」</p>
+<p>「我做的那個。」他說，「妳覺得那樣做，對嗎。」</p>
+<p>她抬起頭。</p>
+<p>這句話他問過一次。在北上的路上，那排樹不見的那個晚上，問的是他其實不用整排。那次她看了他一會兒，說她不知道。</p>
+<p>這一次她沒有停。</p>
+<p>「你救了他們。」</p>
+<p>他等她說下去。</p>
+<p>她沒有。她推開門，進去了。</p>
+<div class="brk">§</div>
+<p>他站在門口。</p>
+<p>他把那句話翻來覆去想。</p>
+<p>那句話是真的。他今天確實救了他們。</p>
+<p>可是他問的不是那個。他問的是他多講的那六句。</p>
+<p>她沒有答那個。他也不知道她是沒聽懂，還是聽懂了而那六句在她那裡不算一件事。</p>
+<p>他推開門進去。</p>
+<p>她已經坐在最裡面那一桌，燈亮著，簿子攤開。</p>
+<p>他走過去坐下。</p>
+<div class="brk">§</div>
+<div data-fx-bg="第七章-素材/5-窗.webp"></div>
+<p>昆恩太太是那天很晚才把他叫上樓的。</p>
+<p>她走在前面，走到二樓最裡面那一間，把門推開。</p>
+<p>房間比他原來那間大。有兩扇窗，一扇對街，一扇對北邊。床是新鋪的。</p>
+<p>「這間給你。」</p>
+<p>「我原來那間可以。」</p>
+<p>「那間對著牆。」</p>
+<p>她把對北邊那扇窗推開，站在那裡看了一下外面，然後轉過來。</p>
+<p>「你吃太少了。」</p>
+<p>她講完就下樓了。</p>
+<p>陸修站在房間中間。</p>
+<p>他走到那扇窗前面。</p>
+<p>外面全黑了。那個切面看不見，只看得出山的一條線。</p>
+<p>那條線少了一塊。</p>
+<p>他在那裡站了很久。</p>
+<div class="brk">§</div>
+<p>他住了七年的那個房子，全部的用途是讓他躺下。</p>
+<p>他從來沒有站在一個房間裡，把它從頭到尾看一遍。</p>
+<div class="brk">§</div>
+<p class="rec">他上樓之後，艾可把簿子翻到名單那一頁。</p>
+<p class="rec">名單比昨天長。</p>
+<p class="rec">她在最後加了一行。那一行不是名字，是「壓在底下的那個」。</p>
+<p class="rec">加完她從頭唸了一遍。</p>
+<p class="rec">唸到中間有一條她停了一下。</p>
+<p class="rec">「北邊那個村子。」她說，「四十一。」</p>
+<p class="rec">然後她繼續唸下去。</p>
+<p class="rec">唸到最後那幾行。那幾行是這幾天加的。</p>
+<p class="rec">昆恩太太。蘿姆嬸。奧德。小洛。</p>
+<p class="rec">唸完她把簿子闔上，雙手交疊，低頭。</p>
+<p class="rec">還是那二十七個字。</p>
+<p class="rec">唸完她抬起頭，等了一下。</p>
+<p class="rec">沒有回應。</p>
+<p class="rec">她把燈吹熄了。</p>
+<p class="rec">外面沒有狗在叫。</p>
+<p class="rec">一隻都沒有。</p>
+</section>
+<div class="end">第 七 章 ・ 初 稿 完</div>
+<div id="freezeveil"></div>
+<script>
+/* 時停。第七章換了形式：本章有兩次，而第二次正文一個字都沒有提。
+   前四章每一次時停都有一句話（「然後是停頓」），這一次只有讀者知道。
+   機制不變：那一段進到閱讀區＝上膛，讀者「下一次真的推捲動」才凍住，
+   所以一定會被身體感覺到——手推了一下，世界沒有動。
+   只攔 wheel / touchmove，鍵盤與捲軸永不攔截。reduced-motion 自動關。 */
+(function(){
+  var els=document.querySelectorAll('[data-freeze]'); if(!els.length) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var frozenUntil=0, armedMS=0;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting || e.target.dataset.armed) return;
+      e.target.dataset.armed='1';
+      armedMS=parseInt(e.target.getAttribute('data-freeze'),10)||600;
+      io.unobserve(e.target);
+    });
+  },{rootMargin:'0px 0px -40% 0px'});
+  [].forEach.call(els,function(el){ io.observe(el); });
+  function freeze(ms){
+    armedMS=0; frozenUntil=Date.now()+ms;
+    document.documentElement.classList.add('mfx-frozen');
+    setTimeout(function(){ document.documentElement.classList.remove('mfx-frozen'); }, ms);
+  }
+  function eat(ev){
+    if(Date.now()<frozenUntil){ ev.preventDefault(); return; }
+    if(armedMS){ ev.preventDefault(); freeze(armedMS); }
+  }
+  addEventListener('wheel', eat, {passive:false});
+  addEventListener('touchmove', eat, {passive:false});
+})();
+</script>
+
+
+
+<style>
+.chapnav{max-width:32em;margin:0 auto;padding:2vh 1.5rem 6vh;display:flex;flex-direction:column;
+ align-items:center;gap:1.4rem;position:relative;z-index:5}
+.chapnav .soon{display:flex;flex-direction:column;align-items:center;gap:.45rem;
+ padding:1.5rem 2.4rem;border:1px dashed rgba(120,130,138,.32);border-radius:12px;
+ min-width:15em;text-align:center;opacity:.6}
+.chapnav a.next{display:flex;flex-direction:column;align-items:center;gap:.45rem;text-decoration:none;
+ padding:1.5rem 2.4rem;border:1px solid rgba(120,130,138,.3);border-radius:12px;
+ background:rgba(255,255,255,.46);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+ transition:background .25s,transform .25s;min-width:15em;text-align:center}
+.chapnav a.next:hover{background:rgba(255,255,255,.78);transform:translateY(-2px)}
+.chapnav a.next .ttl{color:#20262b}
+.chapnav .lbl{font-size:.72rem;letter-spacing:.3em;color:#8a939a}
+.chapnav .ttl{font-size:1.05rem;letter-spacing:.06em;color:#3a4650}
+.chapnav a.toc{font-size:.78rem;letter-spacing:.2em;color:#6b7580;text-decoration:none;
+ border-bottom:1px solid rgba(120,130,138,.32);padding-bottom:.15rem}
+.chapnav a.toc:hover{color:#20262b}
+</style>
+<nav class="chapnav">
+ <span class="soon"><span class="lbl">下　一　章</span><span class="ttl">第八章　·　連載中</span></span>
+ <a class="toc" href="home.html">回　目　錄</a>
+</nav>
+<style>
+.site-foot{max-width:32em;margin:0 auto;padding:1vh 1.5rem 9vh;text-align:center;position:relative;z-index:5}
+.site-foot .foot-icons{display:flex;justify-content:center;gap:1.05rem;margin:0 0 1rem}
+.site-foot .foot-icons a{display:inline-flex;align-items:center;justify-content:center;
+ width:40px;height:40px;border-radius:50%;color:#5a656d;border:1px solid rgba(120,130,138,.3);
+ background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+ transition:transform .18s,background .18s,color .18s}
+.site-foot .foot-icons a:hover{transform:translateY(-2px);color:#20262b;background:rgba(255,255,255,.88)}
+.site-foot .foot-icons svg{width:19px;height:19px;fill:currentColor}
+.site-foot .foot-copy{color:#8a939a;font-size:.73rem;letter-spacing:.16em;line-height:1.9}
+</style><footer class="site-foot"><div class="foot-icons"><a href="https://github.com/yazelin/token-unlimited" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a><a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a><a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener" aria-label="請我喝咖啡" title="請我喝咖啡"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20.216 6.415l-.132-.666c-.119-.598-.388-1.163-1.001-1.379-.197-.069-.42-.098-.57-.241-.152-.143-.196-.366-.231-.572-.065-.378-.125-.756-.192-1.133-.057-.325-.102-.69-.25-.987-.195-.4-.597-.634-.996-.788a5.723 5.723 0 00-.626-.194c-1-.263-2.05-.36-3.077-.416a25.834 25.834 0 00-3.7.062c-.915.083-1.88.184-2.75.5-.318.116-.646.256-.888.501-.297.302-.393.77-.177 1.146.154.267.415.456.692.58.36.162.737.284 1.123.366 1.075.238 2.189.331 3.287.37 1.218.05 2.437.01 3.65-.118.299-.033.598-.073.896-.119.352-.054.578-.513.474-.834-.124-.383-.457-.531-.834-.473-.466.074-.96.108-1.382.146-1.177.08-2.358.082-3.536.006a22.228 22.228 0 01-1.157-.107c-.086-.01-.18-.025-.258-.036-.243-.036-.484-.08-.724-.13-.111-.027-.111-.185 0-.212h.005c.277-.06.557-.108.838-.147h.002c.131-.009.263-.032.394-.048a25.076 25.076 0 013.426-.12c.674.019 1.347.067 2.017.144l.228.031c.267.04.533.088.798.145.392.085.895.113 1.07.542.055.137.08.288.111.431l.319 1.484a.237.237 0 01-.199.284h-.003c-.037.006-.075.01-.112.015a36.704 36.704 0 01-4.743.295 37.059 37.059 0 01-4.699-.304c-.14-.017-.293-.042-.417-.06-.326-.048-.649-.108-.973-.161-.393-.065-.768-.032-1.123.161-.29.16-.527.404-.675.701-.154.316-.199.66-.267 1-.069.34-.176.707-.135 1.056.087.753.613 1.365 1.37 1.502a39.69 39.69 0 0011.343.376.483.483 0 01.535.53l-.071.697-1.018 9.907c-.041.41-.047.832-.125 1.237-.122.637-.553 1.028-1.182 1.171-.577.131-1.165.2-1.756.205-.656.004-1.31-.025-1.966-.022-.699.004-1.556-.06-2.095-.58-.475-.458-.54-1.174-.605-1.793l-.731-7.013-.322-3.094c-.037-.351-.286-.695-.678-.678-.336.015-.718.3-.678.679l.228 2.185.949 9.112c.147 1.344 1.174 2.068 2.446 2.272.742.12 1.503.144 2.257.156.966.016 1.942.053 2.892-.122 1.408-.258 2.465-1.198 2.616-2.657.34-3.332.683-6.663 1.024-9.995l.215-2.087a.484.484 0 01.39-.426c.402-.078.787-.212 1.074-.518.455-.488.546-1.124.385-1.766zm-1.478.772c-.145.137-.363.201-.578.233-2.416.359-4.866.54-7.308.46-1.748-.06-3.477-.254-5.207-.498-.17-.024-.353-.055-.47-.18-.22-.236-.111-.71-.054-.995.052-.26.152-.609.463-.646.484-.057 1.046.148 1.526.22.577.088 1.156.159 1.737.212 2.48.226 5.002.19 7.472-.14.45-.06.899-.13 1.345-.21.399-.072.84-.206 1.08.206.166.281.188.657.162.974a.544.544 0 01-.169.364zm-6.159 3.9c-.862.37-1.84.788-3.109.788a5.884 5.884 0 01-1.569-.217l.877 9.004c.065.78.717 1.38 1.5 1.38 0 0 1.243.065 1.658.065.447 0 1.786-.065 1.786-.065.783 0 1.434-.6 1.499-1.38l.94-9.95a3.996 3.996 0 00-1.322-.238c-.826 0-1.491.284-2.26.613z"/></svg></a></div><div class="foot-copy">© 林亞澤　著作權所有 · 保留一切權利</div></footer>
+</main><script>
+(function(){
+  var secs=[].slice.call(document.querySelectorAll('[data-fx-bg]'));
+  if(!secs.length) return;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var la=document.querySelector('#backdrop .a'), lb=document.querySelector('#backdrop .b');
+  var front=la, back=lb, cur='', loaded={};
+  // 預載並記下真的載完了沒有：沒載完就換，新層是空的，會透出底色
+  secs.forEach(function(s){ var u=s.getAttribute('data-fx-bg'), i=new Image();
+    i.onload=function(){ loaded[u]=1; }; i.src=u; if(i.complete) loaded[u]=1; });
+  /* 交叉淡入不能兩層各自半透明——那樣中間會露出 #skybase 的淺色（實測中點兩層
+     0.58/0.42，實際覆蓋率只有 0.76，24% 底色透出來＝那一下白閃）。
+     改成：出去的那層立刻補滿並壓到下面（被蓋住，看不出來），
+     進來的那層疊在上面從 0 淡到 1，全程底下都是不透明的。 */
+  function paint(url){
+    front.style.transition='none';
+    front.style.zIndex='0';
+    front.classList.add('on');
+    void front.offsetWidth;
+    front.style.transition='';
+    back.style.transition='none';
+    back.classList.remove('on');
+    back.style.backgroundImage="url('"+url+"')";
+    back.style.zIndex='1';
+    void back.offsetWidth;                 // 強制 reflow，確保 transition 生效
+    back.style.transition='';
+    back.classList.add('on');
+    var t=front; front=back; back=t;
+  }
+  function show(url){
+    if(url===cur) return; cur=url;
+    if(loaded[url]) return paint(url);
+    var im=new Image();
+    im.onload=function(){ loaded[url]=1; if(cur===url) paint(url); };
+    im.src=url;
+  }
+  function active(){
+    // scroll-spy：取「頂端已捲過畫面中央線的最後一段」＝正在讀的那一段。
+    // 不用「包含中央線」判定，跨段間隙就不會掉進錯的 fallback。
+    var mid=innerHeight/2, best=secs[0];
+    for(var i=0;i<secs.length;i++){
+      if(secs[i].getBoundingClientRect().top<=mid) best=secs[i];
+      else break;
+    }
+    show(best.getAttribute('data-fx-bg'));
+  }
+  addEventListener('scroll',active,{passive:true});
+  addEventListener('resize',active);
+  show(secs[0].getAttribute('data-fx-bg')); active();
+})();
+</script>
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var els=document.querySelectorAll('.tremble'); if(!els.length) return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var el=e.target;
+      if(e.isIntersecting){ el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+      else el.classList.remove('shake');
+    });
+  },{rootMargin:'-42% 0px -42% 0px'});   // 只在畫面中央一條窄帶算「正在讀」
+  [].forEach.call(els,function(el){ io.observe(el); });
+})();
+</script>
+<div id="freezeveil"></div>
+<script>
+/* 時停：捲到「世界停了一下」那句就觸發（不必繼續捲）——畫面凍約 0.9 秒：
+   褪色＋淡幕＋動畫暫停，同時吃掉捲動。全書第一次時停，做成明顯察覺得到；
+   之後章節會愈停愈久。reduced-motion 自動關。 */
+(function(){
+  var el=document.querySelector('[data-freeze]'); if(!el) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var MS=parseInt(el.getAttribute('data-freeze'),10)||600;
+  var frozenUntil=0, armed=false, done=false;
+  /* 上膛→擊發：那一句進到閱讀區只上膛，讀者「下一次真的推捲動」才凍住。
+     這樣一定會被身體感覺到：手推了一下，世界沒有動。
+     只攔 wheel / touchmove，鍵盤與捲軸永不攔截。 */
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting && !done) armed=true; });
+  },{rootMargin:'0px 0px -40% 0px'}).observe(el);
+  function freeze(){
+    armed=false; done=true;
+    frozenUntil=Date.now()+MS;
+    document.documentElement.classList.add('mfx-frozen');
+    setTimeout(function(){ document.documentElement.classList.remove('mfx-frozen'); }, MS);
+  }
+  function eat(ev){
+    if(Date.now()<frozenUntil){ ev.preventDefault(); return; }
+    if(armed){ ev.preventDefault(); freeze(); }
+  }
+  addEventListener('wheel', eat, {passive:false});
+  addEventListener('touchmove', eat, {passive:false});
+})();
+</script>
+<script>
+/* 聲音總控 + 環境配樂（跟序章同一首，雙 audio 交叉淡接無縫循環）。開關同時管音樂與火聲。 */
+(function(){
+  var btn=document.getElementById('snd');
+  window.MFXSound=(function(){
+    var on=true; try{ on=localStorage.getItem('fx-bgm')!=='0'; }catch(e){}
+    var subs=[];
+    try{ addEventListener('storage',function(e){ if(e.key==='fx-bgm'){ on=e.newValue!=='0'; subs.forEach(function(f){f(on);}); } }); }catch(e){}
+    return { isOn:function(){return on;},
+      toggle:function(){ on=!on; try{localStorage.setItem('fx-bgm',on?'1':'0');}catch(e){} subs.forEach(function(f){f(on);}); return on; },
+      onChange:function(f){ subs.push(f); } };
+  })();
+  function setBtn(){ if(btn) btn.textContent = window.MFXSound.isOn() ? '♪　聲音開啟中' : '♪　開啟聲音'; }
+  setBtn();
+
+  // 嵌在閱讀器殼(iframe)裡時：音樂由父層持續播放，這裡不自己放、藏掉自己的開關；只保留 MFXSound 給火聲與跨層同步。
+  if(window.top!==window.self){ if(btn) btn.style.display='none'; return; }
+
+  var A=document.getElementById('bgmA'), B=document.getElementById('bgmB');
+  var cur=A, nxt=B, on=false, env=0, envTarget=0, fading=false, fadeT0=0, started=false;
+  var VOL=0.34, FADE=5;
+  function tick(){
+    requestAnimationFrame(tick);
+    var now=performance.now()/1000;
+    if(env<envTarget) env=Math.min(envTarget, env+(1/6)*0.016);
+    else if(env>envTarget) env=Math.max(envTarget, env-(1/1.8)*0.016);
+    if(on && cur.duration){
+      if(!fading && cur.currentTime>cur.duration-FADE){ try{nxt.currentTime=0;nxt.play();}catch(e){} fading=true; fadeT0=now; }
+      if(fading){ var p=Math.min(1,(now-fadeT0)/FADE);
+        cur.volume=env*VOL*Math.cos(p*Math.PI/2); nxt.volume=env*VOL*Math.sin(p*Math.PI/2);
+        if(p>=1){ try{cur.pause();}catch(e){} var t=cur;cur=nxt;nxt=t;fading=false; } }
+      else { cur.volume=env*VOL; nxt.volume=0; }
+    } else if(cur) cur.volume=env*VOL;
+  }
+  function onEnded(e){ if(!on||e.target!==cur) return; try{nxt.currentTime=0;nxt.volume=env*VOL;nxt.play();}catch(err){} var t=cur;cur=nxt;nxt=t;fading=false; }
+  if(A&&B){ A.addEventListener('ended',onEnded); B.addEventListener('ended',onEnded); }
+  function musicStart(){ if(!A) return; try{cur.play();}catch(e){} envTarget=1; on=true; if(!started){started=true;tick();} }
+  function musicStop(){ envTarget=0; on=false; setTimeout(function(){ if(!on){try{A&&A.pause();B&&B.pause();}catch(e){}} },2000); }
+  document.addEventListener('visibilitychange',function(){ if(on&&!document.hidden){try{cur.play();}catch(e){}} });
+
+  window.MFXSound.onChange(function(v){ if(v) musicStart(); else musicStop(); });
+  if(btn){
+    setTimeout(function(){btn.classList.add('rest');},10000);
+    btn.addEventListener('mouseenter',function(){btn.classList.remove('rest');});
+    btn.addEventListener('mouseleave',function(){btn.classList.add('rest');});
+    btn.addEventListener('click',function(){ window.MFXSound.toggle(); setBtn(); });
+  }
+  var armed=false;
+  function first(){ if(armed) return; armed=true; if(window.MFXSound.isOn()) musicStart(); }
+  ['wheel','touchstart','pointerdown','keydown','click'].forEach(function(ev){ addEventListener(ev,first,{passive:true}); });
+})();
+</script>
+<script>
+/* 燃燒聲：合成（棕噪音低吼床 + 隨機嗶剝 + 進場一發轟），做法取自赤壁 index.html。
+   故意延遲：讀者先讀完「無聲的燃燒」，火聲才在「然後聲音才轟一聲砸過來」那句轟進來，
+   跟正文「聲音是後到的」對上；走到反方向時淡出。瀏覽器規定需先互動才發聲。 */
+(function(){
+  var startEl=document.querySelector('[data-fire-start]'), endEl=document.querySelector('[data-fire-end]');
+  if(!startEl) return;
+  function soundOn(){ return !window.MFXSound || window.MFXSound.isOn(); }
+  var ctx=null, fireGain=null, noiseBuf=null, crackleOn=false, last=0, started=false;
+  function makeNoise(){
+    var b=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate), d=b.getChannelData(0), brown=0;
+    for(var i=0;i<d.length;i++){ brown=(brown+(Math.random()*2-1)*.02)*.985; d[i]=Math.random()*2-1+brown*3; }
+    return b;
+  }
+  function build(){
+    ctx=new (window.AudioContext||window.webkitAudioContext)();
+    noiseBuf=makeNoise();
+    var src=ctx.createBufferSource(); src.buffer=noiseBuf; src.loop=true;
+    var lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=460;
+    fireGain=ctx.createGain(); fireGain.gain.value=0;
+    src.connect(lp); lp.connect(fireGain); fireGain.connect(ctx.destination); src.start();
+    last=performance.now();
+    (function loop(){
+      requestAnimationFrame(loop);
+      var now=performance.now(), dt=(now-last)/1000; last=now;
+      var amt=fireGain.gain.value;
+      if(crackleOn && amt>.02 && Math.random() < dt*9){        // 嗶剝 ~9/秒
+        var n=ctx.createBufferSource(); n.buffer=noiseBuf; n.loop=true;
+        var f=ctx.createBiquadFilter(); f.type='highpass'; f.frequency.value=2000+Math.random()*2500;
+        var g=ctx.createGain(), t0=ctx.currentTime;
+        g.gain.setValueAtTime(amt*(.06+Math.random()*.1),t0);
+        g.gain.exponentialRampToValueAtTime(.001,t0+.04);
+        n.connect(f); f.connect(g); g.connect(ctx.destination); n.start(t0); n.stop(t0+.05);
+      }
+    })();
+  }
+  function ensure(){ if(!ctx) build(); if(ctx.state==='suspended') ctx.resume(); }
+  function fadeTo(v,sec){ fireGain.gain.cancelScheduledValues(ctx.currentTime);
+    fireGain.gain.setValueAtTime(fireGain.gain.value, ctx.currentTime);
+    fireGain.gain.linearRampToValueAtTime(v, ctx.currentTime+sec); }
+  function boom(){                                            // 進場那一「轟」
+    var n=ctx.createBufferSource(); n.buffer=noiseBuf; n.loop=true;
+    var f=ctx.createBiquadFilter(); f.type='lowpass'; var t0=ctx.currentTime;
+    f.frequency.setValueAtTime(600,t0); f.frequency.exponentialRampToValueAtTime(90,t0+.9);
+    var g=ctx.createGain(); g.gain.setValueAtTime(.0001,t0);
+    g.gain.exponentialRampToValueAtTime(.72,t0+.06); g.gain.exponentialRampToValueAtTime(.001,t0+1.3);
+    n.connect(f); f.connect(g); g.connect(ctx.destination); n.start(t0); n.stop(t0+1.3);
+  }
+  function startFire(){ if(!soundOn()) return; ensure(); if(started) return; started=true; boom(); crackleOn=true; fadeTo(.22,1.6); }
+
+  var armed=false, want=false;
+  function first(){ if(armed) return; armed=true; ensure(); if(want) startFire(); }
+  ['wheel','touchstart','pointerdown','keydown','click'].forEach(function(ev){ addEventListener(ev,first,{passive:true}); });
+
+  new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ want=true; if(armed) startFire(); } }); },
+    {rootMargin:'0px 0px -30% 0px'}).observe(startEl);
+  if(endEl) new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && ctx){ fadeTo(0,3.5); setTimeout(function(){crackleOn=false;},3800); } }); },
+    {rootMargin:'0px 0px -30% 0px'}).observe(endEl);
+  if(window.MFXSound) window.MFXSound.onChange(function(on){
+    ensure();
+    if(on){ if(want && !started) startFire(); else if(started){ crackleOn=true; fadeTo(.22,.8); } }
+    else if(ctx){ fadeTo(0,.6); setTimeout(function(){crackleOn=false;},700); }
+  });
+})();
+</script>
+<script>
+/* 側邊記憶 mem（同序章）：桌機顯示離畫面中央最近的一格；手機搬進正文、捲到浮起。 */
+(function(){
+  var cues=[].slice.call(document.querySelectorAll('.memcue')), mems={};
+  if(!cues.length) return;
+  [].forEach.call(document.querySelectorAll('.mem'),function(m){mems[m.dataset.i]=m;});
+  /* 卡片插在它那一段旁邊，跟著文章一起捲；捲到才淡入，浮起來就不收回去。
+     桌機浮在右側留白，窄螢幕改插進正文。 */
+  var wide=innerWidth>1180;
+  cues.forEach(function(c){ var m=mems[c.dataset.i]; if(!m) return;
+    if(wide){ c.appendChild(m); m.classList.add('side'); }
+    else { var para=c.nextElementSibling;
+      if(para&&para.parentNode){ para.parentNode.insertBefore(m,para.nextSibling); m.classList.add('inline'); } } });
+  var list=[].slice.call(document.querySelectorAll('.mem.side,.mem.inline'));
+  if(window.IntersectionObserver){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('seen'); io.unobserve(e.target); } }); },{rootMargin:'0px 0px -12% 0px'});
+    list.forEach(function(m){io.observe(m);});
+  } else { list.forEach(function(m){m.classList.add('seen');}); }
+})();
+</script>
+<script>
+/* 餘燼／懸葉層：只在「燒掉的林子」那一幕浮現（進場淡入、離場淡出）。 */
+(function(){
+  var sec=document.querySelector('[data-fx-bg*="燒林"]'); if(!sec) return;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){ document.body.classList.toggle('ash-on', e.isIntersecting); });
+  },{rootMargin:'0px 0px -20% 0px'}).observe(sec);
+})();
+</script>
+<!-- yz-promo-footer v8 | 三件套+BMC 注意力效果 | https://github.com/yazelin/promo-footer-skill -->
+<script>
+(function(){"use strict";
+if(window.__yzPromoInit)return;window.__yzPromoInit=1;
+try{if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return}catch(e){}
+var REPO="token-unlimited",INJECT=false,ADDBLOG=false;
+var GH=REPO?"https://github.com/yazelin/"+REPO:"https://github.com/yazelin";
+var LINES=["嘿，這裡這裡，我是咖啡按鈕","我是一顆很努力的按鈕，求被點一下","噓，亞澤不知道我在偷偷拉贊助","你看我跳得這麼賣力，不請一杯嗎？","不請也沒關係，你來玩我就很開心","免費給你玩的，想寵亞澤再說","一杯咖啡，是下一個作品的燃料","你的咖啡會變成下一個作品，真的","咖啡因進入亞澤體內，程式碼就會長出來","亞澤說，有人請咖啡他會開心一整天","只是一杯咖啡，但亞澤會記得你","用愛發電中，咖啡因可提升發電效率","覺得好玩嗎？抖內一下下","這個網站沒有廣告，只有我這顆按鈕"];
+var ICONS={blog:'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>',gh:'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>',fb:'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg>',bmc:'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20.216 6.415l-.132-.666c-.119-.598-.388-1.163-1.001-1.379-.197-.069-.42-.098-.57-.241-.152-.143-.196-.366-.231-.572-.065-.378-.125-.756-.192-1.133-.057-.325-.102-.69-.25-.987-.195-.4-.597-.634-.996-.788a5.723 5.723 0 00-.626-.194c-1-.263-2.05-.36-3.077-.416a25.834 25.834 0 00-3.7.062c-.915.083-1.88.184-2.75.5-.318.116-.646.256-.888.501-.297.302-.393.77-.177 1.146.154.267.415.456.692.58.36.162.737.284 1.123.366 1.075.238 2.189.331 3.287.37 1.218.05 2.437.01 3.65-.118.299-.033.598-.073.896-.119.352-.054.578-.513.474-.834-.124-.383-.457-.531-.834-.473-.466.074-.96.108-1.382.146-1.177.08-2.358.082-3.536.006a22.228 22.228 0 01-1.157-.107c-.086-.01-.18-.025-.258-.036-.243-.036-.484-.08-.724-.13-.111-.027-.111-.185 0-.212h.005c.277-.06.557-.108.838-.147h.002c.131-.009.263-.032.394-.048a25.076 25.076 0 013.426-.12c.674.019 1.347.067 2.017.144l.228.031c.267.04.533.088.798.145.392.085.895.113 1.07.542.055.137.08.288.111.431l.319 1.484a.237.237 0 01-.199.284h-.003c-.037.006-.075.01-.112.015a36.704 36.704 0 01-4.743.295 37.059 37.059 0 01-4.699-.304c-.14-.017-.293-.042-.417-.06-.326-.048-.649-.108-.973-.161-.393-.065-.768-.032-1.123.161-.29.16-.527.404-.675.701-.154.316-.199.66-.267 1-.069.34-.176.707-.135 1.056.087.753.613 1.365 1.37 1.502a39.69 39.69 0 0011.343.376.483.483 0 01.535.53l-.071.697-1.018 9.907c-.041.41-.047.832-.125 1.237-.122.637-.553 1.028-1.182 1.171-.577.131-1.165.2-1.756.205-.656.004-1.31-.025-1.966-.022-.699.004-1.556-.06-2.095-.58-.475-.458-.54-1.174-.605-1.793l-.731-7.013-.322-3.094c-.037-.351-.286-.695-.678-.678-.336.015-.718.3-.678.679l.228 2.185.949 9.112c.147 1.344 1.174 2.068 2.446 2.272.742.12 1.503.144 2.257.156.966.016 1.942.053 2.892-.122 1.408-.258 2.465-1.198 2.616-2.657.34-3.332.683-6.663 1.024-9.995l.215-2.087a.484.484 0 01.39-.426c.402-.078.787-.212 1.074-.518.455-.488.546-1.124.385-1.766zm-1.478.772c-.145.137-.363.201-.578.233-2.416.359-4.866.54-7.308.46-1.748-.06-3.477-.254-5.207-.498-.17-.024-.353-.055-.47-.18-.22-.236-.111-.71-.054-.995.052-.26.152-.609.463-.646.484-.057 1.046.148 1.526.22.577.088 1.156.159 1.737.212 2.48.226 5.002.19 7.472-.14.45-.06.899-.13 1.345-.21.399-.072.84-.206 1.08.206.166.281.188.657.162.974a.544.544 0 01-.169.364zm-6.159 3.9c-.862.37-1.84.788-3.109.788a5.884 5.884 0 01-1.569-.217l.877 9.004c.065.78.717 1.38 1.5 1.38 0 0 1.243.065 1.658.065.447 0 1.786-.065 1.786-.065.783 0 1.434-.6 1.499-1.38l.94-9.95a3.996 3.996 0 00-1.322-.238c-.826 0-1.491.284-2.26.613z"/></svg>'};
+var CSS="@keyframes yzIdle{0%,55%,100%{transform:translateY(0)}62%{transform:translateY(-4px)}70%{transform:translateY(0)}78%{transform:translateY(-2px)}84%{transform:translateY(0)}}"+
+".yz-idle{animation:yzIdle 2.6s ease-in-out infinite}"+
+"@keyframes yzHop{0%,100%{transform:translateY(0)}20%{transform:translateY(-6px) scale(1.04)}40%{transform:translateY(0) scale(1)}55%{transform:translateY(-3px)}70%{transform:translateY(0)}}"+
+".yz-hop{animation:yzHop .9s cubic-bezier(.36,.07,.19,.97)}"+
+".yz-bubble{position:fixed;z-index:2147483000;max-width:200px;padding:6px 11px;border-radius:14px;background:#fffdf7;color:#4a3f35;border:1px solid rgba(0,0,0,.1);box-shadow:0 4px 14px rgba(0,0,0,.18);font:13px/1.5 system-ui,-apple-system,'Noto Sans TC',sans-serif;pointer-events:none;opacity:0;transform:translateY(5px);transition:opacity .25s ease,transform .25s ease}"+
+".yz-bubble.yz-on{opacity:1;transform:translateY(0)}"+
+".yz-bubble::after{content:'';position:absolute;left:var(--yz-tail,50%);margin-left:-6px;border:6px solid transparent}"+
+".yz-bubble.yz-above::after{bottom:-6px;border-bottom:0;border-top:6px solid #fffdf7}"+
+".yz-bubble.yz-below::after{top:-6px;border-top:0;border-bottom:6px solid #fffdf7}"+
+".yz-cluster{position:fixed;right:12px;bottom:12px;z-index:2147482999;display:flex;gap:10px}"+
+".yz-cluster a{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(22,26,35,.72);color:#fff;border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(4px);transition:transform .15s,background .15s}"+
+".yz-cluster a:hover{transform:translateY(-2px);background:rgba(22,26,35,.92)}";
+var bubble,anchor;
+function addCss(){if(document.getElementById("yz-promo-css"))return;var s=document.createElement("style");s.id="yz-promo-css";s.textContent=CSS;document.head.appendChild(s)}
+function inFooter(el){try{return !!(el.closest&&el.closest('footer,nav,[class*="footer"],[id*="footer"]'))}catch(e){return false}}
+function findAnchor(){var as=document.querySelectorAll('a[href*="buymeacoffee.com/yazelin"]');if(!as.length)return null;
+var vis=[],i,r;for(i=0;i<as.length;i++){r=as[i].getBoundingClientRect();if(r.width||r.height)vis.push(as[i])}
+var pool=vis.length?vis:[].slice.call(as);
+for(i=0;i<pool.length;i++)if(inFooter(pool[i]))return pool[i];
+return pool[pool.length-1]}
+function inject(){if(!INJECT||findAnchor()||document.querySelector(".yz-cluster"))return;
+var n=document.createElement("nav");n.className="yz-cluster";n.setAttribute("aria-label","作者連結");
+n.innerHTML='<a href="'+GH+'" target="_blank" rel="noopener" aria-label="GitHub 原始碼" title="GitHub 原始碼">'+ICONS.gh+'</a>'+
+'<a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">'+ICONS.fb+'</a>'+
+'<a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener" aria-label="請亞澤喝杯咖啡 Buy me a coffee" title="請亞澤喝杯咖啡 Buy me a coffee">'+ICONS.bmc+'</a>'+
+(ADDBLOG?'<a class="yz-blog" href="https://yazelin.github.io/" target="_blank" rel="noopener" aria-label="亞澤的部落格" title="亞澤的部落格">'+ICONS.blog+'</a>':'');
+document.body.appendChild(n)}
+function blogLinked(){var as=document.querySelectorAll('a[href^="https://yazelin.github.io"]');for(var i=0;i<as.length;i++){try{if(new URL(as[i].href).pathname==="/")return true}catch(e){}}return false}
+function addBlog(){if(!ADDBLOG||document.querySelector(".yz-blog")||blogLinked()||!inFooter(anchor))return;
+var c=anchor.cloneNode(true);c.classList.remove("yz-hop");c.classList.add("yz-blog");
+c.href="https://yazelin.github.io/";c.setAttribute("aria-label","亞澤的部落格");c.setAttribute("title","亞澤的部落格");
+if(c.querySelector("svg")){var sv=c.querySelector("svg");sv.outerHTML=ICONS.blog;var extra=c.querySelectorAll("svg");if(extra.length>1)for(var j=1;j<extra.length;j++)extra[j].remove()}else{c.textContent="部落格"}
+anchor.parentNode.insertBefore(c,anchor.nextSibling)}
+function hop(){anchor.classList.remove("yz-hop");void anchor.offsetWidth;anchor.classList.add("yz-hop")}
+var shown=0,MAX_SHOWS=3;
+function say(){if(document.hidden)return;var r=anchor.getBoundingClientRect();if(!r.width&&!r.height)return;if(r.bottom<0||r.top>innerHeight)return;shown++;
+bubble.textContent=LINES[Math.floor(Math.random()*LINES.length)];
+bubble.classList.remove("yz-on","yz-above","yz-below");
+bubble.style.left="0px";bubble.style.top="0px";
+var bw=bubble.offsetWidth,bh=bubble.offsetHeight,cx=r.left+r.width/2;
+var left=Math.max(8,Math.min(cx-bw/2,innerWidth-bw-8));
+var above=r.top-bh-12>=8;
+bubble.style.left=left+"px";
+bubble.style.top=(above?r.top-bh-12:r.bottom+12)+"px";
+bubble.classList.add(above?"yz-above":"yz-below");
+bubble.style.setProperty("--yz-tail",Math.max(12,Math.min(cx-left,bw-12))+"px");
+hop();
+requestAnimationFrame(function(){bubble.classList.add("yz-on")});
+setTimeout(function(){bubble.classList.remove("yz-on")},4200)}
+function start(){addCss();inject();anchor=findAnchor();if(!anchor)return false;
+try{if(getComputedStyle(anchor).display==="inline")anchor.style.display="inline-block"}catch(e){}
+anchor.classList.add("yz-idle");
+anchor.addEventListener("animationend",function(e){if(e.animationName==="yzHop")anchor.classList.remove("yz-hop")});
+try{addBlog()}catch(e){}
+bubble=document.createElement("div");bubble.className="yz-bubble";bubble.setAttribute("aria-hidden","true");document.body.appendChild(bubble);
+window.__yzPromo=say;
+(function loop(first){if(shown>=MAX_SHOWS)return;setTimeout(function(){say();loop(false)},first?18e3+Math.random()*12e3:9e4+Math.random()*9e4)})(true);
+return true}
+function boot(){var tries=0;(function t(){if(start())return;if(++tries<20)setTimeout(t,1500)})()}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+})();
+</script>
+
+<script>
+/* 這一頁可能是分享連結直接打開的落地頁，要自己註冊 SW（頂層才註冊，iframe 內交給殼）。 */
+if(window.top===window.self && 'serviceWorker' in navigator){
+  addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+}
+</script>
+</body></html>
