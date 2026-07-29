@@ -7,7 +7,7 @@
 #   3. wrangler deploy                          → 記下 workers.dev 網址
 #   4. 網址跟 client.js 裡的 EP 對不上就改 client.js
 #   5. bash 安裝.sh                             → 注入
-#   6. 改 sw.js 的 SHELL 版號，commit、push
+#   6. 改 sw.js 的 ASSET 版號（章節頁在 ASSET 快取，不是 SHELL），commit、push
 set -euo pipefail
 cd "$(dirname "$0")/.."
 [ -f telemetry/client.js ] || { echo "找不到 client.js" >&2; exit 1; }
@@ -24,4 +24,4 @@ p.write_text(t.replace('</body>', '<script>\n' + c + '</script>\n</body>'), enco
 PY
   echo "  注入：$f"; n=$((n+1))
 done
-echo "── 注入 $n 個檔。記得改 sw.js 的 SHELL 版號 ──"
+echo "── 注入 $n 個檔。記得改 sw.js 的 ASSET 版號 ──"

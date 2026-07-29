@@ -2,11 +2,11 @@ name = "tu-reads"
 main = "src/index.js"
 compatibility_date = "2026-06-01"
 
-# ⚠️ database_id 由 `wrangler d1 create tu-reads` 取得後貼進來（yazelin 執行）
+# database_id：2026-07-29 建立（APAC）
 [[d1_databases]]
 binding = "DB"
 database_name = "tu-reads"
-database_id = "PLACEHOLDER-執行-wrangler-d1-create-tu-reads-取得"
+database_id = "a8b7c739-a3e2-4ffa-930f-f2176b7cd9cc"
 
 [vars]
 ALLOWED_ORIGIN = "https://yazelin.github.io"
