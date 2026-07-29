@@ -7,9 +7,16 @@ SELECT ch,
        ROUND(AVG(p * 100.0 / total), 1)          AS 平均讀到百分比,
        SUM(p >= total - 2) * 100 / COUNT(*)      AS 完讀率,
        SUM(p <= 5)         * 100 / COUNT(*)      AS 前五段就走,
-       SUM(froze)          * 100 / COUNT(*)      AS 滾輪觸控比例,
-       SUM(mob)            * 100 / COUNT(*)      AS 手機比例
+       SUM(mob)            * 100 / COUNT(*)      AS 手機比例,
+       -- froze 只有「那一章真的有時停」才有意義。序章／五／六／八沒有 data-freeze，
+       -- 那幾章永遠是 0，混進來平均就假了。所以這一欄只在有時停的章才給數字。
+       CASE WHEN ch IN ('第一章','第二章','第三章','第四章','第七章')
+            THEN SUM(froze) * 100 / COUNT(*) END  AS 滾輪觸控比例
 FROM reads GROUP BY ch ORDER BY ch;
+
+-- ①之二 滾輪／觸控比例（只算有時停的章，不然分母混進不可能觸發的章）
+SELECT SUM(froze) * 100 / COUNT(*) AS 滾輪觸控比例, COUNT(*) AS 樣本
+FROM reads WHERE ch IN ('第一章','第二章','第三章','第四章','第七章');
 
 -- ② 流失曲線：每一章每 20 段一桶，看人數怎麼掉
 --    （挑一章跑，把 '第七章' 換掉）
@@ -24,8 +31,10 @@ SELECT 段, n, 差 AS 比前一桶多少 FROM d WHERE 差 IS NOT NULL AND 段 > 
 ORDER BY 差 ASC LIMIT 5;
 
 -- ④ 滾輪讀者跟鍵盤讀者讀得一樣深嗎（時停到底有沒有趕走人）
+--    （同上：只有有時停的章能比，別的章 froze 恆為 0）
 SELECT ch, froze, COUNT(*) 人數, ROUND(AVG(p*100.0/total),1) 平均百分比
-FROM reads GROUP BY ch, froze ORDER BY ch, froze;
+FROM reads WHERE ch IN ('第一章','第二章','第三章','第四章','第七章')
+GROUP BY ch, froze ORDER BY ch, froze;
 
 -- ⑤ 手機讀者是不是更早走
 SELECT ch, mob, COUNT(*) 人數, ROUND(AVG(p*100.0/total),1) 平均百分比
