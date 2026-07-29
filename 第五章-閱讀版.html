@@ -92,11 +92,9 @@ html.mfx-frozen #backdrop .layer,html.mfx-frozen #shade::before{animation-play-s
  box-shadow:0 2px 12px rgba(60,80,70,.14);opacity:1;transition:opacity .8s ease,background .3s}
 #snd.rest{opacity:.34}
 #snd:hover{opacity:1}
-@media(max-width:700px){#snd{top:.7rem;right:.7rem;font-size:.72rem;padding:.5rem 1rem}}
+@media(max-width:700px){#snd{top:.7rem;right:.7rem;font-size:.72rem;padding:.72rem 1rem;min-height:44px}}
 
 /* 側邊記憶 mem（同序章）：桌機餘光、手機捲動湧現。 */
-#margin{position:fixed;right:max(2vw,calc(50vw - 30em));top:0;bottom:0;width:13rem;
-z-index:4;pointer-events:none;display:flex;align-items:center}
 .mem{position:absolute;left:0;right:0;opacity:0;transform:translateY(8px);
 transition:opacity .7s ease,transform .7s ease;font-size:.74rem;line-height:1.85;
 color:#4a565e;letter-spacing:.04em;border-left:2px solid rgba(93,106,114,.35);
@@ -488,36 +486,6 @@ body.ash-on #ashfall{opacity:1}
     });
   },{rootMargin:'-42% 0px -42% 0px'});   // 只在畫面中央一條窄帶算「正在讀」
   [].forEach.call(els,function(el){ io.observe(el); });
-})();
-</script>
-<div id="freezeveil"></div>
-<script>
-/* 時停：捲到「世界停了一下」那句就觸發（不必繼續捲）——畫面凍約 0.9 秒：
-   褪色＋淡幕＋動畫暫停，同時吃掉捲動。全書第一次時停，做成明顯察覺得到；
-   之後章節會愈停愈久。reduced-motion 自動關。 */
-(function(){
-  var el=document.querySelector('[data-freeze]'); if(!el) return;
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var MS=parseInt(el.getAttribute('data-freeze'),10)||600;
-  var frozenUntil=0, armed=false, done=false;
-  /* 上膛→擊發：那一句進到閱讀區只上膛，讀者「下一次真的推捲動」才凍住。
-     這樣一定會被身體感覺到：手推了一下，世界沒有動。
-     只攔 wheel / touchmove，鍵盤與捲軸永不攔截。 */
-  new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.isIntersecting && !done) armed=true; });
-  },{rootMargin:'0px 0px -40% 0px'}).observe(el);
-  function freeze(){
-    armed=false; done=true;
-    frozenUntil=Date.now()+MS;
-    document.documentElement.classList.add('mfx-frozen');
-    setTimeout(function(){ document.documentElement.classList.remove('mfx-frozen'); }, MS);
-  }
-  function eat(ev){
-    if(Date.now()<frozenUntil){ ev.preventDefault(); return; }
-    if(armed){ ev.preventDefault(); freeze(); }
-  }
-  addEventListener('wheel', eat, {passive:false});
-  addEventListener('touchmove', eat, {passive:false});
 })();
 </script>
 <script>

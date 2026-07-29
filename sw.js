@@ -20,7 +20,7 @@
    ──────────────────────────────────────────────────────────────────────── */
 
 const SHELL = 'tu-shell-v34';
-const ASSET = 'tu-asset-v8';
+const ASSET = 'tu-asset-v9';
 
 /* install 會等這一層。只放「畫得出目錄頁」的最小集。 */
 const SHELL_FILES = [

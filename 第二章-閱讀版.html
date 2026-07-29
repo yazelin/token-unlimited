@@ -92,11 +92,9 @@ html.mfx-frozen #backdrop .layer,html.mfx-frozen #shade::before{animation-play-s
  box-shadow:0 2px 12px rgba(60,80,70,.14);opacity:1;transition:opacity .8s ease,background .3s}
 #snd.rest{opacity:.34}
 #snd:hover{opacity:1}
-@media(max-width:700px){#snd{top:.7rem;right:.7rem;font-size:.72rem;padding:.5rem 1rem}}
+@media(max-width:700px){#snd{top:.7rem;right:.7rem;font-size:.72rem;padding:.72rem 1rem;min-height:44px}}
 
 /* 側邊記憶 mem（同序章）：桌機餘光、手機捲動湧現。 */
-#margin{position:fixed;right:max(2vw,calc(50vw - 30em));top:0;bottom:0;width:13rem;
-z-index:4;pointer-events:none;display:flex;align-items:center}
 .mem{position:absolute;left:0;right:0;opacity:0;transform:translateY(8px);
 transition:opacity .7s ease,transform .7s ease;font-size:.74rem;line-height:1.85;
 color:#4a565e;letter-spacing:.04em;border-left:2px solid rgba(93,106,114,.35);
@@ -576,11 +574,12 @@ body.ash-on #ashfall{opacity:1}
 (function(){
   var el=document.querySelector('[data-freeze]'); if(!el) return;
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var MS=parseInt(el.getAttribute('data-freeze'),10)||600;
   var frozenUntil=0, armed=false, done=false;
   /* 上膛→擊發：那一句進到閱讀區只上膛，讀者「下一次真的推捲動」才凍住。
      這樣一定會被身體感覺到：手推了一下，世界沒有動。
-     只攔 wheel / touchmove，鍵盤與捲軸永不攔截。 */
+     只攔 wheel / touchmove，鍵盤與捲軸永不攔截。reduced-motion 自動關。 */
   new IntersectionObserver(function(es){
     es.forEach(function(e){ if(e.isIntersecting && !done) armed=true; });
   },{rootMargin:'0px 0px -40% 0px'}).observe(el);
