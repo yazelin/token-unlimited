@@ -76,9 +76,11 @@ self.addEventListener('install', e => {
 
 self.addEventListener('activate', e => {
   e.waitUntil((async () => {
-    // 只刪「不是現行兩層」的舊快取。ASSET 沒 bump 就整層留著，不用重抓。
+    // 只刪「自己的 tu-* 裡不是現行兩層」的舊快取。ASSET 沒 bump 就整層留著，不用重抓。
+    // 前綴不可省:CacheStorage 是 per-origin,yazelin.github.io 所有專案共用同一份,
+    // 無差別刪會把 gewu 的 33MB、neko 等別站的離線包整包清掉,而且毫無徵兆。
     const keys = await caches.keys();
-    await Promise.all(keys.filter(k => k !== SHELL && k !== ASSET).map(k => caches.delete(k)));
+    await Promise.all(keys.filter(k => k.startsWith('tu-') && k !== SHELL && k !== ASSET).map(k => caches.delete(k)));
     await self.clients.claim();
     warm();   // 不 await：暖快取不該擋住接管
   })());
