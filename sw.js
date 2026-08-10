@@ -19,8 +19,8 @@
    2026-07-28 第一章四張圖重壓（7.5MB→0.9MB）就是靠 bump 生效的。
    ──────────────────────────────────────────────────────────────────────── */
 
-const SHELL = 'tu-shell-v37';
-const ASSET = 'tu-asset-v15';
+const SHELL = 'tu-shell-v38';
+const ASSET = 'tu-asset-v16';
 
 /* install 會等這一層。只放「畫得出目錄頁」的最小集。 */
 const SHELL_FILES = [
