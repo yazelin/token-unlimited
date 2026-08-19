@@ -19,7 +19,7 @@
    2026-07-28 第一章四張圖重壓（7.5MB→0.9MB）就是靠 bump 生效的。
    ──────────────────────────────────────────────────────────────────────── */
 
-const SHELL = 'tu-shell-v43';
+const SHELL = 'tu-shell-v44';   // v44: manifest 加 id/screenshots + 快取回應合成 206
 const ASSET = 'tu-asset-v20';
 
 /* install 會等這一層。只放「畫得出目錄頁」的最小集。 */
@@ -141,7 +141,7 @@ self.addEventListener('fetch', e => {
     // cache-first
     e.respondWith((async () => {
       const m = await caches.match(req, { ignoreSearch: true, ignoreVary: true });
-      if (m) return m;
+      if (m) return rangeAware(req, m);
       const r = await fetch(req);
       const cp = r.clone();
       caches.open(ASSET).then(c => c.put(req, cp)).catch(() => {});
@@ -149,3 +149,26 @@ self.addEventListener('fetch', e => {
     })());
   }
 });
+
+/* 從快取回帶 Range 的請求時,自己合成 206(補 Content-Range/Content-Length)。
+   Pages 對每個檔回 200,但 <audio> 對較大的音檔會送 Range;快取只回 200、缺
+   Content-Range,Chrome 會判 Format error(pwa-skill 實測)。ambient.mp3 3.4MB 屬此類。
+   只在「有 Range 標頭 + 快取命中 + 快取存的是 200」時才動作,其餘原樣回傳。 */
+async function rangeAware(req, res) {
+  const range = req.headers.get('range');
+  if (!range || res.status !== 200) return res;
+  const mm = /^bytes=(\d*)-(\d*)$/.exec(range.trim());
+  if (!mm) return res;
+  const buf = await res.clone().arrayBuffer();
+  const total = buf.byteLength;
+  const start = mm[1] ? parseInt(mm[1], 10) : 0;
+  let end = mm[2] ? parseInt(mm[2], 10) : total - 1;
+  if (Number.isNaN(start) || start >= total || start > end) return res;
+  if (end > total - 1) end = total - 1;
+  const slice = buf.slice(start, end + 1);
+  const headers = new Headers(res.headers);
+  headers.set('Content-Range', `bytes ${start}-${end}/${total}`);
+  headers.set('Accept-Ranges', 'bytes');
+  headers.set('Content-Length', String(slice.byteLength));
+  return new Response(slice, { status: 206, statusText: 'Partial Content', headers });
+}
