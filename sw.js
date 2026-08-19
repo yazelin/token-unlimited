@@ -20,7 +20,7 @@
    ──────────────────────────────────────────────────────────────────────── */
 
 const SHELL = 'tu-shell-v44';   // v44: manifest 加 id/screenshots + 快取回應合成 206
-const ASSET = 'tu-asset-v20';
+const ASSET = 'tu-asset-v21';
 
 /* install 會等這一層。只放「畫得出目錄頁」的最小集。 */
 const SHELL_FILES = [
